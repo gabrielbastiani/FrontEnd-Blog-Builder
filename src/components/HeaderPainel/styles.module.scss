@@ -1,0 +1,95 @@
+.headerContainer{
+   background-color: var(--black);
+   height: 5rem;
+ }
+ 
+ .headerContent{
+   max-width: 1120px;
+   height: 5rem;
+   margin: 0 auto;
+   padding: 0 2rem;
+ 
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ 
+   img{
+     cursor: pointer;
+   }
+
+   span{
+      font-size: 0.9rem;
+      color: var(--white);
+      cursor: pointer;
+   }
+
+   .userImg{
+    width: 4%;
+    height: 42%;
+    border-radius: 50%;
+    object-fit: cover;
+   }
+
+ }
+ 
+ .menuNav{
+   display: flex;
+   align-items: center;
+ 
+   a{
+      text-decoration: none;
+      color: var(--white);
+      padding: 0 0.5rem;
+      display: inline-block;
+      position: relative;
+      transition: color 0.7s;
+ 
+     & + a {
+       margin-left: 2rem;
+     }
+ 
+     &:hover{
+       color: var(--orange);
+     }
+ 
+   }
+ 
+ 
+   button{
+    cursor: pointer;
+     margin-left: 2rem;
+     background: transparent;
+     border:0;
+     transition: transform 0.8s;
+ 
+     &:hover{
+       transform: scale(1.2);
+     }
+   }
+ 
+ }
+
+ @media (max-width: 622px){
+  .headerContainer{
+    height: 12rem;
+    padding: 4%;
+  }
+
+  .headerContent{
+    flex-direction: column;
+
+    img{
+      padding-bottom: 0.5rem;
+    }
+
+    span{
+      padding-bottom: 0.7rem;
+    }
+
+    .userImg{
+      width: 13%;
+      height: 55%;
+     }
+  }
+
+}

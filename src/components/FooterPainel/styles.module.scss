@@ -1,0 +1,43 @@
+.footerContainer{
+   background-color: var(--black);
+   height: 5rem;
+ }
+ 
+ .footerContent{
+   max-width: 1120px;
+   height: 5rem;
+   margin: 0 auto;
+   padding: 0 2rem;
+ 
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ 
+   img{
+     cursor: pointer;
+   }
+
+   h4{
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 200;
+    letter-spacing: 1px;
+   }
+
+ }
+
+ @media (max-width: 845px){
+  .footerContainer{
+    padding-top: 1rem;
+  }
+  
+  .footerContent{
+    flex-direction: column;
+    background-color: var(--black);
+
+    .textFooter{
+      background-color: var(--black);
+    }
+  }
+
+ }
