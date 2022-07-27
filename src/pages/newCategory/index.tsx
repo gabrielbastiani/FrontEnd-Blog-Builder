@@ -11,6 +11,8 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
+import Modal from 'react-modal';
+import {ModalCategory} from '../modalCategory/index'
 
 type CategoryItems = {
   id: string;
@@ -23,11 +25,19 @@ interface CategoryProps {
   categorysList: CategoryItems[];
 }
 
+export type Category = {
+  id: string;
+  name: string;
+}
+
 export default function Category({ categorysList }: CategoryProps) {
 
   const [name, setName] = useState('')
 
   const [categorys, setCategorys] = useState(categorysList || [])
+
+  const [modalItem, setModalItem] = useState<Category[]>()
+  const [modalVisible, setModalVisible] = useState(false);
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
@@ -70,6 +80,16 @@ export default function Category({ categorysList }: CategoryProps) {
 
     handleRefreshCategory()
   }
+
+  function handleCloseModal(){
+    setModalVisible(false);
+  }
+
+  async function handleOpenModalView(id: string){
+    setModalVisible(true);
+ }
+
+ Modal.setAppElement('#__next');
 
   return (
     <>
@@ -116,7 +136,7 @@ export default function Category({ categorysList }: CategoryProps) {
           <section className={styles.categorysSection}>
             {categorys.map((item) => {
               return (
-                <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
+                <Link className={styles.nameCategory} key={item.id} onClick={ () => handleOpenModalView(`href={/modalCategory?category_id=${item.id}}`) }>
                   <div className={styles.listCategories}>
                     <div className={styles.nameCategory}>{item.name}</div>
                     <div className={styles.dates}>
@@ -137,6 +157,13 @@ export default function Category({ categorysList }: CategoryProps) {
             })}
           </section>
         </main>
+        { modalVisible && (
+        <ModalCategory
+          isOpen={modalVisible}
+          onRequestClose={handleCloseModal}
+          categoryModal={modalItem}
+        />
+      )}
       </div>
       <FooterPainel />
     </>

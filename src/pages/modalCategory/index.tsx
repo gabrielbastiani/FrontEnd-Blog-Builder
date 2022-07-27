@@ -1,37 +1,24 @@
 import { useState, FormEvent, } from 'react'
-import Modal from 'react-modal';
 import styles from './style.module.scss';
 import { FiX } from 'react-icons/fi'
 import { toast } from 'react-toastify'
 import Router from 'next/router'
 import { useRouter } from 'next/router'
 import { setupAPIClient } from '../../services/api'
-import { Button } from '../ui/Button/index';
-import { Input } from '../ui/Input/index';
-import { CategoryNameProps } from '../../pages/newCategory/index'
+import { Button } from '../../components/ui/Button/index';
+import { Category } from '../newCategory/index'
+import Modal from 'react-modal';
 
 
 interface ModalCategoryProps {
     isOpen: boolean;
     onRequestClose: () => void;
-    categoryName: CategoryNameProps[];
+    categoryName: Category[];
 }
-
-type RouteDetailParams = [
-    category:{
-        category_id: string;
-        name: string;
-    }
-]
 
 export function ModalCategory({ isOpen, onRequestClose, categoryName }: ModalCategoryProps) {
 
     const apiClient = setupAPIClient()
-
-    const router = useRouter<RouteDetailParams>()
-    const parametro = router.query.id
-
-    console.log(parametro)
 
     const customStyles = {
         content: {
@@ -49,33 +36,34 @@ export function ModalCategory({ isOpen, onRequestClose, categoryName }: ModalCat
 
     const [name, setName] = useState('')
 
+    const router = useRouter()
+
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
         try {
             const data = new FormData()
 
-            if(name === ''){
-              toast.warning('Preencha novo nome para categoria!')
-     
-              return;
+            if (name === '') {
+                toast.warning('Não deixe o nome de categoria em branco!')
+                return;
             }
 
-            data.append('category_id', parametro)
-            data.append('name', name)
+            const category_id = router.query.category_id
 
-            await apiClient.put('/category/update', data)
+            const apiClient = setupAPIClient()
 
-            toast.success('Categoria atualizada com sucesso')
+            await apiClient.put(`/category/update?category_id=${category_id}`, { name })
+
+            toast.success('Categoria atualizada com sucesso.')
+
+            Router.push('/newCategory')
 
         } catch (err) {
+
             toast.error('Ops erro ao atualizar.')
+
         }
-
-        onRequestClose()
-
-        Router.push('/category')
-
     }
 
     return (
@@ -91,30 +79,28 @@ export function ModalCategory({ isOpen, onRequestClose, categoryName }: ModalCat
                 className="react-modal-close"
                 style={{ background: 'transparent', border: 0 }}
             >
-                <FiX size={45} color="var(--red)" />
+                <FiX size={45} color="#f34748" />
             </button>
+            <main className={styles.container}>
+                <h1>Atualize o nome da categoria</h1>
 
-            <div className={styles.container}>
-
-                <h2>Alterar nome da categoria</h2>
-
-                <form onSubmit={handleRegister}>
-                    <Input
-                        className={styles.inputUpdateCategory}
-                        placeholder={'Digite novo nome da categoria'}
+                <form className={styles.form} onSubmit={handleRegister}>
+                    <input
                         type="text"
+                        placeholder={'Digite novo nome de categoria!'}
+                        className={styles.input}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
+
                     <Button
-                        className={styles.buttonUpdate}
                         type="submit"
                     >
                         Atualizar
                     </Button>
-                </form>
-            </div>
 
-        </Modal>
-    )
+                </form>
+            </main>
+            </Modal>
+            )
 }

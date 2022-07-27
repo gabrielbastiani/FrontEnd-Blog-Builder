@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react'
+import { useState, FormEvent } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -12,38 +12,12 @@ import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { Button } from '../../components/ui/Button/index'
 
-type CategoryName = {
-    id: string
-    name: string
-}
 
-interface CategoryProps {
-    categoryList: CategoryName[]
-}
-
-export default function Category({ categoryList }: CategoryProps) {
+export default function Category() {
 
     const [name, setName] = useState('')
 
-    const [categories, setCategories] = useState(categoryList || [])
-
     const router = useRouter()
-
-    /* useEffect(() => {
-        async function updateCategory() {
-            const apiClient = setupAPIClient()
-            const data = new FormData()
-            const category_id = router.query.category_id
-            const responseCategory = await apiClient.get(`/category/all?category_id=${category_id}`)
-            const { name } = responseCategory.data
-
-            setName(name)
-
-        }
-
-        updateCategory()
-
-    }, []) */
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
@@ -51,9 +25,6 @@ export default function Category({ categoryList }: CategoryProps) {
         try {
             const data = new FormData()
             const category_id = router.query.category_id
-
-            /* data.append('product_id', category_id as string) */
-            data.append('name', name)
 
             const apiClient = setupAPIClient()
 
@@ -84,7 +55,7 @@ export default function Category({ categoryList }: CategoryProps) {
                 <form className={styles.form} onSubmit={handleRegister}>
                     <input
                         type="text"
-                        placeholder={`${name}`}
+                        placeholder={'Digite novo nome de categoria!'}
                         className={styles.input}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -105,11 +76,8 @@ export default function Category({ categoryList }: CategoryProps) {
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
     const apiClient = setupAPIClient(ctx)
-    const category = await apiClient.get('/category')
 
     return {
-        props: {
-            categoryList: category.data
-        }
+        props: {}
     }
 })
