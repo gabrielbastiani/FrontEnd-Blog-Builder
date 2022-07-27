@@ -1,20 +1,13 @@
 import { useContext, FormEvent, useState } from 'react'
-
 import { canSSRGuest } from '../../utils/canSSRGuest'
-
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../login/styles.module.scss'
-
 import logoLoginImg from '../../../public/LogoBuilderBlack.png'
-
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
-
 import { AuthContext } from '../../contexts/AuthContext'
-
 import {toast} from 'react-toastify'
-
 import Link from 'next/link';
 
 export default function Login(){

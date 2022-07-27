@@ -6,6 +6,8 @@
    color: var(--white);
    border-radius: 0.5rem;
    transition: filter 0.2s;
+   cursor: pointer;
+   max-width: 100%;
 
    &[disabled]{
       cursor: not-allowed;

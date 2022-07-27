@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import Router from 'next/router'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { FaTrashAlt } from 'react-icons/fa'
+import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
@@ -12,7 +13,7 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal';
-import {ModalCategory} from '../modalCategory/index'
+/* import {ModalCategory} from '../modalCategory/index' */
 
 type CategoryItems = {
   id: string;
@@ -28,6 +29,10 @@ interface CategoryProps {
 export type Category = {
   id: string;
   name: string;
+    category: {
+      id: string;
+      name: string;
+    }
 }
 
 export default function Category({ categorysList }: CategoryProps) {
@@ -86,8 +91,30 @@ export default function Category({ categorysList }: CategoryProps) {
   }
 
   async function handleOpenModalView(id: string){
-    setModalVisible(true);
+
+    const apiClient = setupAPIClient();
+
+    const response = await apiClient.get('/category', {
+      params:{
+        category_id: id,
+      }
+    })
+    
+    setModalItem(response.data);
+    setModalVisible(true)
  }
+
+ async function handleFinishItem(id: string){
+  const apiClient = setupAPIClient();
+  await apiClient.put('/category/update', {
+    category_id: id,
+  })
+
+  const response = await apiClient.get('/category/all');
+
+  setCategorys(response.data);
+  setModalVisible(false);
+}
 
  Modal.setAppElement('#__next');
 
@@ -101,6 +128,11 @@ export default function Category({ categorysList }: CategoryProps) {
         <HeaderPainel />
 
         <main className={styles.container}>
+
+            <Link href={'/dashboard'}>
+              <BsFillArrowLeftSquareFill className={styles.return} size={30} />
+            </Link>
+
           <h1>Cadastrar categorias</h1>
 
           <form className={styles.form} onSubmit={handleRegister}>
@@ -136,7 +168,7 @@ export default function Category({ categorysList }: CategoryProps) {
           <section className={styles.categorysSection}>
             {categorys.map((item) => {
               return (
-                <Link className={styles.nameCategory} key={item.id} onClick={ () => handleOpenModalView(`href={/modalCategory?category_id=${item.id}}`) }>
+                <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
                   <div className={styles.listCategories}>
                     <div className={styles.nameCategory}>{item.name}</div>
                     <div className={styles.dates}>
@@ -157,13 +189,14 @@ export default function Category({ categorysList }: CategoryProps) {
             })}
           </section>
         </main>
-        { modalVisible && (
+        {/* { modalVisible && (
         <ModalCategory
           isOpen={modalVisible}
           onRequestClose={handleCloseModal}
           categoryModal={modalItem}
+          handleFinishOrder={ handleFinishItem }
         />
-      )}
+      )} */}
       </div>
       <FooterPainel />
     </>

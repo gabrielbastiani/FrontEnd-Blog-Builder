@@ -4,6 +4,7 @@ import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
 import Router from 'next/router'
 import { useRouter } from '../../../node_modules/next/router'
+import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
@@ -11,6 +12,7 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { Button } from '../../components/ui/Button/index'
+import { Input } from '../../components/ui/Input/index'
 
 
 export default function Category() {
@@ -50,10 +52,15 @@ export default function Category() {
             <HeaderPainel />
 
             <main className={styles.container}>
+
+                <Link href={'/newCategory'}>
+                    <BsFillArrowLeftSquareFill className={styles.return} size={30} />
+                </Link>
+
                 <h1>Atualize o nome da categoria</h1>
 
                 <form className={styles.form} onSubmit={handleRegister}>
-                    <input
+                    <Input
                         type="text"
                         placeholder={'Digite novo nome de categoria!'}
                         className={styles.input}
