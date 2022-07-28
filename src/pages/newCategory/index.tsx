@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -12,8 +12,6 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
-import Modal from 'react-modal';
-import {ModalCategoryDelete} from '../../components/ModalCategoryDelete/index'
 
 type CategoryItems = {
   id: string;
@@ -26,19 +24,12 @@ interface CategoryProps {
   categorysList: CategoryItems[];
 }
 
-export type Category = {
-  category_id: string;
-  name: string;
-}
-
 export default function Category({ categorysList }: CategoryProps) {
 
   const [name, setName] = useState('')
 
   const [categorys, setCategorys] = useState(categorysList || [])
 
-  const [modalItem, setModalItem] = useState<Category[]>()
-  const [modalVisible, setModalVisible] = useState(false);
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
@@ -70,38 +61,6 @@ export default function Category({ categorysList }: CategoryProps) {
     setCategorys(categorys.data)
   }
 
-  async function handleDeleteCategory(id: string) {
-    const apiClient = setupAPIClient();
-    await apiClient.put('/category/remove', {
-      category_id: id,
-    })
-
-    const response = await apiClient.get('/category/all');
-
-    setCategorys(response.data);
-    setModalVisible(false);
-  }
-
-  function handleCloseModal() {
-    setModalVisible(false);
-  }
-
-  async function handleOpenModalView(id: string) {
-
-    const apiClient = setupAPIClient();
-
-    const response = await apiClient.get('/category', {
-      params: {
-        category_id: id,
-      }
-    })
-
-    setModalItem(response.data);
-    setModalVisible(true)
-  }
-
-  Modal.setAppElement('#__next');
-
   return (
     <>
       <Head>
@@ -112,7 +71,7 @@ export default function Category({ categorysList }: CategoryProps) {
         <HeaderPainel />
 
         <main className={styles.container}>
-
+        
           <Link href={'/dashboard'}>
             <BsFillArrowLeftSquareFill className={styles.return} size={30} />
           </Link>
@@ -170,22 +129,14 @@ export default function Category({ categorysList }: CategoryProps) {
             <div className={styles.categorysDelete}>
               {categorys.map((item) => {
                 return (
-                  <div key={item.id} className={styles.deleteCategory} onClick={() => handleOpenModalView(item.id)}>
+                  <Link key={item.id} className={styles.deleteCategory} href={`/categoryDelete?category_id=${item.id}`}>
                     <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
-                  </div>
+                  </Link>
                 )
               })}
             </div>
           </section>
         </main>
-        { modalVisible && (
-        <ModalCategoryDelete
-          isOpen={modalVisible}
-          onRequestClose={handleCloseModal}
-          categoryModal={modalItem}
-          handleDeleteCategory={ handleDeleteCategory }
-        />
-      )}
       </div>
       <FooterPainel />
     </>
