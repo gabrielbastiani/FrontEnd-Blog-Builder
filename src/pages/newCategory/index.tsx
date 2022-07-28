@@ -13,7 +13,7 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal';
-/* import {ModalCategory} from '../modalCategory/index' */
+import {ModalCategoryDelete} from '../../components/ModalCategoryDelete/index'
 
 type CategoryItems = {
   id: string;
@@ -27,12 +27,8 @@ interface CategoryProps {
 }
 
 export type Category = {
-  id: string;
+  category_id: string;
   name: string;
-    category: {
-      id: string;
-      name: string;
-    }
 }
 
 export default function Category({ categorysList }: CategoryProps) {
@@ -76,47 +72,35 @@ export default function Category({ categorysList }: CategoryProps) {
 
   async function handleDeleteCategory(id: string) {
     const apiClient = setupAPIClient();
+    await apiClient.put('/category/remove', {
+      category_id: id,
+    })
 
-    await apiClient.delete('/category/remove', {
+    const response = await apiClient.get('/category/all');
+
+    setCategorys(response.data);
+    setModalVisible(false);
+  }
+
+  function handleCloseModal() {
+    setModalVisible(false);
+  }
+
+  async function handleOpenModalView(id: string) {
+
+    const apiClient = setupAPIClient();
+
+    const response = await apiClient.get('/category', {
       params: {
         category_id: id,
       }
     })
 
-    handleRefreshCategory()
-  }
-
-  function handleCloseModal(){
-    setModalVisible(false);
-  }
-
-  async function handleOpenModalView(id: string){
-
-    const apiClient = setupAPIClient();
-
-    const response = await apiClient.get('/category', {
-      params:{
-        category_id: id,
-      }
-    })
-    
     setModalItem(response.data);
     setModalVisible(true)
- }
+  }
 
- async function handleFinishItem(id: string){
-  const apiClient = setupAPIClient();
-  await apiClient.put('/category/update', {
-    category_id: id,
-  })
-
-  const response = await apiClient.get('/category/all');
-
-  setCategorys(response.data);
-  setModalVisible(false);
-}
-
- Modal.setAppElement('#__next');
+  Modal.setAppElement('#__next');
 
   return (
     <>
@@ -129,9 +113,9 @@ export default function Category({ categorysList }: CategoryProps) {
 
         <main className={styles.container}>
 
-            <Link href={'/dashboard'}>
-              <BsFillArrowLeftSquareFill className={styles.return} size={30} />
-            </Link>
+          <Link href={'/dashboard'}>
+            <BsFillArrowLeftSquareFill className={styles.return} size={30} />
+          </Link>
 
           <h1>Cadastrar categorias</h1>
 
@@ -156,7 +140,7 @@ export default function Category({ categorysList }: CategoryProps) {
             <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
           </button>
 
-          {categorysList.length > 0 &&(
+          {categorysList.length > 0 && (
             <h4>Clique sobre uma categoria para atualiza-la.</h4>
           )}
 
@@ -165,38 +149,43 @@ export default function Category({ categorysList }: CategoryProps) {
               Nenhuma categoria cadastrada...
             </span>
           )}
-          <section className={styles.categorysSection}>
-            {categorys.map((item) => {
-              return (
-                <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
-                  <div className={styles.listCategories}>
-                    <div className={styles.nameCategory}>{item.name}</div>
-                    <div className={styles.dates}>
-                      <span>Data de criação: {item.created_at}</span>
-                      <span>Data da última atualização: {item.updated_at}</span>
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
 
-            {categorys.map((item) => {
-              return (
-                <div key={item.id} className={styles.deleteCategory} onClick={() => handleDeleteCategory(item.id)}>
-                  <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
-                </div>
-              )
-            })}
+          <section className={styles.categorysSectionMain}>
+            <div className={styles.categorysSection}>
+              {categorys.map((item) => {
+                return (
+                  <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
+                    <div className={styles.listCategories}>
+                      <div className={styles.nameCategory}>{item.name}</div>
+                      <div className={styles.dates}>
+                        <span>Data de criação: {item.created_at}</span>
+                        <span>Data da última atualização: {item.updated_at}</span>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+
+            <div className={styles.categorysDelete}>
+              {categorys.map((item) => {
+                return (
+                  <div key={item.id} className={styles.deleteCategory} onClick={() => handleOpenModalView(item.id)}>
+                    <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
+                  </div>
+                )
+              })}
+            </div>
           </section>
         </main>
-        {/* { modalVisible && (
-        <ModalCategory
+        { modalVisible && (
+        <ModalCategoryDelete
           isOpen={modalVisible}
           onRequestClose={handleCloseModal}
           categoryModal={modalItem}
-          handleFinishOrder={ handleFinishItem }
+          handleDeleteCategory={ handleDeleteCategory }
         />
-      )} */}
+      )}
       </div>
       <FooterPainel />
     </>

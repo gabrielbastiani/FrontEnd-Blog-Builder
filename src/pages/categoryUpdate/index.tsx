@@ -26,6 +26,14 @@ export default function Category() {
 
         try {
             const data = new FormData()
+
+            if (name === '') {
+
+                toast.error('Digite algum nome para sua categoria!')
+          
+                return;
+              }
+              
             const category_id = router.query.category_id
 
             const apiClient = setupAPIClient()

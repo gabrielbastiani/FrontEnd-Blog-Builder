@@ -1,5 +1,4 @@
 .container {
-  height: 100vh !important;
   max-width: 720px;
   margin: 4rem auto;
   padding: 0 2rem;
@@ -49,10 +48,6 @@
   border-radius: 0.3rem;
   color: var(--black);
   cursor: pointer;
-}
-
-.categorysSection{
-  
 }
 
 .listCategories {
@@ -114,4 +109,18 @@
 
 .emptyList {
   margin-top: 2rem;
+}
+
+.categorysSectionMain{
+  display: flex;
+
+  .categorysDelete{
+    margin-top: 1.3%;
+    padding: 30px;
+  }
+
+  .deleteCategory{
+    padding-bottom: 200%;
+    cursor: pointer;
+  }
 }

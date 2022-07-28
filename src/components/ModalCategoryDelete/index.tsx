@@ -1,24 +1,18 @@
-import { FormEvent } from 'react';
 import Modal from 'react-modal';
 import styles from './style.module.scss';
-import { FiX } from 'react-icons/fi'
-import { toast } from 'react-toastify'
-import { api } from '../../services/apiClient';
-
-import Router from 'next/router'
 import { useRouter } from 'next/router'
-import { setupAPIClient } from '../../services/api'
 import { Button } from '../ui/Button/index';
-import { DeleteProps } from '../../pages/newCategory/index'
+import { Category } from '../../pages/newCategory/index'
 
 
 interface ModalCategoryPropsDel {
     isOpen: boolean;
     onRequestClose: () => void;
-    categoryDelete: DeleteProps[];
+    categoryDelete: Category[];
+    handleDeleteCategory: (id: string) => void;
 }
 
-export function ModalCategoryDelete({ isOpen, onRequestClose, categoryDelete }: ModalCategoryPropsDel) {
+export function ModalCategoryDelete({ isOpen, onRequestClose, categoryDelete, handleDeleteCategory }: ModalCategoryPropsDel) {
 
     const router = useRouter()
 
@@ -49,15 +43,16 @@ export function ModalCategoryDelete({ isOpen, onRequestClose, categoryDelete }: 
                 <span>Se deleta-la, ela será desvinculada do(s) artigo(s) que pertence no momento.</span>
 
                 <Button
-                    onClick={deleteFunction}
                     className={styles.buttonUpdate}
+                    onClick={ () => handleDeleteCategory(categoryDelete[0].category_id) }
                 >
                     Deletar
                 </Button>
-
                     
                 <Button
+                    className={styles.buttonUpdate}
                     type="button"
+                    onClick={onRequestClose}
                 >
                     Cancelar
                 </Button>
