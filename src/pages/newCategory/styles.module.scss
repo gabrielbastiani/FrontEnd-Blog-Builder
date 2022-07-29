@@ -124,3 +124,26 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 592px){
+  .categorysDelete{
+    padding: 22px !important;
+  }
+}
+
+@media (max-width: 552px){
+  .categorysDelete{
+    padding: 2px !important;
+    margin-top: 32px !important;
+  }
+}
+
+@media (max-width: 516px){
+  .categorysDelete{
+    margin-top: 36px !important;
+  }
+
+  .deleteCategory{
+    padding-top: 20px;
+  }
+}

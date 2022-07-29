@@ -1,45 +1,49 @@
-import React, { useState } from 'react'
+import React from 'react'
+import Head from "next/head"
 import styles from './style.module.scss';
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import { Button } from '../../components/ui/Button/index';
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { setupAPIClient } from '../../services/api'
 import Link from '../../../node_modules/next/link';
+import { toast } from 'react-toastify'
 
 
-type CategoryItems = {
-    id: string;
-    name: string;
-    created_at: string;
-    updated_at: string;
-  }
-  
-  interface CategoryProps {
-    categorysList: CategoryItems[];
-  }
-
-
-export default function CategoryDelete({categorysList}: CategoryProps) {
-
-    const [categorys, setCategorys] = useState(categorysList || [])
+export default function CategoryDelete() {
 
     const router = useRouter()
 
-    async function handleDeleteCategory(id: string) {
-        const apiClient = setupAPIClient();
-        await apiClient.delete(`/category/remove`, {
-            category_id: id,
-        })
+    async function handleDeleteCategory() {
 
-        const response = await apiClient.get(`/category`)
+        try {
 
-        setCategorys(response.data)
+            const apiClient = setupAPIClient();
+        
+            const category_id = router.query.category_id
+
+            await apiClient.delete(`/category/remove?category_id=${category_id}`)
+
+            toast.success('Categoria deletada com sucesso.')
+
+            Router.push('/newCategory')
+
+        } catch (err) {
+
+            toast.error('Ops erro ao deletar.')
+
+        }
 
     }
 
 
     return (
         <>
+
+            <Head>
+                <title>Deletar Categoria - Builder Seu Negócio Online</title>
+            </Head>
+
             <main className={styles.container}>
 
                 <section className={styles.containerContent}>

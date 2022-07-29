@@ -129,9 +129,11 @@ export default function Category({ categorysList }: CategoryProps) {
             <div className={styles.categorysDelete}>
               {categorys.map((item) => {
                 return (
-                  <Link key={item.id} className={styles.deleteCategory} href={`/categoryDelete?category_id=${item.id}`}>
+                  <div key={item.id} className={styles.deleteCategory}>
+                  <Link href={`/categoryDelete?category_id=${item.id}`}>
                     <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
                   </Link>
+                  </div>
                 )
               })}
             </div>

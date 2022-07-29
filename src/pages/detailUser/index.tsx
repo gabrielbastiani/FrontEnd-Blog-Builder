@@ -10,88 +10,95 @@ import { Button } from '../../components/ui/Button'
 import Router from 'next/router'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FiUpload } from 'react-icons/fi'
+import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { setupAPIClient } from '../../services/api'
 
 import { toast } from 'react-toastify'
 import { FooterPainel } from '../../components/FooterPainel/index'
+import Link from '../../../node_modules/next/link'
 
 
 export default function DetailUser() {
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
 
-    const [avatarUrl, setAvatarUrl] = useState('');
-    const [photo, setPhoto] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [photo, setPhoto] = useState(null);
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    function handleFile(e: ChangeEvent<HTMLInputElement>) {
-        if (!e.target.files) {
-            return
-        }
-
-        const image = e.target.files[0]
-        if (!image) {
-            return
-        }
-
-        if (image.type === 'image/jpeg' || image.type === 'image/png') {
-            setPhoto(image)
-            setAvatarUrl(URL.createObjectURL(image))
-        }
-
+  function handleFile(e: ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) {
+      return
     }
 
-    async function handleRegister(event: FormEvent) {
-        event.preventDefault();
-
-        try {
-            const data = new FormData()
-
-            if(name === '' || email === '' || photo === null){
-              toast.warning('Preencha todos os campos! (Carregue uma foto - Digite o seu nome - Digite seu email - Digite uma senha')
-              console.log("Preencha todos os campos!");
-              return;
-            }
-
-            setLoading(true);
-
-            data.append('user_id', user.id)
-            data.append('file', photo)
-            data.append('name', name)
-            data.append('email', email)
-
-            const apiClient = setupAPIClient()
-
-            await apiClient.put('/users/update', data)
-
-            toast.success('Usuario atualizado com sucesso')
-
-        } catch (err) {
-            toast.error('Ops erro ao atualizar (verifique todos os campos.)')
-        }
-
-        setLoading(false);
-
-        Router.push('/detailUser')
-
+    const image = e.target.files[0]
+    if (!image) {
+      return
     }
 
-    return (
-      <>
+    if (image.type === 'image/jpeg' || image.type === 'image/png') {
+      setPhoto(image)
+      setAvatarUrl(URL.createObjectURL(image))
+    }
+
+  }
+
+  async function handleRegister(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const data = new FormData()
+
+      if (name === '' || email === '' || photo === null) {
+        toast.warning('Preencha todos os campos! (Carregue uma foto - Digite o seu nome - Digite seu email - Digite uma senha')
+        console.log("Preencha todos os campos!");
+        return;
+      }
+
+      setLoading(true);
+
+      data.append('user_id', user.id)
+      data.append('file', photo)
+      data.append('name', name)
+      data.append('email', email)
+
+      const apiClient = setupAPIClient()
+
+      await apiClient.put('/users/update', data)
+
+      toast.success('Usuario atualizado com sucesso')
+
+    } catch (err) {
+      toast.error('Ops erro ao atualizar (verifique todos os campos.)')
+    }
+
+    setLoading(false);
+
+    Router.push('/detailUser')
+
+  }
+
+  return (
+    <>
       <Head>
         <title>Detalhes do Usuario</title>
       </Head>
 
       <HeaderPainel />
 
-      <div className={styles.containerCenter}>
+      <main className={styles.containerCenter}>
+        <section className={styles.login}>
+          <div className={styles.returnBox}>
+          <Link href={'/dashboard'}>
+            <BsFillArrowLeftSquareFill className={styles.return} size={30} />
+          </Link>
+          </div>
 
-      <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
-
-        <div className={styles.login}>
+          <h1>Alterar dados do usuario</h1>
+          <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
           <form className={styles.form} onSubmit={handleRegister}>
             <label className={styles.labelAvatar}>
 
@@ -111,7 +118,7 @@ export default function DetailUser() {
             </label>
 
             <p>Carregue uma nova foto sua</p>
-            
+
             <Input
               className={styles.inputUser}
               placeholder={`${user?.name}`}
@@ -126,7 +133,7 @@ export default function DetailUser() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-             />
+            />
 
             <Button
               type="submit"
@@ -136,19 +143,19 @@ export default function DetailUser() {
             </Button>
           </form>
 
-        </div>
+        </section>
 
-      </div>
+      </main>
 
-      <FooterPainel/>
+      <FooterPainel />
     </>
-    )
+  )
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-    const apiClient = setupAPIClient(ctx)
+  const apiClient = setupAPIClient(ctx)
 
-    return {
-        props: {}
-    }
+  return {
+    props: {}
+  }
 })
