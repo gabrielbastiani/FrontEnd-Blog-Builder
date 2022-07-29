@@ -12,6 +12,7 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
+import moment from 'moment';
 
 type CategoryItems = {
   id: string;
@@ -29,6 +30,16 @@ export default function Category({ categorysList }: CategoryProps) {
   const [name, setName] = useState('')
 
   const [categorys, setCategorys] = useState(categorysList || [])
+
+  const dateFormat = categorys.map(i => {
+    return {
+      ...i,
+      created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm:ss'),
+      updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm:ss')
+    }
+  })
+
+  console.log(dateFormat)
 
 
   async function handleRegister(event: FormEvent) {
@@ -71,7 +82,7 @@ export default function Category({ categorysList }: CategoryProps) {
         <HeaderPainel />
 
         <main className={styles.container}>
-        
+
           <Link href={'/dashboard'}>
             <BsFillArrowLeftSquareFill className={styles.return} size={30} />
           </Link>
@@ -113,27 +124,23 @@ export default function Category({ categorysList }: CategoryProps) {
             <div className={styles.categorysSection}>
               {categorys.map((item) => {
                 return (
-                  <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
-                    <div className={styles.listCategories}>
-                      <div className={styles.nameCategory}>{item.name}</div>
-                      <div className={styles.dates}>
-                        <span>Data de criação: {item.created_at}</span>
-                        <span>Data da última atualização: {item.updated_at}</span>
+                  <>
+                    <div>
+                    <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
+                      <div className={styles.listCategories}>
+                        <div className={styles.nameCategory}>{item.name}</div>
+                        <div className={styles.dates}>
+                          <span>Data de criação: {moment(item.created_at).format('DD/MM/YYYY HH:mm:ss')}</span>
+                        </div>
                       </div>
+                    </Link>
                     </div>
-                  </Link>
-                )
-              })}
-            </div>
-
-            <div className={styles.categorysDelete}>
-              {categorys.map((item) => {
-                return (
-                  <div key={item.id} className={styles.deleteCategory}>
-                  <Link href={`/categoryDelete?category_id=${item.id}`}>
-                    <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
-                  </Link>
-                  </div>
+                    <div>
+                    <Link className={styles.deleteCategory} href={`/categoryDelete?category_id=${item.id}`}>
+                      <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
+                    </Link>
+                    </div>
+                  </>
                 )
               })}
             </div>
