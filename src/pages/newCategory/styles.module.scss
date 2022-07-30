@@ -16,7 +16,7 @@
     font-weight: bolder;
   }
 
-  .return{
+  .return {
     margin-bottom: 1.5rem;
     cursor: pointer;
   }
@@ -51,26 +51,27 @@
 }
 
 .listCategories {
-    border: solid 1px;
-    display: flex;
-    margin-top: 1rem;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+  border: solid 1px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 
   .nameCategory {
+    width: 60%;
     cursor: pointer;
     align-self: center;
     font-weight: 700;
     font-size: 1.2rem;
     padding: 5px 0;
     padding-left: 1.8rem;
-    width: 50%;white-space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .dates{
+  .dates {
+    width: 40%;
     margin: 0.5rem;
     display: flex;
     padding: 0 20px;
@@ -79,12 +80,12 @@
     font-weight: lighter;
     font-size: 0.7rem;
 
-    span{
+    span {
       padding: 3px 0;
     }
   }
 
-  .deleteCategory{
+  .deleteCategory {
     cursor: pointer;
     background-color: var(--black);
     padding: 14px;
@@ -114,9 +115,21 @@
   margin-top: 2rem;
 }
 
-.categorysSectionMain{
+.categoryBox {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin: 1rem 0 1rem 0;
+}
 
-  .deleteCategory{
-    cursor: pointer;
-  }
+.category{
+  width: 100%;
+}
+
+.categoryDelete {
+  cursor: pointer;
+  align-self: center;
+  background-color: black;
+  align-self: center;
+  padding: 7px;
 }

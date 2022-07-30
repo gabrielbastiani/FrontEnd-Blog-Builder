@@ -125,20 +125,22 @@ export default function Category({ categorysList }: CategoryProps) {
               {categorys.map((item) => {
                 return (
                   <>
-                    <div>
-                    <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
-                      <div className={styles.listCategories}>
-                        <div className={styles.nameCategory}>{item.name}</div>
-                        <div className={styles.dates}>
-                          <span>Data de criação: {moment(item.created_at).format('DD/MM/YYYY HH:mm:ss')}</span>
-                        </div>
+                    <div className={styles.categoryBox}>
+                      <div className={styles.category}>
+                        <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
+                          <div className={styles.listCategories}>
+                            <div className={styles.nameCategory}>{item.name}</div>
+                            <div className={styles.dates}>
+                              <span>Data de criação: {moment(item.created_at).format('DD/MM/YYYY HH:mm:ss')}</span>
+                            </div>
+                          </div>
+                        </Link>
                       </div>
-                    </Link>
+                      <div className={styles.categoryDelete}>
+                      <Link className={styles.deleteCategory} href={`/categoryDelete?category_id=${item.id}`}>
+                        <FaTrashAlt className={styles.trash} color='var(--red)' size={20} />
+                      </Link>
                     </div>
-                    <div>
-                    <Link className={styles.deleteCategory} href={`/categoryDelete?category_id=${item.id}`}>
-                      <FaTrashAlt className={styles.trash} color='var(--red)' size={22} />
-                    </Link>
                     </div>
                   </>
                 )

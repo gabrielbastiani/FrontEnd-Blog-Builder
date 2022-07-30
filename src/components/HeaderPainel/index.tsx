@@ -36,7 +36,7 @@ export function HeaderPainel(){
                   <a>Categorias</a>
                </Link>
 
-               <Link href="/article">
+               <Link href="/newArticle">
                   <a>Artigos</a>
                </Link>
 
