@@ -4,16 +4,12 @@ import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
 import { FiUpload } from 'react-icons/fi'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
-import Router from 'next/router'
 import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
-
 import { Editor } from '@tinymce/tinymce-react';
-import { Editor as TinyMCEEditor } from 'tinymce';
 import Link from '../../../node_modules/next/link'
-
 
 
 type ItemProps = {
@@ -37,7 +33,7 @@ interface CategoryProps {
 export default function Article({ categoryList, articleList }: CategoryProps) {
 
    const [title, setTitle] = useState('');
-   const [description, setDescription] = useState('');
+   const [description, setDescription] = useState('Digite seu artigo aqui...');
 
    const [bannerUrl, setBannerUrl] = useState('');
    const [imageBanner, setImageBanner] = useState(null);
@@ -47,13 +43,7 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
    const [article, setArticles] = useState(articleList || [])
 
-   const editorRef = useRef<TinyMCEEditor | null>(null);
-
- /*   const log = () => {
-      if (editorRef.current) {
-        console.log(editorRef.current.getContent());
-      }
-    }; */
+   const [text, setText] = useState('');
 
 
    function handleFile(e: ChangeEvent<HTMLInputElement>) {
@@ -177,39 +167,77 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                      onChange={(e) => setTitle(e.target.value)}
                   />
 
-                  <textarea
-                     id='article'
-                     placeholder="Escreva seu artigo aqui..."
-                     className={styles.input}
-                     value={description}
-                     onChange={(e) => setDescription(e.target.value)}
-                  />
-
-
-                  {/* <Editor
+                  <Editor
                      apiKey='3uadxc7du623dpn0gcvz8d1520ngvsigncyxnuj5f580qyz4'
-                     id='article'
-                     onInit={(evt, editor) => editorRef.current = editor}
-                     initialValue='<p>This is the initial content of the editor.</p>'
-                     className={styles.input}
                      value={description}
-                     onChange={(e) => setDescription(e.target.value)}
+                     onInit={(evt, editor) => {
+                        setText(editor.getContent({format: 'text'}));
+                      }}
+                     className={styles.input}
                      init={{
-                       height: 500,
-                       menubar: false,
-                       plugins: [
-                         'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                         'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                         'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
-                       ],
-                       toolbar: 'undo redo | blocks | ' +
-                         'bold italic forecolor | alignleft aligncenter ' +
-                         'alignright alignjustify | bullist numlist outdent indent | ' +
-                         'removeformat | help',
-                       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                        selector : "textarea.editor",
+                        mode: 'textarea',
+                        height: 500,
+                        menubar: true,
+                           plugins: [
+                           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                           'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                        ],
+                        toolbar: 'undo redo | blocks | ' +
+                           'bold italic forecolor | alignleft aligncenter ' +
+                           'alignright alignjustify | bullist numlist outdent indent | ' +
+                           'removeformat | help',
+                           content_style: '.left { text-align: left; } ' +
+                           'img.left, audio.left, video.left { float: left; } ' +
+                           'table.left { margin-left: 0px; margin-right: auto; } ' +
+                           '.right { text-align: right; } ' +
+                           'img.right, audio.right, video.right { float: right; } ' +
+                           'table.right { margin-left: auto; margin-right: 0px; } ' +
+                           '.center { text-align: center; } ' +
+                           'img.center, audio.center, video.center { display: block; margin: 0 auto; } ' +
+                           'table.center { margin: 0 auto; } ' +
+                           '.full { text-align: justify; } ' +
+                           'img.full, audio.full, video.full { display: block; margin: 0 auto; } ' +
+                           'table.full { margin: 0 auto; } ' +
+                           '.bold { font-weight: bold; } ' +
+                           '.italic { font-style: italic; } ' +
+                           '.underline { text-decoration: underline; } ' +
+                           '.example1 {} ' +
+                           'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }' +
+                           '.tablerow1 { background-color: #D3D3D3; }',
+                         formats: {
+                           alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'left' },
+                           aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'center' },
+                           alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'right' },
+                           alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'full' },
+                           bold: { inline: 'span', classes: 'bold' },
+                           italic: { inline: 'span', classes: 'italic' },
+                           underline: { inline: 'span', classes: 'underline', exact: true },
+                           strikethrough: { inline: 'del' },
+                           customformat: { inline: 'span', styles: { color: '#00ff00', fontSize: '20px' }, attributes: { title: 'My custom format'} , classes: 'example1'}
+                         },
+                         style_formats: [
+                           { title: 'Custom format', format: 'customformat' },
+                           { title: 'Align left', format: 'alignleft' },
+                           { title: 'Align center', format: 'aligncenter' },
+                           { title: 'Align right', format: 'alignright' },
+                           { title: 'Align full', format: 'alignfull' },
+                           { title: 'Bold text', inline: 'strong' },
+                           { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+                           { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+                           { title: 'Badge', inline: 'span', styles: { display: 'inline-block', border: '1px solid #2276d2', 'border-radius': '5px', padding: '2px 5px', margin: '0 2px', color: '#2276d2' } },
+                           { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' },
+                           { title: 'Image formats' },
+                           { title: 'Image Left', selector: 'img', styles: { 'float': 'left', 'margin': '0 10px 0 10px' } },
+                           { title: 'Image Right', selector: 'img', styles: { 'float': 'right', 'margin': '0 0 10px 10px' } },
+                         ]
                      }}
-                  /> */}
-
+                     onEditorChange={(description, editor) => {
+                        setDescription(description);
+                        setText(editor.getContent({format: 'text'}));
+                      }}
+                  />
 
                   <button
                      className={styles.buttonAdd}
@@ -220,17 +248,22 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
                </form>
 
-               
+
 
                <section className={styles.categorysSectionMain}>
                   <div className={styles.categorysSection}>
                      {article.map((item) => {
                         return (
                            <>
+                              <br />
                               <div key={item.id} className={styles.categoryBox}>
                                  <span>{item.title}</span>
+                              </div>
+                              <br />
+                              <div>
                                  <span>{item.description}</span>
                               </div>
+                              <br />
                            </>
                         )
                      })}
@@ -249,7 +282,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
 
    const response = await apliClient.get('/category');
    const responseArticle = await apliClient.get('/category/article');
-   console.log(responseArticle.data);
+   /* console.log(responseArticle.data); */
 
    return {
       props: {
