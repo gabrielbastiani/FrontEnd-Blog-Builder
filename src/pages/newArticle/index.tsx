@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useRef } from 'react'
+import React, { useState, ChangeEvent, FormEvent } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -33,7 +33,7 @@ interface CategoryProps {
 export default function Article({ categoryList, articleList }: CategoryProps) {
 
    const [title, setTitle] = useState('');
-   const [description, setDescription] = useState('Digite seu artigo aqui...');
+   const [description, setDescription] = useState('Digite aqui seu artigo...');
 
    const [bannerUrl, setBannerUrl] = useState('');
    const [imageBanner, setImageBanner] = useState(null);
@@ -130,6 +130,12 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
                <form className={styles.form} onSubmit={handleRegister}>
 
+                     <br />
+
+                     <h3>Insira o banner do artigo</h3>
+
+                     <br />
+
                   <label className={styles.labelBanner}>
                      <span>
                         <FiUpload size={30} color="#FFF" />
@@ -149,6 +155,10 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
                   </label>
 
+                  <h3>Escolha a categoria do artigo</h3>
+
+                  <br />
+
                   <select value={categorySelected} onChange={handleChangeCategory} >
                      {categories.map((item, index) => {
                         return (
@@ -158,6 +168,10 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                         )
                      })}
                   </select>
+
+                  <h3>De um titulo ao artigo</h3>
+
+                  <br />
 
                   <input
                      type="text"
@@ -177,7 +191,7 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                      init={{
                         selector : "textarea.editor",
                         mode: 'textarea',
-                        height: 500,
+                        height: 900,
                         menubar: true,
                            plugins: [
                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
@@ -243,33 +257,9 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                      className={styles.buttonAdd}
                      type="submit"
                   >
-                     Cadastrar
+                     Cadastrar Artigo
                   </button>
-
                </form>
-
-
-
-               <section className={styles.categorysSectionMain}>
-                  <div className={styles.categorysSection}>
-                     {article.map((item) => {
-                        return (
-                           <>
-                              <br />
-                              <div key={item.id} className={styles.categoryBox}>
-                                 <span>{item.title}</span>
-                              </div>
-                              <br />
-                              <div>
-                                 <span>{item.description}</span>
-                              </div>
-                              <br />
-                           </>
-                        )
-                     })}
-                  </div>
-               </section>
-
             </main>
             <FooterPainel />
          </div>
