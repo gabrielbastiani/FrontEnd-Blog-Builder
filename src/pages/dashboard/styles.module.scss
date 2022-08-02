@@ -1,25 +1,147 @@
 .container {
-    height: 100vh;
-    max-width: 1180px;
-    margin: 4rem auto;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  max-width: 1180px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
 }
 
-.tableContent{
-    width: 20%;
-    height: 10%;
+.tableContent {
+  width: 20%;
+  height: 10%;
 }
 
-.descriptionText{
+.descriptionText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+
+.listArticles {
+  border: solid 1px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  height: 100px;
+
+  .boxArticle {
+    width: 60%;
+    cursor: pointer;
+    align-self: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 5px 0;
+    padding-left: 1.8rem;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .dates {
+    width: 40%;
+
+    font-weight: lighter;
+    font-size: 0.7rem;
+
+    span {
+      padding: 3px 0;
+    }
+  }
+
+}
+
+.bannerArticle {
+  border-right: 1px solid;
+  width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  
+  img{
+    object-fit: cover;
+    /* width: 180px; */
+  }
+}
+
+.titleArticle {
+  border-right: 1px solid;
+  padding: 40px 10px 40px;
+  width: 15%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.descriptionArticle {
+  border-right: 1px solid;
+  padding: 40px 0 40px;
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dates {
+  width: 15%;
+  padding: 40px 10px 40px;
+}
+
+.articleUpdate {
+  cursor: pointer;
+  align-self: center;
+  background-color: black;
+  align-self: center;
+  padding: 38px;
+}
+
+.deleteArticle {
+  cursor: pointer;
+  background-color: black;
+  align-self: center;
+  padding: 38px;
+}
+
+.buttonRefresh {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  height: 40px;
+  border: 0;
+  background-color: var(--red);
+  font-weight: 400;
+  font-size: 1.2rem;
+  border-radius: 0.3rem;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.refresh {
+  color: var(--white);
+  margin-right: 3%;
+}
+
+.emptyList {
+  margin-top: 2rem;
+}
+
+.articleBox {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin: 1rem 0 1rem 0;
+}
+
+.article {
+  width: 100%;
 }

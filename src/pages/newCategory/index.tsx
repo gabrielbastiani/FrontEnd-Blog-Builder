@@ -129,9 +129,9 @@ export default function Category({ categorysList }: CategoryProps) {
                       <div className={styles.category}>
                         <Link className={styles.nameCategory} key={item.id} href={`/categoryUpdate?category_id=${item.id}`}>
                           <div className={styles.listCategories}>
-                            <div className={styles.nameCategory}>{item.name}</div>
+                            <div className={styles.nameCategory}>{item?.name}</div>
                             <div className={styles.dates}>
-                              <span>Data de criação: {moment(item.created_at).format('DD/MM/YYYY HH:mm:ss')}</span>
+                              <span>Data de criação: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span>
                             </div>
                           </div>
                         </Link>
