@@ -82,6 +82,7 @@ export default function Dashboard({ articleList }: Article) {
                                     </div>
                                  </div>
                               </div>
+                              <div className={styles.containerUpdate}>
                               <div className={styles.articleUpdate}>
                                  <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${item.id}`}>
                                     <FiEdit className={styles.edit} color='var(--red)' size={35} />
@@ -92,6 +93,7 @@ export default function Dashboard({ articleList }: Article) {
                                     <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
                                  </Link>
                               </div>
+                           </div>
                            </div>
                         </>
                      )
