@@ -1,5 +1,4 @@
 .container {
-  height: 100vh;
   max-width: 1180px;
   margin: 4rem auto;
   padding: 0 2rem;
@@ -24,16 +23,12 @@
   text-overflow: ellipsis;
 }
 
-
-
-
 .listArticles {
   border: solid 1px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  height: 100px;
+  height: 250px;
 
   .boxArticle {
     width: 60%;
@@ -49,10 +44,11 @@
   }
 
   .dates {
-    width: 40%;
-
+    width: 9%;
     font-weight: lighter;
     font-size: 0.7rem;
+    padding: 90px 10px 40px;
+    text-align: center;
 
     span {
       padding: 3px 0;
@@ -63,54 +59,60 @@
 
 .bannerArticle {
   border-right: 1px solid;
-  width: 20%;
+  object-fit: none;
+  width: 45%;
+  max-height: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   align-items: center;
-  
-  img{
+  align-self: center;
+
+  img {
     object-fit: cover;
-    /* width: 180px; */
   }
 }
 
 .titleArticle {
-  border-right: 1px solid;
-  padding: 40px 10px 40px;
-  width: 15%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  background-color: var(--white);
+  text-align: center;
+  border: 1px solid;
+  padding: 20px 4px 20px;
+  font-size: 1.4rem;
+  font-weight: 900;
 }
 
 .descriptionArticle {
   border-right: 1px solid;
-  padding: 40px 0 40px;
+  padding: 15px;
   width: 50%;
-  white-space: nowrap;
+  white-space: pre;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.dates {
-  width: 15%;
-  padding: 40px 10px 40px;
 }
 
 .articleUpdate {
   cursor: pointer;
   align-self: center;
-  background-color: black;
+  background-color: #1212127d;
   align-self: center;
-  padding: 38px;
+  padding: 45px;
+  height: 324px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--black);
 }
 
 .deleteArticle {
   cursor: pointer;
-  background-color: black;
   align-self: center;
-  padding: 38px;
+  background-color: #1212127d;
+  align-self: center;
+  padding: 45px;
+  height: 324px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--black);
 }
 
 .buttonRefresh {
@@ -136,10 +138,11 @@
 }
 
 .articleBox {
+  width: 867px;
   display: flex;
   align-content: center;
   align-items: center;
-  margin: 1rem 0 1rem 0;
+  margin: 1rem 0 5rem 0;
 }
 
 .article {

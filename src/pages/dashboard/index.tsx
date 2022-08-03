@@ -73,9 +73,10 @@ export default function Dashboard({ articleList }: Article) {
                            <div className={styles.articleBox}>
                               <div className={styles.article}>
                                  <div className={styles.boxArticle} key={item.id}>
+                                 <div className={styles.titleArticle}>{item?.title}</div>
                                     <div className={styles.listArticles}>
                                        <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.titleArticle}>{item?.title}</div>
+                                       
                                        <div className={styles.descriptionArticle}>{item?.description}</div>
                                        <div className={styles.dates}><span>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
                                     </div>
@@ -83,12 +84,12 @@ export default function Dashboard({ articleList }: Article) {
                               </div>
                               <div className={styles.articleUpdate}>
                                  <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${item.id}`}>
-                                    <FiEdit className={styles.edit} color='var(--red)' size={20} />
+                                    <FiEdit className={styles.edit} color='var(--red)' size={35} />
                                  </Link>
                               </div>
                               <div className={styles.deleteArticle}>
                                  <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${item.id}`}>
-                                    <FaTrashAlt className={styles.trash} color='var(--red)' size={20} />
+                                    <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
                                  </Link>
                               </div>
                            </div>
