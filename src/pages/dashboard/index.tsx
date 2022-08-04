@@ -41,6 +41,8 @@ export default function Dashboard({ articleList }: Article) {
       console.log(articles.data)
     }
 
+    
+
    return (
       <>
          <Head>
@@ -72,13 +74,13 @@ export default function Dashboard({ articleList }: Article) {
                         <>
                            <div className={styles.articleBox}>
                               <div className={styles.article}>
-                                 <div className={styles.boxArticle} key={item.id}>
-                                 <div className={styles.titleArticle}>{item?.title}</div>
+                                 <div className={styles.boxArticle}>
+                                 <div className={styles.titleArticle} key={item.title}>{item?.title}</div>
                                     <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>
+                                       <div className={styles.bannerArticle} key={item.banner}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>
                                        
-                                       <div className={styles.descriptionArticle}>{item?.description}</div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
+                                       <div className={styles.descriptionArticle} key={item.description}>{item?.description}</div>
+                                       <div className={styles.dates}><span key={item.created_at}>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
                                     </div>
                                  </div>
                               </div>

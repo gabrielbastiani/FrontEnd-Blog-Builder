@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react'
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -45,6 +45,13 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
    const [text, setText] = useState('');
 
+   const editorRef = useRef(null);
+   
+   const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+   }
 
    function handleFile(e: ChangeEvent<HTMLInputElement>) {
 
@@ -111,6 +118,7 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
    }
 
+   
 
    return (
       <>
@@ -182,6 +190,7 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                   />
 
                   <Editor
+                     tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
                      apiKey='3uadxc7du623dpn0gcvz8d1520ngvsigncyxnuj5f580qyz4'
                      value={description}
                      onInit={(evt, editor) => {
@@ -198,10 +207,17 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                            'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
                         ],
-                        toolbar: 'undo redo | blocks | ' +
+                           toolbar1: 'undo redo | blocks | ' +
                            'bold italic forecolor | alignleft aligncenter ' +
                            'alignright alignjustify | bullist numlist outdent indent | ' +
                            'removeformat | help',
+                           toolbar2: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                           toolbar3: "print preview media | forecolor backcolor emoticons",
+                           image_advtab: true,
+                           templates: [
+                              {title: 'Test template 1', content: 'Test 1'},
+                              {title: 'Test template 2', content: 'Test 2'}
+                          ],
                            content_style: '.left { text-align: left; } ' +
                            'img.left, audio.left, video.left { float: left; } ' +
                            'table.left { margin-left: 0px; margin-right: auto; } ' +
@@ -252,6 +268,8 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
                         setText(editor.getContent({format: 'text'}));
                       }}
                   />
+
+                  <button onClick={log}>Log editor content</button>
 
                   <button
                      className={styles.buttonAdd}
