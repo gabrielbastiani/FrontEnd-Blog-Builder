@@ -68,7 +68,7 @@ export default function Category({ categorysList }: CategoryProps) {
 
   async function handleRefreshCategory() {
     const apiClient = setupAPIClient()
-    const categorys = await apiClient.get('/category/')
+    const categorys = await apiClient.get('/category')
     setCategorys(categorys.data)
   }
 

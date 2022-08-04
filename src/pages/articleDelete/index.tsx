@@ -10,23 +10,23 @@ import Link from '../../../node_modules/next/link';
 import { toast } from 'react-toastify'
 
 
-export default function CategoryDelete() {
+export default function ArticleDelete() {
 
     const router = useRouter()
 
-    async function handleDeleteCategory() {
+    async function handleArticleDelete() {
 
         try {
 
             const apiClient = setupAPIClient();
         
-            const category_id = router.query.category_id
+            const article_id = router.query.article_id
 
-            await apiClient.delete(`/category/remove?category_id=${category_id}`)
+            await apiClient.delete(`/article/remove?article_id=${article_id}`)
 
-            toast.success('Categoria deletada com sucesso.')
+            toast.success('Artigo deletado com sucesso.')
 
-            Router.push('/newCategory')
+            Router.push('/dashboard')
 
         } catch (err) {
 
@@ -54,12 +54,12 @@ export default function CategoryDelete() {
 
                     <Button
                         className={styles.buttonUpdate}
-                        onClick={() => handleDeleteCategory()}
+                        onClick={() => handleArticleDelete()}
                     >
                         Deletar
                     </Button>
 
-                    <Link href={'/newCategory'}>
+                    <Link href={'/dashboard'}>
                         <Button
                             className={styles.buttonUpdate}
                         >
@@ -77,7 +77,7 @@ export default function CategoryDelete() {
 export const getServerSideProps = canSSRAuth(async (ctx) => {
     const apliClient = setupAPIClient(ctx)
 
-    const categorys = await apliClient.get('/category/all');
+    const categorys = await apliClient.get('category/article');
 
     return {
         props: {

@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import Head from 'next/head';
 import styles from "../dashboard/styles.module.scss"
@@ -9,6 +10,7 @@ import moment from 'moment';
 import { FaTrashAlt } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
+import Router from 'next/router'
 
 type ArticleProps = {
    id: string;
@@ -34,14 +36,10 @@ export default function Dashboard({ articleList }: Article) {
    })
 
    async function handleRefreshArticle() {
-      const apiClient = setupAPIClient()
-      const articles = await apiClient.get('/category/article')
-      articles.data
+      
+      Router.push('/dashboard')
 
-      console.log(articles.data)
     }
-
-    
 
    return (
       <>
@@ -74,13 +72,12 @@ export default function Dashboard({ articleList }: Article) {
                         <>
                            <div className={styles.articleBox}>
                               <div className={styles.article}>
-                                 <div className={styles.boxArticle}>
-                                 <div className={styles.titleArticle} key={item.title}>{item?.title}</div>
+                                 <div className={styles.boxArticle} key={item.id}>
+                                 <div className={styles.titleArticle}>{item?.title}</div>
                                     <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle} key={item.banner}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>
-                                       
-                                       <div className={styles.descriptionArticle} key={item.description}>{item?.description}</div>
-                                       <div className={styles.dates}><span key={item.created_at}>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
+                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>       
+                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: item?.description }}></div>
+                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
                                     </div>
                                  </div>
                               </div>
@@ -101,38 +98,7 @@ export default function Dashboard({ articleList }: Article) {
                      )
                   })}
                </div>
-
-
-
-
-
-               {/* <table>
-                  <tr>
-                     <th>Banner do Artigo</th>
-                     <th>Titulo do Artigo</th>
-                     <th>Texto do Artigo</th>
-                     <th>Data de Criação do Artigo</th>
-                     <th>Editar Artigo</th>
-                     <th>Deletar Artigo</th>
-                  </tr>
-                  {articleList.map((item) => {
-                     return (
-                        <>
-                        <tr className={styles.tableContent} key={item.id}>
-                           <td>{item.banner}</td>
-                           <td>{item.title}</td>
-                           <td className={styles.descriptionText}>{item.description}</td>
-                           <td>Data</td>
-                           <td>Editar</td>
-                           <td>Deletar</td>
-                        </tr>
-                        </>
-                     )
-                  })}
-               </table> */}
-
             </section>
-
             <FooterPainel />
          </main>
       </>
