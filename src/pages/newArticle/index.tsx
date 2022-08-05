@@ -30,7 +30,7 @@ interface CategoryProps {
 }
 
 
-export default function Article({ categoryList, articleList }: CategoryProps) {
+export default function Article({ categoryList }: CategoryProps) {
 
    const [title, setTitle] = useState('');
    const [description, setDescription] = useState('Digite aqui seu artigo...');
@@ -40,8 +40,6 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
 
    const [categories, setCategories] = useState(categoryList || [])
    const [categorySelected, setCategorySelected] = useState(0)
-
-   const [article, setArticles] = useState(articleList || [])
 
    const [text, setText] = useState('');
 
@@ -91,7 +89,6 @@ export default function Article({ categoryList, articleList }: CategoryProps) {
          data.append('description', description);
          data.append('category_id', categories[categorySelected].id);
          data.append('file', imageBanner);
-
 
          const apiClient = setupAPIClient();
 
@@ -271,13 +268,11 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
    const apliClient = setupAPIClient(ctx)
 
    const response = await apliClient.get('/category');
-   const responseArticle = await apliClient.get('/category/article');
    /* console.log(responseArticle.data); */
 
    return {
       props: {
          categoryList: response.data,
-         articleList: responseArticle.data,
       }
    }
 })
