@@ -1,20 +1,13 @@
 import { useState, FormEvent, ChangeEvent } from 'react'
-
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../../pages/signup/styles.module.scss';
-
 import logoImg from '../../../public/LogoBuilderBlack.png';
-
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
-
 import { FiUpload } from 'react-icons/fi'
-
 import { setupAPIClient } from '../../services/api'
-
 import {toast} from 'react-toastify'
-
 import Link from 'next/link';
 import Router from 'next/router';
 

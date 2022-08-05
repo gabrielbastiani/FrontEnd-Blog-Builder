@@ -10,6 +10,7 @@ import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { Editor } from '@tinymce/tinymce-react';
 import Link from '../../../node_modules/next/link'
+import Router from 'next/router'
 
 
 type ItemProps = {
@@ -96,15 +97,17 @@ export default function Article({ categoryList }: CategoryProps) {
 
          toast.success('Cadastrado com sucesso!')
 
+         setTitle('');
+         setDescription('')
+         setImageBanner(null);
+         setBannerUrl('');
+
+         Router.push('/dashboard')
+
       } catch (err) {
          console.log(err);
          toast.error("Ops erro ao cadastrar!")
       }
-
-      setTitle('');
-      setDescription('')
-      setImageBanner(null);
-      setBannerUrl('');
 
    }
 

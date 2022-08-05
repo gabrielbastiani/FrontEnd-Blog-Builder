@@ -3,7 +3,6 @@ import Head from "next/head"
 import styles from './styles.module.scss'
 import Router from 'next/router'
 import { useRouter } from '../../../node_modules/next/router'
-
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'

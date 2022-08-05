@@ -83,14 +83,20 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
         try {
             const data = new FormData()
+
             const article_id = router.query.article_id
 
             data.append('title', title)
             data.append('description', description)
             data.append('category_id', categories[categorySelected].id)
             data.append('file', imageBanner)
-
+            
             const apiClient = setupAPIClient()
+
+            setTitle('');
+            setDescription('')
+            setImageBanner(null);
+            setBannerUrl('');
 
             await apiClient.put(`/article/update?article_id=${article_id}`, data)
             toast.success('Artigo atualizado com sucesso')
@@ -174,7 +180,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
                         <Editor
                             apiKey='3uadxc7du623dpn0gcvz8d1520ngvsigncyxnuj5f580qyz4'
-                            initialValue={`${description}`}
+                            /* initialValue={`${description}`} */
                             value={description}
                             onInit={(evt, editor) => {
                                 setText(editor.getContent({ format: 'html' }));
