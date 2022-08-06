@@ -99,7 +99,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
             Router.push('/dashboard')
 
         } catch (err) {
-            toast.error('Ops erro ao atualizar (verifique todos os campos, e atualize o Banner)')
+            toast.error('Ops erro ao atualizar (é preciso inserir o Banner novamente)')
         }
     }
 

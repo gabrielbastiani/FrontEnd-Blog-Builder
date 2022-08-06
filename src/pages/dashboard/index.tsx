@@ -27,6 +27,16 @@ interface Article {
 
 export default function Dashboard({ articleList }: Article) {
 
+   const result = articleList
+
+   const lastPostInResults = result[3]
+
+   console.log(lastPostInResults)
+
+   const myCursor = lastPostInResults.id
+
+   console.log(myCursor)
+
    const dateFormat = articleList.map(i => {
       return {
          ...i,
@@ -110,7 +120,6 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
 
    const response = await apliClient.get('/category');
    const responseArticle = await apliClient.get('/category/article');
-   /* console.log(responseArticle.data); */
 
    return {
       props: {
