@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import Head from 'next/head';
 import styles from "../dashboard/styles.module.scss"
@@ -11,45 +11,74 @@ import { FaTrashAlt } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
 import Router from 'next/router'
+import { api } from '../../services/apiClient';
 
-type ArticleProps = {
-   id: string;
-   title: string;
-   description: string;
-   banner: string;
-   created_at: string;
-   updated_at: string;
-}
 
-interface Article {
-   articleList: ArticleProps[];
-}
+export default function Dashboard() {
 
-export default function Dashboard({ articleList }: Article) {
+   const apiClient = setupAPIClient();
 
-   const result = articleList
+   /* const [itens, setItens] = useState([]);
+   const [itensProPage, setItensProPage] = useState(4);
+   const [currentPage, setCurrentPage] = useState(0);
 
-   const lastPostInResults = result[3]
+   const pages = Math.ceil(itens.length / itensProPage);
+   const startIndex = currentPage * itensProPage;
+   const endIndex = startIndex + itensProPage;
+   const currentItems = itens.slice(startIndex, endIndex);
 
-   console.log(lastPostInResults)
+   useEffect(() => {
+      const fetchData = async () => {
+         const result = await api.get('/article/all');
 
-   const myCursor = lastPostInResults.id
+         setItens(result)
+      }
+      fetchData()
+   }, []) */
 
-   console.log(myCursor)
+   const [products, setProducts] = useState([]);
+   const [total, setTotal] = useState(0);
+   const [limit, setLimit] = useState(4);
+   const [pages, setPages] = useState([]);
+   const [currentPage, setCurrentPage] = useState(1);
 
-   const dateFormat = articleList.map(i => {
+   useEffect(() => {
+      async function loadProducts() {
+         const response = await api.get('/article/all');
+         setTotal(response.data.length);
+         const totalPages = Math.ceil(total / limit);
+
+         const arrayPages = [];
+         for (let i = 1; i <= totalPages; i++) {
+            arrayPages.push(i);
+         }
+
+         setPages(arrayPages);
+         setProducts(response.data);
+      }
+
+      loadProducts();
+   }, [currentPage, limit, total]);
+
+   const limits = useCallback((e) => {
+      setLimit(e.target.value);
+      setCurrentPage(1);
+   }, []);
+
+
+   const dateFormat = products.map(i => {
       return {
          ...i,
-         created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm:ss'),
-         updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm:ss')
+         created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm'),
+         updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm')
       }
    })
 
    async function handleRefreshArticle() {
-      
+
       Router.push('/dashboard')
 
-    }
+   }
 
    return (
       <>
@@ -66,48 +95,111 @@ export default function Dashboard({ articleList }: Article) {
 
                <br />
 
+               <select onChange={limits}>
+                  <option value="4">4</option>
+                  <option value="8">8</option>
+                  <option value="12">12</option>
+                  <option value="20">20</option>
+               </select>
+
+               < br />
+
                <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
                   <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
                </button>
 
-               {articleList.length === 0 && (
+               {products.length === 0 && (
                   <span className={styles.emptyList}>
                      Nenhum artigo cadastrado...
                   </span>
                )}
 
-               <div className={styles.articlesSection}>
-                  {articleList.map((item) => {
+                <div className={styles.articlesSection}>
+                  {products.map((product) => {
                      return (
                         <>
-                           <div className={styles.articleBox}>
+                           <div key={product.id} className={styles.articleBox}>
                               <div className={styles.article}>
-                                 <div className={styles.boxArticle} key={item.id}>
-                                 <div className={styles.titleArticle}>{item?.title}</div>
+                                 <div className={styles.boxArticle}>
+                                    <div className={styles.titleArticle}>{product?.title}</div>
                                     <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + item?.banner} alt="banner do artigo" /></div>       
-                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: item?.description }}></div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(item?.created_at).format('DD/MM/YYYY HH:mm:ss')}</span></div>
+                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + product?.banner} alt="banner do artigo" /></div>
+                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: product?.description }}></div>
+                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(product?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
                                     </div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>
-                              <div className={styles.articleUpdate}>
-                                 <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${item.id}`}>
-                                    <FiEdit className={styles.edit} color='var(--red)' size={35} />
-                                 </Link>
+                                 <div className={styles.articleUpdate}>
+                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${product.id}`}>
+                                       <FiEdit className={styles.edit} color='var(--red)' size={35} />
+                                    </Link>
+                                 </div>
+                                 <div className={styles.deleteArticle}>
+                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${product.id}`}>
+                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
+                                    </Link>
+                                 </div>
                               </div>
-                              <div className={styles.deleteArticle}>
-                                 <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${item.id}`}>
-                                    <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
-                                 </Link>
-                              </div>
-                           </div>
                            </div>
                         </>
                      )
                   })}
                </div>
+
+               <div className={styles.containerPagination}>
+                  <div className={styles.totalArticles}>
+                     <span>Total de artigos: {total}</span>
+                  </div>
+
+                  <div className={styles.containerArticlesPages}>
+                     {currentPage > 1 && (
+                        <div className={styles.previus}>
+                           <button className={styles.previus} onClick={() => setCurrentPage(currentPage - 1)}>
+                              Voltar
+                           </button>
+                        </div>
+                     )}
+
+                     {pages.map((page) => (
+                        <span
+                           className={styles.page}
+                           key={page}
+                           onClick={() => setCurrentPage(page)}
+                        >
+                           {page}
+                        </span>
+                     ))}
+
+                     {currentPage < pages.length && (
+                        <div className={styles.next}>
+                           <button onClick={() => setCurrentPage(currentPage + 1)}>
+                              Avançar
+                           </button>
+                        </div>
+                     )}
+
+                  </div>
+               </div>
+
+              {/*  <div>
+                  {Array.from(Array(pages), (item, index) => {
+                     return (
+                     <button value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>Next Button</button>
+                     )
+                  })}
+               </div>
+
+               {currentItems.map(item => {
+                  return (
+                     <div key={item}>
+                        <span>{item.id}</span>
+                        <span>{item.title}</span>
+                     </div>
+                  )
+               })} */}
+               
+
             </section>
             <FooterPainel />
          </main>
