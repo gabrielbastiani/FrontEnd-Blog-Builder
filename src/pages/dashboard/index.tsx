@@ -32,7 +32,7 @@ export default function Dashboard() {
 
    useEffect(() => {
       async function loadArticles() {
-         const response = await api.get(`/article/all`);
+         const response = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
          setTotal(response.data.length);
          const totalPages = Math.ceil(total / limit);
 
