@@ -18,33 +18,21 @@ export default function Dashboard() {
 
    const apiClient = setupAPIClient();
 
-   /* const [itens, setItens] = useState([]);
-   const [itensProPage, setItensProPage] = useState(4);
-   const [currentPage, setCurrentPage] = useState(0);
-
-   const pages = Math.ceil(itens.length / itensProPage);
-   const startIndex = currentPage * itensProPage;
-   const endIndex = startIndex + itensProPage;
-   const currentItems = itens.slice(startIndex, endIndex);
-
-   useEffect(() => {
-      const fetchData = async () => {
-         const result = await api.get('/article/all');
-
-         setItens(result)
-      }
-      fetchData()
-   }, []) */
-
-   const [products, setProducts] = useState([]);
+   const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
    const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
+   console.log(articles)
+   console.log(total)
+   console.log(limit)
+   console.log(pages)
+   console.log(currentPage)
+
    useEffect(() => {
-      async function loadProducts() {
-         const response = await api.get('/article/all');
+      async function loadArticles() {
+         const response = await api.get(`/article/all`);
          setTotal(response.data.length);
          const totalPages = Math.ceil(total / limit);
 
@@ -54,10 +42,10 @@ export default function Dashboard() {
          }
 
          setPages(arrayPages);
-         setProducts(response.data);
+         setArticles(response.data);
       }
 
-      loadProducts();
+      loadArticles();
    }, [currentPage, limit, total]);
 
    const limits = useCallback((e) => {
@@ -66,7 +54,7 @@ export default function Dashboard() {
    }, []);
 
 
-   const dateFormat = products.map(i => {
+   const dateFormat = articles.map(i => {
       return {
          ...i,
          created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm'),
@@ -76,7 +64,7 @@ export default function Dashboard() {
 
    async function handleRefreshArticle() {
 
-      Router.push('/dashboard')
+      const reload = await api.get('/article/all');
 
    }
 
@@ -108,35 +96,35 @@ export default function Dashboard() {
                   <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
                </button>
 
-               {products.length === 0 && (
+               {articles.length === 0 && (
                   <span className={styles.emptyList}>
                      Nenhum artigo cadastrado...
                   </span>
                )}
 
                 <div className={styles.articlesSection}>
-                  {products.map((product) => {
+                  {articles.map((article) => {
                      return (
                         <>
-                           <div key={product.id} className={styles.articleBox}>
+                           <div key={article.id} className={styles.articleBox}>
                               <div className={styles.article}>
                                  <div className={styles.boxArticle}>
-                                    <div className={styles.titleArticle}>{product?.title}</div>
+                                    <div className={styles.titleArticle}>{article?.title}</div>
                                     <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + product?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: product?.description }}></div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(product?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
+                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></div>
+                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: article?.description }}></div>
+                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
                                     </div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>
                                  <div className={styles.articleUpdate}>
-                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${product.id}`}>
+                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${article.id}`}>
                                        <FiEdit className={styles.edit} color='var(--red)' size={35} />
                                     </Link>
                                  </div>
                                  <div className={styles.deleteArticle}>
-                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${product.id}`}>
+                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${article.id}`}>
                                        <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
                                     </Link>
                                  </div>
@@ -161,15 +149,15 @@ export default function Dashboard() {
                         </div>
                      )}
 
-                     {pages.map((page) => (
-                        <span
-                           className={styles.page}
-                           key={page}
-                           onClick={() => setCurrentPage(page)}
-                        >
-                           {page}
-                        </span>
-                     ))}
+                        {pages.map((page) => (
+                           <span
+                              className={styles.page}
+                              key={page}
+                              onClick={() => setCurrentPage(page)}
+                           >
+                              {page}
+                           </span>
+                        ))}
 
                      {currentPage < pages.length && (
                         <div className={styles.next}>
@@ -180,25 +168,7 @@ export default function Dashboard() {
                      )}
 
                   </div>
-               </div>
-
-              {/*  <div>
-                  {Array.from(Array(pages), (item, index) => {
-                     return (
-                     <button value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>Next Button</button>
-                     )
-                  })}
-               </div>
-
-               {currentItems.map(item => {
-                  return (
-                     <div key={item}>
-                        <span>{item.id}</span>
-                        <span>{item.title}</span>
-                     </div>
-                  )
-               })} */}
-               
+               </div>        
 
             </section>
             <FooterPainel />
