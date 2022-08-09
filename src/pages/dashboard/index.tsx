@@ -23,34 +23,22 @@ export default function Dashboard() {
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
-   console.log(articles)
-   console.log(total)
-   console.log(limit)
-   console.log(pages)
-   console.log(currentPage)
-
    const router = useRouter()
 
    useEffect(() => {
       async function loadArticles() {
-         const apiClient = setupAPIClient();
-         const limit = router.query.limit;
-         const page = router.query.page;
-         const response = await apiClient.get(`/article/all?page=${page}&limit=${limit}`);
-         setTotal(response.data.length);
-         const totalPages = Math.ceil(total / Number(limit));
-
-         const arrayPages = [];
-         for (let i = 1; i <= totalPages; i++) {
-            arrayPages.push(i);
+         try {
+            const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
+            setTotal(data?.articles?.length || 0);
+            setArticles(data?.articles || []);
+         } catch (error) {
+            console.error(error);
+            alert('Error call api list article');
          }
-
-         setPages(arrayPages);
-         setArticles(response.data);
       }
 
       loadArticles();
-   }, [currentPage, limit, router.query.limit, router.query.page, total]);
+   }, [currentPage, limit]);
 
    const limits = useCallback((e) => {
       setLimit(e.target.value);
@@ -163,7 +151,7 @@ export default function Dashboard() {
                            </span>
                         ))}
 
-                     {currentPage < pages.length && (
+                     {articles?.length > 0 && (
                         <div className={styles.next}>
                            <button onClick={() => setCurrentPage(currentPage + 1)}>
                               Avançar
