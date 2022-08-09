@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useRouter } from '../../../node_modules/next/router'
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import Head from 'next/head';
 import styles from "../dashboard/styles.module.scss"
@@ -16,8 +17,6 @@ import { api } from '../../services/apiClient';
 
 export default function Dashboard() {
 
-   const apiClient = setupAPIClient();
-
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
    const [limit, setLimit] = useState(4);
@@ -30,11 +29,16 @@ export default function Dashboard() {
    console.log(pages)
    console.log(currentPage)
 
+   const router = useRouter()
+
    useEffect(() => {
       async function loadArticles() {
-         const response = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
+         const apiClient = setupAPIClient();
+         const limit = router.query.limit;
+         const page = router.query.page;
+         const response = await apiClient.get(`/article/all?page=${page}&limit=${limit}`);
          setTotal(response.data.length);
-         const totalPages = Math.ceil(total / limit);
+         const totalPages = Math.ceil(total / Number(limit));
 
          const arrayPages = [];
          for (let i = 1; i <= totalPages; i++) {
@@ -46,7 +50,7 @@ export default function Dashboard() {
       }
 
       loadArticles();
-   }, [currentPage, limit, total]);
+   }, [currentPage, limit, router.query.limit, router.query.page, total]);
 
    const limits = useCallback((e) => {
       setLimit(e.target.value);
@@ -61,8 +65,8 @@ export default function Dashboard() {
          updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm')
       }
    })
-
-   async function handleRefreshArticle() {
+ 
+  async function handleRefreshArticle() {
 
       const reload = await api.get('/article/all');
 
@@ -134,7 +138,7 @@ export default function Dashboard() {
                      )
                   })}
                </div>
-
+ 
                <div className={styles.containerPagination}>
                   <div className={styles.totalArticles}>
                      <span>Total de artigos: {total}</span>
@@ -180,13 +184,13 @@ export default function Dashboard() {
 export const getServerSideProps = canSSRAuth(async (ctx) => {
    const apliClient = setupAPIClient(ctx)
 
-   const response = await apliClient.get('/category');
-   const responseArticle = await apliClient.get('/category/article');
+   /* const response = await apliClient.get('/category');
+   const responseArticle = await apliClient.get('/article/all'); */
 
    return {
       props: {
-         categoryList: response.data,
-         articleList: responseArticle.data,
+         /* categoryList: response.data,
+         articleList: responseArticle.data, */
       }
    }
 })
