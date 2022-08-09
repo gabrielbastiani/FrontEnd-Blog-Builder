@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useRouter } from '../../../node_modules/next/router'
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import Head from 'next/head';
 import styles from "../dashboard/styles.module.scss"
@@ -23,17 +22,27 @@ export default function Dashboard() {
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
-   const router = useRouter()
-
    useEffect(() => {
       async function loadArticles() {
          try {
             const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
-            setTotal(data?.articles?.length || 0);
+            /* setTotal(data?.articles?.length || 0); */
+            setTotal(data?.total);
+            const totalPages = Math.ceil(total / limit);
+
+            const arrayPages = [];
+               for (let i = 1; i <= totalPages; i++) {
+               arrayPages.push(i);
+            }
+
+            setPages(arrayPages);
             setArticles(data?.articles || []);
+
          } catch (error) {
+
             console.error(error);
             alert('Error call api list article');
+
          }
       }
 
@@ -55,9 +64,7 @@ export default function Dashboard() {
    })
  
   async function handleRefreshArticle() {
-
-      const reload = await api.get('/article/all');
-
+      Router.push('/dashboard')
    }
 
    return (
@@ -87,6 +94,12 @@ export default function Dashboard() {
                <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
                   <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
                </button>
+
+               <div className={styles.totalArticles}>
+                  <span>Total de artigos: {total}</span>
+               </div>
+
+               <br />
 
                {articles.length === 0 && (
                   <span className={styles.emptyList}>
@@ -135,7 +148,7 @@ export default function Dashboard() {
                   <div className={styles.containerArticlesPages}>
                      {currentPage > 1 && (
                         <div className={styles.previus}>
-                           <button className={styles.previus} onClick={() => setCurrentPage(currentPage - 1)}>
+                           <button onClick={() => setCurrentPage(currentPage - 1)}>
                               Voltar
                            </button>
                         </div>
@@ -151,7 +164,7 @@ export default function Dashboard() {
                            </span>
                         ))}
 
-                     {articles?.length > 0 && (
+                     {currentPage < articles.length && (
                         <div className={styles.next}>
                            <button onClick={() => setCurrentPage(currentPage + 1)}>
                               Avançar
@@ -172,13 +185,7 @@ export default function Dashboard() {
 export const getServerSideProps = canSSRAuth(async (ctx) => {
    const apliClient = setupAPIClient(ctx)
 
-   /* const response = await apliClient.get('/category');
-   const responseArticle = await apliClient.get('/article/all'); */
-
    return {
-      props: {
-         /* categoryList: response.data,
-         articleList: responseArticle.data, */
-      }
+      props: {}
    }
 })
