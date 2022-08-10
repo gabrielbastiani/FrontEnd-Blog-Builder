@@ -208,6 +208,18 @@
   }
 }
 
+@media (max-width: 615px) {
+  .containerPagination {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 455px) {
+  .page {
+    display: none;
+  }
+}
+
 @media (max-width: 550px) {
   .bannerArticle {
     border-right: none;
@@ -231,7 +243,7 @@
   justify-content: space-between;
 }
 
-.totalArticles{
+.totalArticles {
   margin: 15px 5px;
 }
 
@@ -257,3 +269,9 @@
   padding: 12px 10px;
   cursor: pointer;
 }
+
+${(props) =>
+  props.isSelect && {
+    background: "#6d6d6d",
+    padding: "0 5px",
+  }}

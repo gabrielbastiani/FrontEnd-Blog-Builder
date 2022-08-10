@@ -31,7 +31,7 @@ export default function Dashboard() {
             const totalPages = Math.ceil(total / limit);
 
             const arrayPages = [];
-               for (let i = 1; i <= totalPages; i++) {
+            for (let i = 1; i <= totalPages; i++) {
                arrayPages.push(i);
             }
 
@@ -47,7 +47,7 @@ export default function Dashboard() {
       }
 
       loadArticles();
-   }, [currentPage, limit]);
+   }, [currentPage, limit, total]);
 
    const limits = useCallback((e) => {
       setLimit(e.target.value);
@@ -62,8 +62,8 @@ export default function Dashboard() {
          updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm')
       }
    })
- 
-  async function handleRefreshArticle() {
+
+   async function handleRefreshArticle() {
       Router.push('/dashboard')
    }
 
@@ -95,19 +95,54 @@ export default function Dashboard() {
                   <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
                </button>
 
-               <div className={styles.totalArticles}>
-                  <span>Total de artigos: {total}</span>
-               </div>
-
-               <br />
-
                {articles.length === 0 && (
                   <span className={styles.emptyList}>
                      Nenhum artigo cadastrado...
                   </span>
                )}
 
-                <div className={styles.articlesSection}>
+               <br />
+               <br />
+
+               <div className={styles.containerPagination}>
+                  <div className={styles.totalArticles}>
+                     <span>Total de artigos: {total}</span>
+                  </div>
+
+                  <div className={styles.containerArticlesPages}>
+                     {currentPage > 1 && (
+                        <div className={styles.previus}>
+                           <button onClick={() => setCurrentPage(currentPage - 1)}>
+                              Voltar
+                           </button>
+                        </div>
+                     )}
+
+                     {pages.map((page) => (
+                        <span
+                           className={styles.page}
+                           key={page}
+                           isSelect={page === currentPage}
+                           onClick={() => setCurrentPage(page)}
+                        >
+                           {page}
+                        </span>
+                     ))}
+
+                     {currentPage < articles.length && (
+                        <div className={styles.next}>
+                           <button onClick={() => setCurrentPage(currentPage + 1)}>
+                              Avançar
+                           </button>
+                        </div>
+                     )}
+
+                  </div>
+               </div>
+
+               <br />
+
+               <div className={styles.articlesSection}>
                   {articles.map((article) => {
                      return (
                         <>
@@ -139,7 +174,7 @@ export default function Dashboard() {
                      )
                   })}
                </div>
- 
+
                <div className={styles.containerPagination}>
                   <div className={styles.totalArticles}>
                      <span>Total de artigos: {total}</span>
@@ -154,15 +189,15 @@ export default function Dashboard() {
                         </div>
                      )}
 
-                        {pages.map((page) => (
-                           <span
-                              className={styles.page}
-                              key={page}
-                              onClick={() => setCurrentPage(page)}
-                           >
-                              {page}
-                           </span>
-                        ))}
+                     {pages.map((page) => (
+                        <span
+                           className={styles.page}
+                           key={page}
+                           onClick={() => setCurrentPage(page)}
+                        >
+                           {page}
+                        </span>
+                     ))}
 
                      {currentPage < articles.length && (
                         <div className={styles.next}>
@@ -173,7 +208,7 @@ export default function Dashboard() {
                      )}
 
                   </div>
-               </div>        
+               </div>
 
             </section>
             <FooterPainel />
