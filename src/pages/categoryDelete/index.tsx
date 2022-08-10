@@ -30,7 +30,7 @@ export default function CategoryDelete() {
 
         } catch (err) {
 
-            toast.error('Ops erro ao deletar.')
+            toast.error('Ops erro ao deletar - Possivelmente por estar atrelada a algum artigo')
 
         }
 

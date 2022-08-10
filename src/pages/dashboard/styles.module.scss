@@ -268,10 +268,14 @@
   margin: 0 10px;
   padding: 12px 10px;
   cursor: pointer;
-}
 
-${(props) =>
-  props.isSelect && {
-    background: "#6d6d6d",
-    padding: "0 5px",
-  }}
+  &:hover{
+    background-color: var(--orange);
+    border-radius: 0.3rem;
+  }
+
+  &:active{
+    background-color: var(--orange);
+    border-radius: 0.3rem;
+  }
+}

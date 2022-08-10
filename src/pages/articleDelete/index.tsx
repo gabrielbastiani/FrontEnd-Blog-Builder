@@ -30,7 +30,7 @@ export default function ArticleDelete() {
 
         } catch (err) {
 
-            toast.error('Ops erro ao deletar.')
+            toast.error('Ops erro ao deletar')
 
         }
 

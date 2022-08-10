@@ -192,6 +192,7 @@ export default function Dashboard() {
                      {pages.map((page) => (
                         <span
                            className={styles.page}
+                           isSelect={page === currentPage}
                            key={page}
                            onClick={() => setCurrentPage(page)}
                         >
