@@ -1,21 +1,20 @@
 import styles from './styles.module.scss'
 import Link from 'next/link'
 
-export function FooterPainel(){
+export function FooterPainel() {
 
    const anoAtual = new Date().getFullYear();
 
-   return(
+   return (
       <footer className={styles.footerContainer}>
-         <div className={styles.footerContent}>
+         <div className={styles.contentFooter}>
+
             <Link href="/">
                <img src="LogoBuilderWhite.png" width={170} height={50} />
             </Link>
-
-            <div className={styles.textFooter}>
-               <h4>Copyright {anoAtual} © Todos os direitos reservados. Desenvolvido por Gabriel Campos de Bastiani.</h4>
-            </div>
          
+            <h5>Copyright {anoAtual} © Todos os direitos reservados. Desenvolvido por Gabriel Campos de Bastiani.</h5>
+
          </div>
       </footer>
    )

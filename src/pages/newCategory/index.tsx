@@ -36,9 +36,6 @@ export default function Category({ categorysList }: CategoryProps) {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-
-  console.log(categs)
-
   useEffect(() => {
     async function loadCategorys() {
       try {
@@ -70,14 +67,6 @@ export default function Category({ categorysList }: CategoryProps) {
     setCurrentPage(1);
   }, []);
 
-  const dateFormat = categorys.map(i => {
-    return {
-      ...i,
-      created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm'),
-      updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm')
-    }
-  })
-
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
@@ -96,16 +85,19 @@ export default function Category({ categorysList }: CategoryProps) {
     toast.success('Categoria cadastrada com sucesso!')
     setName('');
 
-    handleRefreshCategory()
-
     Router.push('/newCategory')
 
   }
 
   async function handleRefreshCategory() {
-    const apiClient = setupAPIClient()
-    const categorys = await apiClient.get('/category')
-    setCategorys(categorys.data)
+    const apiClient = setupAPIClient();
+    const response = await apiClient.post('/category')
+
+    console.log(response.data)
+
+    setCategorys(response?.data)
+    
+    return response
   }
 
   return (
@@ -145,6 +137,11 @@ export default function Category({ categorysList }: CategoryProps) {
           <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
             <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
           </button>
+
+          <br />
+          <br />
+
+          <h5>Total de categorias por página</h5>
 
           <br />
 

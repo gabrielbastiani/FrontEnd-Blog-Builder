@@ -77,7 +77,7 @@ export default function CategoryDelete() {
 export const getServerSideProps = canSSRAuth(async (ctx) => {
     const apliClient = setupAPIClient(ctx)
 
-    const categorys = await apliClient.get('/category/all');
+    const categorys = await apliClient.get('/category');
 
     return {
         props: {

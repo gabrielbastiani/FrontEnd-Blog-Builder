@@ -54,15 +54,6 @@ export default function Dashboard() {
       setCurrentPage(1);
    }, []);
 
-
-   const dateFormat = articles.map(i => {
-      return {
-         ...i,
-         created_at: moment(i.created_at).format('DD/MM/YYYY HH:mm'),
-         updated_at: moment(i.updated_at).format('DD/MM/YYYY HH:mm')
-      }
-   })
-
    async function handleRefreshArticle() {
       Router.push('/dashboard')
    }
@@ -79,6 +70,11 @@ export default function Dashboard() {
             <section className={styles.container}>
 
                <h1>Painel</h1>
+
+               <br />
+               <br />
+
+               <h5>Total de artigos por página</h5>
 
                <br />
 
@@ -105,11 +101,11 @@ export default function Dashboard() {
                <br />
 
                <div className={styles.containerPagination}>
-                  <div className={styles.totalArticles}>
+                  <div className={styles.totalArticles} key={total}>
                      <span>Total de artigos: {total}</span>
                   </div>
 
-                  <div className={styles.containerArticlesPages}>
+                  <div className={styles.containerArticlesPages} key={currentPage}>
                      {currentPage > 1 && (
                         <div className={styles.previus}>
                            <button onClick={() => setCurrentPage(currentPage - 1)}>

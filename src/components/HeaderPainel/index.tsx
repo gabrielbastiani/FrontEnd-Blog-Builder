@@ -19,6 +19,7 @@ export function HeaderPainel(){
                <img src="LogoBuilderWhite.png" width={170} height={50} />
             </Link>
 
+            <div>
             <Link href="/detailUser">
                <span>{user?.name}</span>
             </Link>
@@ -26,7 +27,8 @@ export function HeaderPainel(){
             <Link href="/detailUser">
                <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
             </Link>
-
+            </div>
+            
             <nav className={styles.menuNav}>
                <Link href="/dashboard">
                   <a>Painel</a>
