@@ -122,7 +122,6 @@ export default function Dashboard() {
                         <span
                            className={styles.page}
                            key={page}
-                           isSelect={page === currentPage}
                            onClick={() => setCurrentPage(page)}
                         >
                            {page}
@@ -143,28 +142,28 @@ export default function Dashboard() {
                <br />
 
                <div className={styles.articlesSection}>
-                  {articles.map((article) => {
+                  {articles.map((articl) => {
                      return (
                         <>
-                           <div key={article.id} className={styles.articleBox}>
+                           <div key={articl.id} className={styles.articleBox}>
                               <div className={styles.article}>
                                  <div className={styles.boxArticle}>
-                                    <div className={styles.titleArticle}>{article?.title}</div>
+                                    <div className={styles.titleArticle}>{articl?.title}</div>
                                     <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: article?.description }}></div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
+                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
+                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
+                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
                                     </div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>
                                  <div className={styles.articleUpdate}>
-                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${article.id}`}>
+                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articl.id}`}>
                                        <FiEdit className={styles.edit} color='var(--red)' size={35} />
                                     </Link>
                                  </div>
                                  <div className={styles.deleteArticle}>
-                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${article.id}`}>
+                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
                                        <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
                                     </Link>
                                  </div>
@@ -192,7 +191,6 @@ export default function Dashboard() {
                      {pages.map((page) => (
                         <span
                            className={styles.page}
-                           isSelect={page === currentPage}
                            key={page}
                            onClick={() => setCurrentPage(page)}
                         >
