@@ -24,12 +24,21 @@
    }
 
    .userImg{
-    width: 4%;
-    height: 42%;
+    width: 8%;
     border-radius: 50%;
     object-fit: cover;
    }
 
+ }
+
+ .dataUser{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span{
+    padding-right: 20px;
+  }
  }
  
  .menuNav{

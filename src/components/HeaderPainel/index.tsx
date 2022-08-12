@@ -19,7 +19,7 @@ export function HeaderPainel(){
                <img src="LogoBuilderWhite.png" width={170} height={50} />
             </Link>
 
-            <div>
+            <div className={styles.dataUser}>
             <Link href="/detailUser">
                <span>{user?.name}</span>
             </Link>
