@@ -12,6 +12,8 @@ import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
 import Router from 'next/router'
 import { api } from '../../services/apiClient';
+import { Input } from '../../components/ui/Input/index';
+import { Button } from '../../components/ui/Button/index';
 
 
 export default function Dashboard() {
@@ -21,6 +23,12 @@ export default function Dashboard() {
    const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
+
+   const [initialFilter, setInitialFilter] = useState();
+   const [search, setSearch] = useState([]);
+
+   const [showElement, setShowElement] = useState(false);
+
 
    useEffect(() => {
       async function loadArticles() {
@@ -58,6 +66,38 @@ export default function Dashboard() {
       Router.push('/dashboard')
    }
 
+   useEffect(() => {
+      const loadSearch = async () => {
+         try {
+            const response = await api.get('/article/filter');
+            const filter = await response.data;
+
+            setInitialFilter(filter);
+            setSearch(filter);
+
+         } catch (error) {
+            console.log('Error call api list filter');
+         }
+      }
+
+      loadSearch();
+   }, [])
+
+   const handleChange = ({ target }) => {
+      if (!target.value) {
+         setSearch(initialFilter);
+
+         return;
+      }
+
+      const filterArticles = search.filter((filt) => filt.description.toLowerCase().includes(target.value));
+      setSearch(filterArticles);
+   }
+
+   const showOrHide = () => {
+      setShowElement(!showElement)
+   }
+
    return (
       <>
          <Head>
@@ -85,7 +125,56 @@ export default function Dashboard() {
                   <option value="20">20</option>
                </select>
 
-               < br />
+               <br />
+
+               <div className={styles.sectionBoxSearch}>
+               <Input
+                  placeholder='Busca por artigo'
+                  type="search"
+                  onChange={handleChange}
+               />
+
+               <Button
+                  onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
+               </Button>
+               </div>
+
+               <br />
+
+               {/* BUSCA POR ARTIGOS AQUI ABAIXO */}
+
+               <section className={styles.searchSection}>
+               {showElement ? search.map((sear) => {
+                  return (
+                     <>
+                        <div key={sear.id} className={styles.searchBox}>
+                              <div className={styles.search}>
+                                 <div className={styles.boxSearch}>
+                                    <div className={styles.titleSearch}>{sear?.title}</div>
+                                    <div className={styles.listSearch}>
+                                       <div className={styles.bannerSearch}><img src={"http://localhost:3333/files/" + sear?.banner} alt="banner do artigo" /></div>
+                                       <div className={styles.descriptionSearch} dangerouslySetInnerHTML={{ __html: sear?.description }}></div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className={styles.containerUpdateDeleteSearch}>
+                                 <div className={styles.dateSearch}><span>Data do artigo: {moment(sear?.created_at).format('DD/MM/YYYY - HH:mm')}</span></div>
+                                 <div className={styles.articleUpdateSearch}>
+                                    <Link className={styles.articleUpdateSearch} href={`/articleUpdate?article_id=${sear.id}`}>
+                                       <FiEdit className={styles.editSearch} color='var(--red)' size={20} />
+                                    </Link>
+                                 </div>
+                                 <div className={styles.deleteArticleSearch}>
+                                    <Link className={styles.deleteArticleSearch} href={`/articleDelete?article_id=${sear.id}`}>
+                                       <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={20} />
+                                    </Link>
+                                 </div>
+                              </div>
+                           </div>
+                     </>
+                  )
+               }) : null}
+               </section>
 
                <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
                   <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
@@ -213,7 +302,7 @@ export default function Dashboard() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-   const apliClient = setupAPIClient(ctx)
+   const apiClient = setupAPIClient(ctx);
 
    return {
       props: {}

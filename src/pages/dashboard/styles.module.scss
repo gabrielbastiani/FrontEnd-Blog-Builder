@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
 
-  h1{
+  h1 {
     font-size: 2em;
   }
 
@@ -108,25 +108,25 @@
 
 .articleUpdate {
   cursor: pointer;
-  background-color: #1212127d;
+  background-color: var(--black);
   align-self: center;
   padding: 45px;
   height: 163px;
   display: flex;
   align-items: center;
-  border: 1px solid var(--black);
+  border: 1px solid var(--gray);
 }
 
 .deleteArticle {
   cursor: pointer;
   align-self: center;
-  background-color: #1212127d;
+  background-color: var(--black);
   align-self: center;
   padding: 45px;
   height: 163px;
   display: flex;
   align-items: center;
-  border: 1px solid var(--black);
+  border: 1px solid var(--gray);
 }
 
 .buttonRefresh {
@@ -273,13 +273,194 @@
   padding: 12px 10px;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: var(--orange);
     border-radius: 0.3rem;
   }
 
-  &:active{
+  &:active {
     background-color: var(--orange);
     border-radius: 0.3rem;
+  }
+}
+
+.sectionBoxSearch {
+  text-align: center;
+
+  Input {
+    width: 73%;
+  }
+
+  Button {
+    margin-left: 20px;
+    width: 25%;
+    padding: 10px;
+  }
+}
+
+.searchSection {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto;
+  grid-gap: 10px;
+}
+
+.searchBox {
+  width: 270px;
+  display: flex;
+  margin: 1rem 0 1rem 0;
+  flex-direction: column;
+}
+
+.listSearch {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 120px;
+
+  .boxSearch {
+    width: 60%;
+    cursor: pointer;
+    align-self: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 5px 0;
+    padding-left: 1.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.bannerSearch {
+  border-right: 1px solid;
+  width: 30%;
+  max-height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  justify-content: center;
+  align-content: center;
+  display: flex;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.titleSearch {
+  background-color: var(--white);
+  text-align: center;
+  border-bottom: 1px solid;
+  padding: 1px 3px 1px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.descriptionSearch {
+  font-size: 10px;
+  padding: 11px;
+  width: 100%;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.containerUpdateDeleteSearch {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.dateSearch {
+  font-size: 10px;
+  border: 1px solid black;
+  padding: 5px;
+
+  span {
+    font-size: 9px;
+  }
+}
+
+.articleUpdateSearch {
+  cursor: pointer;
+  background-color: var(--black);
+  align-self: center;
+  padding: 5px;
+  align-items: center;
+  border: 1px solid var(--black);
+  width: 50%;
+  height: 100%;
+}
+
+.deleteArticleSearch {
+  cursor: pointer;
+  background-color: var(--black);
+  align-self: center;
+  padding: 5px;
+  align-items: center;
+  border: 1px solid var(--black);
+  width: 50%;
+  height: 100%;
+}
+
+.search {
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+@media (max-width: 1050px) {
+  .sectionBoxSearch {
+    text-align: start;
+
+    Input {
+      width: 71%;
+    }
+  }
+}
+
+@media (max-width: 1150px) {
+  .searchSection {
+    grid-template-columns: auto auto auto auto auto;
+  }
+
+  .searchBox {
+    width: 170px;
+  }
+
+  .articleUpdateSearch {
+    padding: 5px 0 5px;
+  }
+
+  .deleteArticleSearch {
+    padding: 5px 0 5px;
+  }
+}
+
+@media (max-width: 925px) {
+  .searchSection {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
+@media (max-width: 746px) {
+  .searchSection {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media (max-width: 566px) {
+  .searchSection {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 550px) {
+  .sectionBoxSearch {
+    
+    Input {
+      width: 65%;
+    }
   }
 }

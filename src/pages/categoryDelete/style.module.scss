@@ -50,6 +50,14 @@
   }
 }
 
+.containerContent{
+  background-color: var(--black);
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  border-radius: 3%;
+}
 
 @media screen and (max-width: 700px) {
   .container {
@@ -63,11 +71,9 @@
   }
 }
 
-.containerContent{
-  background-color: var(--black);
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  color: var(--white);
-  border-radius: 3%;
+@media screen and (max-width: 515px){
+  .containerContent{
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

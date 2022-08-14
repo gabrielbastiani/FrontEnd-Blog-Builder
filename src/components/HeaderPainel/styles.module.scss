@@ -95,10 +95,21 @@
       padding-bottom: 0.7rem;
     }
 
+    .dataUser{
+      width: 35%;
+    }
+
     .userImg{
-      width: 13%;
-      height: 55%;
+      width: 30%;
+      height: 100%;
      }
+  }
+
+  @media (max-width: 460px){
+    .dataUser{
+      width: 40%;
+      margin: 10px;
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 .container {
-  max-width: 720px;
+  max-width: 1180px;
   margin: 4rem auto;
   padding: 0 2rem;
   display: flex;
@@ -133,7 +133,7 @@
   margin: 1rem 0 1rem 0;
 }
 
-.category{
+.category {
   width: 100%;
 }
 
@@ -175,12 +175,12 @@
   padding: 12px 10px;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: var(--orange);
     border-radius: 0.3rem;
   }
 
-  &:active{
+  &:active {
     background-color: var(--orange);
     border-radius: 0.3rem;
   }
@@ -189,5 +189,85 @@
 @media (max-width: 455px) {
   .page {
     display: none;
+  }
+}
+
+.sectionBoxContainer {
+
+  Input {
+    width: 73%;
+  }
+
+  Button {
+    margin-left: 10px;
+    padding: 10px;
+    width: 25%;
+  }
+}
+
+.searchSection {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 10px;
+}
+
+.categorySearch {
+  cursor: pointer;
+  background-color: var(--black);
+  color: white;
+  padding: 10px;
+  height: 70px
+}
+
+.linkCategorySearch {
+  padding-bottom: 5px;
+}
+
+.nameCategorySearch {
+  padding-bottom: 5px;
+}
+
+.datesSearch span {
+  font-size: 9px;
+}
+
+.categoryDeleteSearch {
+  background-color: var(--white);
+  text-align: center;
+  padding: 6px;
+}
+
+.categoryDeleteSearch {
+  cursor: pointer;
+}
+
+@media (max-width: 555px) {
+  .sectionBoxContainer {
+
+    Input {
+      width: 69%;
+    }
+
+    Button {
+      margin-left: 10px;
+      padding: 15px;
+      width: 25%;
+    }
+  }
+
+  .datesSearch span {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 725px) {
+  .categorySearch {
+    height: 97px
+  }
+}
+
+@media (max-width: 650px) {
+  .searchSection {
+    grid-template-columns: auto auto auto;
   }
 }

@@ -13,6 +13,8 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import moment from 'moment';
+import { Input } from '../../components/ui/Input/index'
+import { Button } from '../../components/ui/Button/index'
 
 type CategoryItems = {
   id: string;
@@ -35,6 +37,12 @@ export default function Category({ categorysList }: CategoryProps) {
   const [limit, setLimit] = useState(4);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [initialFilter, setInitialFilter] = useState();
+  const [search, setSearch] = useState([]);
+
+  const [showElement, setShowElement] = useState(false);
+
 
   useEffect(() => {
     async function loadCategorys() {
@@ -90,14 +98,39 @@ export default function Category({ categorysList }: CategoryProps) {
   }
 
   async function handleRefreshCategory() {
-    const apiClient = setupAPIClient();
-    const response = await apiClient.post('/category')
+    Router.push('/newCategory')
+  }
 
-    console.log(response.data)
+  useEffect(() => {
+    const loadSearch = async () => {
+      try {
+        const response = await api.get('/category/filter');
+        const filter = await response.data;
 
-    setCategorys(response?.data)
-    
-    return response
+        setInitialFilter(filter);
+        setSearch(filter);
+
+      } catch (error) {
+        console.log('Error call api list filter');
+      }
+    }
+
+    loadSearch();
+  }, [])
+
+  const handleChange = ({ target }) => {
+    if (!target.value) {
+      setSearch(initialFilter);
+
+      return;
+    }
+
+    const filterArticles = search.filter((filt) => filt.name.toLowerCase().includes(target.value));
+    setSearch(filterArticles);
+  }
+
+  const showOrHide = () => {
+    setShowElement(!showElement)
   }
 
   return (
@@ -105,11 +138,11 @@ export default function Category({ categorysList }: CategoryProps) {
       <Head>
         <title>Nova categoria - Builder Seu Negócio Online</title>
       </Head>
-      <div>
+      <main>
 
         <HeaderPainel />
 
-        <main className={styles.container}>
+        <section className={styles.container}>
 
           <Link href={'/dashboard'}>
             <BsFillArrowLeftSquareFill className={styles.return} size={30} />
@@ -139,6 +172,55 @@ export default function Category({ categorysList }: CategoryProps) {
           </button>
 
           <br />
+
+          <section className={styles.sectionBoxSearch}>
+            <div className={styles.sectionBoxContainer}>
+              <Input
+                placeholder='Busca por artigo'
+                type="search"
+                onChange={handleChange}
+              />
+
+              <Button
+                onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
+              </Button>
+
+            </div>
+
+            <br />
+
+            {/* BUSCA POR CATEGORIAS AQUI ABAIXO */}
+
+            <div className={styles.searchSection}>
+              {showElement ? search.map((sear) => {
+                return (
+                  <>
+                    <div key={sear.id} className={styles.categoryBoxSearch}>
+                      <div className={styles.categorySearch}>
+                        <Link className={styles.linkCategorySearch} href={`/categoryUpdate?category_id=${sear.id}`}>
+                          <div className={styles.listCategoriesSearch}>
+                            <div className={styles.nameCategorySearch}>{sear?.name}</div>
+                            <hr/>
+                            <div className={styles.datesSearch}>
+                              <span>Data de criação: {moment(sear?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                      <div className={styles.categoryDeleteSearch}>
+                        <Link className={styles.deleteCategorySearch} href={`/categoryDelete?category_id=${sear.id}`}>
+                          <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={18} />
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                )
+              }) : null}
+            </div>
+
+          </section>
+
+          <br />
           <br />
 
           <h5>Total de categorias por página</h5>
@@ -163,7 +245,7 @@ export default function Category({ categorysList }: CategoryProps) {
             </span>
           )}
 
-          <section className={styles.categorysSectionMain}>
+          <div className={styles.categorysSectionMain}>
             <div className={styles.categorysSection}>
               {categs.map((categ) => {
                 return (
@@ -227,9 +309,9 @@ export default function Category({ categorysList }: CategoryProps) {
               </div>
             </div>
 
-          </section>
-        </main>
-      </div>
+          </div>
+        </section>
+      </main>
       <FooterPainel />
     </>
   )
