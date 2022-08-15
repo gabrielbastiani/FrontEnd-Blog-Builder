@@ -14,10 +14,22 @@
  }
  
  .menuNav{
-   display: flex;
-   align-items: center;
+   ul{
+    list-style-type: none;
+    padding: 0;
+   }
+
+   ul li{
+    display: inline;
+    position: relative;
+   }
+
+   ul li a{
+    display: inline-block;
+   }
  
    a{
+      cursor: pointer;
       text-decoration: none;
       color: var(--white);
       padding: 0 0.5rem;
@@ -31,11 +43,21 @@
  
      &:hover{
        color: var(--orange);
+       border-bottom: 3px solid var(--orange);
      }
  
    }
  
  }
+
+ .submenu{
+    display: none;
+    position: absolute;
+ }
+
+ .submenu li:hover ul{
+  display: block;
+}
 
  @media (max-width: 622px){
   .headerContainer{

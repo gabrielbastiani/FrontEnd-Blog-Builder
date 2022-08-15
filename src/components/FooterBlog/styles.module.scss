@@ -4,7 +4,7 @@
   margin: 0 auto;
   padding: 55px 10rem;
 
-  h3{
+  h2{
     margin-bottom: 3px;
     color: var(--white);
   }
@@ -29,6 +29,33 @@
 
 .contentFooter{
   width: 310px;
+
+  a{
+    cursor: pointer;
+    display: flex;
+    color: var(--white);
+    text-decoration: none;
+    padding-bottom: 15px;
+    transition: color 0.7s;
+
+   &:hover{
+     color: var(--orange);
+   }
+
+ }
+
+ Link{
+  cursor: pointer;
+ }
+}
+
+.containerContacts{
+  display: flex;
+  padding-bottom: 20px;
+
+  p{
+    padding-left: 15px;
+  }
 }
 
 .copyrightFooter{
