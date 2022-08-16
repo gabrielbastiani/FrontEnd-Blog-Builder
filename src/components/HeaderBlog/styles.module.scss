@@ -13,84 +13,50 @@
    align-items: center;
  }
  
- .menuNav{
-   ul{
-    list-style-type: none;
-    padding: 0;
-   }
-
-   ul li{
-    display: inline;
-    position: relative;
-   }
-
-   ul li a{
-    display: inline-block;
-   }
- 
-   a{
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--white);
-      padding: 0 0.5rem;
-      display: inline-block;
-      position: relative;
-      transition: color 0.7s;
- 
-     & + a {
-       margin-left: 2rem;
-     }
- 
-     &:hover{
-       color: var(--orange);
-       border-bottom: 3px solid var(--orange);
-     }
- 
-   }
- 
+ .menuNav ul{
+  list-style-type: none;
+  padding: 0;
  }
 
- .submenu{
-    display: none;
-    position: absolute;
+ .menuNav li {
+  padding-right: 20px;
  }
 
- .submenu li:hover ul{
+ .menuNav ul li {
+  display: inline;
+  position: relative;
+}
+
+.menuNav ul li a {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+}
+
+.menuNav ul li a:hover {
+  color: var(--orange);
+  cursor: pointer;
+}
+
+/*sub menu*/
+.menuNav ul ul {
+  background-color: black;
+  display: none;
+  left: 0;
+  position: absolute;
+}
+
+.menuNav ul li:hover ul {
   display: block;
 }
 
- @media (max-width: 622px){
-  .headerContainer{
-    height: 12rem;
-    padding: 4%;
-  }
+.menuNav ul ul {
+  width: 230px;
+  padding-top: 33px;
+}
 
-  .headerContent{
-    flex-direction: column;
-
-    img{
-      padding-bottom: 0.5rem;
-    }
-
-    span{
-      padding-bottom: 0.7rem;
-    }
-
-    .dataUser{
-      width: 35%;
-    }
-
-    .userImg{
-      width: 30%;
-      height: 100%;
-     }
-  }
-
-  @media (max-width: 460px){
-    .dataUser{
-      width: 40%;
-      margin: 10px;
-    }
-  }
-
+.menuNav ul ul li a {
+  display: block;
+  cursor: pointer;
 }
