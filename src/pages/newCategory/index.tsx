@@ -98,7 +98,10 @@ export default function Category({ categorysList }: CategoryProps) {
   }
 
   async function handleRefreshCategory() {
-    Router.push('/newCategory')
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/category')
+      setCategs(response.data);
   }
 
   useEffect(() => {

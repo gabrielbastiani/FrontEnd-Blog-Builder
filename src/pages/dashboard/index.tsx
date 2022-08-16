@@ -63,7 +63,10 @@ export default function Dashboard() {
    }, []);
 
    async function handleRefreshArticle() {
-      Router.push('/dashboard')
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/article/filter')
+      setArticles(response.data);
    }
 
    useEffect(() => {
