@@ -13,7 +13,7 @@ export default function Home() {
       <HeaderBlog />
       <h1>BLOG</h1>
     </main>
-    <FooterBlog/>
+    {/* <FooterBlog/> */}
     </>
   )
 }

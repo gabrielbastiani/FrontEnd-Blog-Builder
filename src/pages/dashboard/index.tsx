@@ -10,7 +10,6 @@ import moment from 'moment';
 import { FaTrashAlt } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
-import Router from 'next/router'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
 import { Button } from '../../components/ui/Button/index';
