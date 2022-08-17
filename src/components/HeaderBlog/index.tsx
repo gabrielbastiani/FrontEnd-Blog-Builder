@@ -9,6 +9,9 @@ export function HeaderBlog() {
 
    const [categorys, setCategorys] = useState([]);
 
+   const [showMenu, setShowMenu] = useState(false);
+
+
    useEffect(() => {
       async function loadCategorys() {
          const response = await api.get('/category');
@@ -18,6 +21,10 @@ export function HeaderBlog() {
 
       loadCategorys();
    }, [])
+
+   const showOrHide = () => {
+      setShowMenu(!showMenu)
+   }
 
    return (
       <header className={styles.headerContainer}>
@@ -48,9 +55,11 @@ export function HeaderBlog() {
                </ul>
             </nav>
             
-            <GiHamburgerMenu className={styles.iconMobile} color='var(--white)' size={35} />
+            
+            <GiHamburgerMenu className={styles.iconMobile} color='var(--white)' size={35} onClick={showOrHide} />
 
-            <nav className={styles.menuNavMobile}>
+
+            {showMenu ? <nav className={styles.menuNavMobile}>
                <ul>
                   <li><Link href="/"><a>Inicio</a></Link></li>
                   <li><a>Categorias</a>
@@ -71,7 +80,7 @@ export function HeaderBlog() {
                   <li><Link href="https://builderseunegocioonline.com.br" target="_blank"><a>Nossos Serviços</a></Link></li>
                   <li><Link href="/sobre"><a>Sobre</a></Link></li>
                </ul>
-            </nav>
+            </nav>: null}
          </div>
       </header>
    )

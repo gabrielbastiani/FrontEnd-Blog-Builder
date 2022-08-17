@@ -84,50 +84,52 @@
     display: block !important;
   }
 
+  .menuNavMobile {
+    display: block !important;
+  }
+
+  .menuNavMobile ul ul li a {
+    display: block !important;
+  }
+
   .menuNavMobile ul {
     list-style-type: none;
-  }
-  
-  .menuNavMobile ul li {
-    display: inline;
-    position: relative;
+    position: absolute;
+    left: 0;
+    margin: 18px 160px;
   }
   
   .menuNavMobile ul li a {
     color: white;
     text-decoration: none;
-    display: inline-block;
     padding: 10px;
-  }
-  
-  .menuNavMobile ul li a:hover {
-    color: var(--orange);
-    cursor: pointer;
-  }
-
-  .menuNavMobile {
-    display: block !important;
   }
 
   .menuNavMobile ul ul {
     background-color: black;
-    display: none !important;
-    left: 0;
-    position: absolute;
     color: white;
-  }
-  
-  .menuNavMobile ul li:hover ul {
-    display: block !important;
   }
   
   .menuNavMobile ul ul {
     width: 230px;
-    padding-top: 33px;
   }
   
-  .menuNavMobile ul ul li a {
-    display: block !important;
-    cursor: pointer;
+}
+
+@media (max-width: 568px) {
+  .menuNavMobile ul {
+    margin: 18px 120px;
+  }
+}
+
+@media (max-width: 475px) {
+  .menuNavMobile ul {
+    margin: 18px 90px;
+  }
+}
+
+@media (max-width: 415px) {
+  .menuNavMobile ul {
+    margin: 18px 50px;
   }
 }
