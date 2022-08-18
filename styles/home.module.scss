@@ -1,0 +1,19 @@
+.sectionContent {
+   display: grid;
+   width: 100%;
+   grid-template-areas: "head head"
+      "nav  main"
+      "nav  foot";
+   grid-template-rows: 50px 1fr 30px;
+   grid-template-columns: 150px 1fr;
+}
+
+.sectionContent>nav {
+   grid-area: nav;
+   background-color: #ffa08c;
+}
+
+.sectionContent>article {
+   grid-area: main;
+   background-color: #ffff64;
+}

@@ -22,13 +22,36 @@
 }
 
 .sectionContentFooter{
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 20px;
+  display: flex;
+  grid-gap: 90px;
 }
 
 .contentFooter{
   width: 310px;
+
+  img{
+    cursor: pointer;
+   }
+
+   svg{
+    cursor: pointer;
+   }
+
+   ul{
+    padding-bottom: 15px;
+    list-style-type: none;
+   }
+
+   li{
+    color: var(--white);
+    transition: color 0.7s;
+    cursor: pointer;
+    padding-bottom: 5px;
+   }
+
+   li:hover{
+    color: var(--orange);
+   }
 
   a{
     cursor: pointer;
@@ -44,10 +67,15 @@
 
  }
 
- Link{
-  cursor: pointer;
- }
 }
+
+.emptyList{
+  color: var(--orange);
+ }
+
+ .dateArticles{
+  color: var(--orange);
+ }
 
 .containerContacts{
   display: flex;
@@ -55,15 +83,75 @@
 
   p{
     padding-left: 15px;
+    cursor: pointer;
+  }
+
+  span{
+    cursor: pointer;
   }
 }
 
 .copyrightFooter{
   display: flex;
   justify-content: center;
-  margin-top: 150px;
+  margin-top: 70px;
 
   h5{
     color: var(--white);
+  }
+}
+
+.menuNav ul {
+  list-style-type: none;
+}
+
+.menuNav ul li {
+  position: relative;
+}
+
+.menuNav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.menuNav ul li a:hover {
+  color: var(--orange);
+  cursor: pointer;
+}
+
+/*sub menu*/
+.menuNav ul ul {
+  background-color: black;
+  display: none;
+  left: 0;
+  position: absolute;
+  color: white;
+}
+
+.menuNav ul li:hover ul {
+  display: block;
+}
+
+.menuNav ul ul {
+  width: 230px;
+  z-index: 99;
+}
+
+.menuNav ul ul li a {
+  display: block;
+  cursor: pointer;
+}
+
+@media (max-width: 1150px){
+  .sectionContentFooter {
+    flex-direction: column;
+    grid-gap: 40px;
+  }
+}
+
+@media (max-width: 520px){
+  .footerContainer{
+    padding: 55px 2rem;
   }
 }
