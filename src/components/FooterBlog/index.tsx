@@ -142,6 +142,7 @@ export function FooterBlog() {
                      </li>
                      <li><Link href="https://builderseunegocioonline.com.br" target="_blank"><a>Nossos Serviços</a></Link></li>
                      <li><Link href="/sobre"><a>Sobre</a></Link></li>
+                     <li><Link href="/politicasDePrivacidade"><a>Politicas de Privacidade</a></Link></li>
                   </ul>
                </nav>
             </div>

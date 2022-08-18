@@ -1,466 +1,142 @@
 .container {
-   max-width: 1180px;
-   margin: 4rem auto;
-   padding: 0 2rem;
-   display: flex;
-   flex-direction: column;
- 
-   h1 {
-     font-size: 2em;
-   }
- 
-   table,
-   th,
-   td {
-     border: 1px solid black;
-     border-collapse: collapse;
-   }
- 
-   select {
-     width: 100%;
-     height: 40px;
-     border-radius: 0.3rem;
-     margin-bottom: 1rem;
-     color: var(--orange);
-     background-color: var(--black);
-     border: 1px solid var(--orange);
-     padding: 0 0.5rem;
-   }
- }
- 
- .tableContent {
-   width: 20%;
-   height: 10%;
- }
- 
- .descriptionText {
-   overflow: hidden;
-   text-overflow: ellipsis;
- }
- 
- .listArticles {
-   border: solid 1px;
-   display: flex;
-   flex-direction: row;
-   flex-wrap: nowrap;
-   height: 250px;
- 
-   .boxArticle {
-     width: 60%;
-     cursor: pointer;
-     align-self: center;
-     font-weight: 700;
-     font-size: 1.2rem;
-     padding: 5px 0;
-     padding-left: 1.8rem;
-     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-   }
- 
-   .dates {
-     width: 9%;
-     font-weight: lighter;
-     font-size: 0.7rem;
-     padding: 90px 10px 40px;
-     text-align: center;
- 
-     span {
-       padding: 3px 0;
-     }
-   }
- 
- }
- 
- .bannerArticle {
-   border-right: 1px solid;
-   width: 30%;
-   max-height: 100%;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   justify-content: center;
-   align-content: center;
-   display: flex;
- 
-   img {
-     object-fit: cover;
-   }
- }
- 
- .titleArticle {
-   background-color: var(--white);
-   text-align: center;
-   border: 1px solid;
-   padding: 20px 4px 20px;
-   font-size: 1.4rem;
-   font-weight: 900;
- }
- 
- .descriptionArticle {
-   border-right: 1px solid;
-   padding: 15px;
-   width: 60%;
-   white-space: pre;
-   overflow: hidden;
-   text-overflow: ellipsis;
- }
- 
- .articleUpdate {
-   cursor: pointer;
-   background-color: var(--black);
-   align-self: center;
-   padding: 45px;
-   height: 163px;
-   display: flex;
-   align-items: center;
-   border: 1px solid var(--gray);
- }
- 
- .deleteArticle {
-   cursor: pointer;
-   align-self: center;
-   background-color: var(--black);
-   align-self: center;
-   padding: 45px;
-   height: 163px;
-   display: flex;
-   align-items: center;
-   border: 1px solid var(--gray);
- }
- 
- .buttonRefresh {
-   margin-top: 2rem;
-   margin-bottom: 2rem;
-   height: 40px;
-   border: 0;
-   background-color: var(--red);
-   font-weight: 400;
-   font-size: 1.2rem;
-   border-radius: 0.3rem;
-   color: var(--white);
-   cursor: pointer;
- }
- 
- .refresh {
-   color: var(--white);
-   margin-right: 3%;
- }
- 
- .emptyList {
-   margin-top: 2rem;
- }
- 
- .articleBox {
-   width: 985px;
-   display: flex;
-   align-content: center;
-   align-items: center;
-   margin: 1rem 0 5rem 0;
- }
- 
- .article {
-   width: 100%;
- }
- 
- @media (max-width: 1155px) {
-   .articleBox {
-     flex-direction: column;
-     display: contents;
-   }
- 
-   .containerUpdate {
-     flex-direction: column;
-     width: 100%;
-   }
- 
-   .articleUpdate {
-     width: 100%;
-     height: 20%;
-     padding: 20px 0px 20px 400px;
-   }
- 
-   .deleteArticle {
-     width: 100%;
-     height: 20%;
-     padding: 20px 0px 20px 400px;
-     margin-bottom: 50px;
-   }
- }
- 
- @media (max-width: 760px) {
-   .bannerArticle {
-     width: 95%;
-   }
- 
-   .descriptionArticle {
-     display: none;
-   }
- 
-   .articleUpdate {
-     padding: 20px 0px 20px 300px;
-   }
- 
-   .deleteArticle {
-     padding: 20px 0px 20px 300px;
-   }
- 
-   .dates {
-     display: flex;
-     justify-content: center;
-     margin: 10px
-   }
- }
- 
- @media (max-width: 615px) {
-   .containerPagination {
-     flex-direction: column;
-   }
- }
- 
- @media (max-width: 455px) {
-   .page {
-     display: none;
-   }
- }
- 
- @media (max-width: 550px) {
-   .bannerArticle {
-     border-right: none;
-   }
- 
-   .articleUpdate {
-     padding: 20px 0px 20px 180px;
-   }
- 
-   .deleteArticle {
-     padding: 20px 0px 20px 180px;
-   }
- 
-   .dates {
-     display: none;
-   }
- }
- 
- .containerPagination {
-   display: flex;
-   justify-content: space-between;
- }
- 
- .totalArticles {
-   margin: 15px 5px;
- }
- 
- .containerArticlesPages {
-   display: flex;
- 
-   button {
-     margin: 0 15px;
-     padding: 5px 10px;
-     height: 40px;
-     border: 0;
-     background-color: var(--orange);
-     font-weight: bold;
-     font-size: 1.2rem;
-     border-radius: 0.3rem;
-     color: var(--black);
-     cursor: pointer;
-   }
- }
- 
- .page {
-   margin: 0 10px;
-   padding: 12px 10px;
-   cursor: pointer;
- 
-   &:hover {
-     background-color: var(--orange);
-     border-radius: 0.3rem;
-   }
- 
-   &:active {
-     background-color: var(--orange);
-     border-radius: 0.3rem;
-   }
- }
- 
- .sectionBoxSearch {
-   text-align: center;
- 
-   Input {
-     width: 73%;
-   }
- 
-   Button {
-     margin-left: 20px;
-     width: 25%;
-     padding: 10px;
-   }
- }
- 
- .searchSection {
-   display: grid;
-   grid-template-columns: auto auto auto auto;
-   grid-template-rows: auto auto;
-   grid-gap: 10px;
- }
- 
- .searchBox {
-   width: 270px;
-   display: flex;
-   margin: 1rem 0 1rem 0;
-   flex-direction: column;
- }
- 
- .listSearch {
-   display: flex;
-   flex-direction: row;
-   flex-wrap: nowrap;
-   height: 120px;
- 
-   .boxSearch {
-     width: 60%;
-     cursor: pointer;
-     align-self: center;
-     font-weight: 700;
-     font-size: 1.2rem;
-     padding: 5px 0;
-     padding-left: 1.8rem;
-     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-   }
- }
- 
- .bannerSearch {
-   border-right: 1px solid;
-   width: 30%;
-   max-height: 100%;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   justify-content: center;
-   align-content: center;
-   display: flex;
- 
-   img {
-     object-fit: cover;
-   }
- }
- 
- .titleSearch {
-   background-color: var(--white);
-   text-align: center;
-   border-bottom: 1px solid;
-   padding: 1px 3px 1px;
-   font-size: 13px;
-   font-weight: 900;
- }
- 
- .descriptionSearch {
-   font-size: 10px;
-   padding: 11px;
-   width: 100%;
-   white-space: normal;
-   overflow: hidden;
-   text-overflow: ellipsis;
- }
- 
- .containerUpdateDeleteSearch {
-   display: flex;
-   justify-content: center;
-   text-align: center;
- }
- 
- .dateSearch {
-   font-size: 10px;
-   border: 1px solid black;
-   padding: 5px;
- 
-   span {
-     font-size: 9px;
-   }
- }
- 
- .articleUpdateSearch {
-   cursor: pointer;
-   background-color: var(--black);
-   align-self: center;
-   padding: 5px;
-   align-items: center;
-   border: 1px solid var(--black);
-   width: 50%;
-   height: 100%;
- }
- 
- .deleteArticleSearch {
-   cursor: pointer;
-   background-color: var(--black);
-   align-self: center;
-   padding: 5px;
-   align-items: center;
-   border: 1px solid var(--black);
-   width: 50%;
-   height: 100%;
- }
- 
- .search {
-   width: 100%;
-   height: 100%;
-   border: 1px solid black;
- }
- 
- @media (max-width: 1050px) {
-   .sectionBoxSearch {
-     text-align: start;
- 
-     Input {
-       width: 71%;
-     }
-   }
- }
- 
- @media (max-width: 1150px) {
-   .searchSection {
-     grid-template-columns: auto auto auto auto auto;
-   }
- 
-   .searchBox {
-     width: 170px;
-   }
- 
-   .articleUpdateSearch {
-     padding: 5px 0 5px;
-   }
- 
-   .deleteArticleSearch {
-     padding: 5px 0 5px;
-   }
- }
- 
- @media (max-width: 925px) {
-   .searchSection {
-     grid-template-columns: auto auto auto auto;
-   }
- }
- 
- @media (max-width: 746px) {
-   .searchSection {
-     grid-template-columns: auto auto auto;
-   }
- }
- 
- @media (max-width: 566px) {
-   .searchSection {
-     grid-template-columns: auto auto;
-   }
- }
- 
- @media (max-width: 550px) {
-   .sectionBoxSearch {
-     
-     Input {
-       width: 65%;
-     }
-   }
- }
+  max-width: 1180px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 2em;
+  }
+
+}
+
+.containerSelect {
+  display: flex;
+  align-content: center;
+
+  h5 {
+    padding: 10px 0;
+    margin-right: 10px;
+  }
+
+  select {
+    width: 6%;
+    height: 40px;
+    border-radius: 0.3rem;
+    margin-bottom: 1rem;
+    color: var(--orange);
+    background-color: var(--black);
+    border: 1px solid var(--orange);
+    padding: 0 0.5rem;
+  }
+}
+
+.articlesSection{
+  margin-bottom: 60px;
+}
+
+.articleBox {
+  width: 820px;
+  margin-bottom: 90px;
+
+
+  hr{
+    width: 50%;
+    height: 4px;
+    border: 0px;
+    border-top: 1px solid var(--orange);
+    
+  }
+}
+
+.bannerArticle {
+  text-align: center;
+  padding: 35px 0;
+
+  img{
+    width: 740px;
+    height: 418px;
+    object-fit: contain;
+  }
+}
+
+.titleArticle {
+  margin-bottom: 10px;
+}
+
+.informationsArticle{
+  align-items: center;
+  display: flex;
+
+  span{
+    font-size: 13px;
+  }
+}
+
+.descriptionArticle {
+  height: 150px;
+  white-space: pre-line;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.articleMore{
+  margin: 20px 0;
+
+  Button{
+    padding: 10px;
+    font-size: 20px;
+  }
+}
+
+.arrowArticle{
+  margin: 0 10px;
+}
+
+.emptyList {
+  margin-top: 2rem;
+  color: var(--orange);
+}
+
+.containerPagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalArticles {
+  margin: 15px 5px;
+}
+
+.containerArticlesPages {
+  display: flex;
+
+  button {
+    margin: 0 15px;
+    padding: 5px 10px;
+    height: 40px;
+    border: 0;
+    background-color: var(--orange);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 0.3rem;
+    color: var(--black);
+    cursor: pointer;
+  }
+}
+
+.page {
+  margin: 0 10px;
+  padding: 12px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--orange);
+    border-radius: 0.3rem;
+  }
+
+  &:active {
+    background-color: var(--orange);
+    border-radius: 0.3rem;
+  }
+}

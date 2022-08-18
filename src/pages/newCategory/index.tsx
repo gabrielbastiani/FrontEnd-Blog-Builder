@@ -16,21 +16,10 @@ import moment from 'moment';
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
 
-type CategoryItems = {
-  id: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-}
 
-interface CategoryProps {
-  categorysList: CategoryItems[];
-}
-
-export default function Category({ categorysList }: CategoryProps) {
+export default function Category() {
 
   const [name, setName] = useState('')
-  const [categorys, setCategorys] = useState(categorysList || [])
 
   const [categs, setCategs] = useState([]);
   const [total, setTotal] = useState(0);

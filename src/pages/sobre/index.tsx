@@ -3,7 +3,7 @@ import { FooterBlog } from '../../components/FooterBlog/index'
 import { HeaderBlog } from '../../components/HeaderBlog/index'
 import styles from './styles.module.scss'
 
-export function Sobre(){
+export default function Sobre(){
 
    return(
       <>

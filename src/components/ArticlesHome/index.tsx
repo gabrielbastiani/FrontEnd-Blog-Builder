@@ -3,6 +3,9 @@ import styles from "./styles.module.scss"
 import Link from "../../../node_modules/next/link";
 import moment from 'moment';
 import { api } from '../../services/apiClient';
+import { BsCalendarCheck } from 'react-icons/bs'
+import { AiOutlineFolderOpen, AiOutlineArrowRight } from 'react-icons/ai'
+import { Button } from '../ui/Button/index';
 
 
 export function ArticleHome() {
@@ -18,7 +21,6 @@ export function ArticleHome() {
       async function loadArticles() {
          try {
             const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
-            /* setTotal(data?.articles?.length || 0); */
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
 
@@ -41,30 +43,12 @@ export function ArticleHome() {
       loadArticles();
    }, [currentPage, limit, total]);
 
-   const limits = useCallback((e) => {
-      setLimit(e.target.value);
-      setCurrentPage(1);
-   }, []);
-
 
    return (
       <>
          <main className={styles.dashboard}>
 
             <section className={styles.container}>
-
-               <h5>Total de artigos por página</h5>
-
-               <br />
-
-               <select onChange={limits}>
-                  <option value="4">4</option>
-                  <option value="8">8</option>
-                  <option value="12">12</option>
-                  <option value="20">20</option>
-               </select>
-
-               <br />
 
                {articles.length === 0 && (
                   <span className={styles.emptyList}>
@@ -80,28 +64,25 @@ export function ArticleHome() {
                      return (
                         <>
                            <div key={articl.id} className={styles.articleBox}>
-                              <div className={styles.article}>
-                                 <div className={styles.boxArticle}>
-                                    <div className={styles.titleArticle}>{articl?.title}</div>
-                                    <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
-                                    </div>
-                                 </div>
+                              <div className={styles.titleArticle}>
+                                 <h1>{articl.title}</h1>
                               </div>
-                              <div className={styles.containerUpdate}>
-                                 <div className={styles.articleUpdate}>
-                                    {/* <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articl.id}`}>
-
-                                    </Link> */}
-                                 </div>
-                                 <div className={styles.deleteArticle}>
-                                    {/* <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
-
-                                    </Link> */}
-                                 </div>
+                              <div className={styles.informationsArticle}>
+                                 <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
+                                 <span><AiOutlineFolderOpen color='var(--red)' size={25} /></span>
                               </div>
+                              <div className={styles.bannerArticle}>
+                                 <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
+                              </div>
+                              <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
+                              
+                              <Link href={`/articlePage?article_id=${articl.id}`}>
+                              <div className={styles.articleMore}>                            
+                                 <Button>Ler mais...</Button>
+                                 <AiOutlineArrowRight className={styles.arrowArticle} color='var(--red)' size={30}/>
+                              </div>
+                              </Link>
+                              <hr />
                            </div>
                         </>
                      )
