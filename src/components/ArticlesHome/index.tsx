@@ -20,7 +20,7 @@ export function ArticleHome() {
    useEffect(() => {
       async function loadArticles() {
          try {
-            const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
+            const { data } = await api.get(`/article/published/blog?page=${currentPage}&limit=${limit}`);
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
 

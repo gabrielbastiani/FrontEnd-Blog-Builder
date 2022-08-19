@@ -37,9 +37,10 @@
 }
 
 .articleBox {
-  width: 820px;
+  background-color: var(--white);
+  width: 940px;
   margin-bottom: 90px;
-
+  padding: 28px;
 
   hr{
     width: 50%;
@@ -51,7 +52,6 @@
 }
 
 .bannerArticle {
-  text-align: center;
   padding: 35px 0;
 
   img{

@@ -10,6 +10,7 @@ import moment from 'moment';
 import { FaTrashAlt } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
+import { MdPublish } from 'react-icons/md'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
 import { Button } from '../../components/ui/Button/index';
@@ -100,6 +101,7 @@ export default function Dashboard() {
       setShowElement(!showElement)
    }
 
+
    return (
       <>
          <Head>
@@ -169,6 +171,11 @@ export default function Dashboard() {
                                  <div className={styles.deleteArticleSearch}>
                                     <Link className={styles.deleteArticleSearch} href={`/articleDelete?article_id=${sear.id}`}>
                                        <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={20} />
+                                    </Link>
+                                 </div>
+                                 <div className={styles.publishArticleSearch}>
+                                    <Link className={styles.publishArticleSearch} href={`/articlePublish?article_id=${sear.id}`}>
+                                       <MdPublish className={styles.publishSearch} color='var(--red)' size={20} />
                                     </Link>
                                  </div>
                               </div>
@@ -252,6 +259,11 @@ export default function Dashboard() {
                                  <div className={styles.deleteArticle}>
                                     <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
                                        <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
+                                    </Link>
+                                 </div>
+                                 <div className={styles.publishArticle}>
+                                    <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
+                                       <MdPublish className={styles.publish} color='var(--red)' size={35}/>
                                     </Link>
                                  </div>
                               </div>

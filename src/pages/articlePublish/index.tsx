@@ -10,11 +10,11 @@ import Link from '../../../node_modules/next/link';
 import { toast } from 'react-toastify'
 
 
-export default function ArticleDelete() {
+export default function ArticlePublish() {
 
     const router = useRouter()
 
-    async function handleArticleDelete() {
+    async function handleArticlePublish() {
 
         try {
 
@@ -22,15 +22,15 @@ export default function ArticleDelete() {
         
             const article_id = router.query.article_id
 
-            await apiClient.delete(`/article/remove?article_id=${article_id}`)
+            await apiClient.put(`/article/published?article_id=${article_id}`)
 
-            toast.success('Artigo deletado com sucesso.')
+            toast.success('Artigo publicado com sucesso no blog.')
 
             Router.push('/dashboard')
 
         } catch (err) {
 
-            toast.error('Ops erro ao deletar')
+            toast.error('Ops erro ao publicar no blog')
 
         }
 
@@ -41,22 +41,20 @@ export default function ArticleDelete() {
         <>
 
             <Head>
-                <title>Deletar Artigo - Builder Seu Negócio Online</title>
+                <title>Publicar Artigo - Builder Seu Negócio Online</title>
             </Head>
 
             <main className={styles.container}>
 
                 <section className={styles.containerContent}>
 
-                    <h2>Deseja mesmo deletar esse artigo?</h2>
-
-                    <span>Se deleta-la, ela será desvinculada do(s) artigo(s) que pertence no momento.</span>
+                    <h2>Deseja mesmo publicar esse artigo no blog?</h2>
 
                     <Button
                         className={styles.buttonUpdate}
-                        onClick={() => handleArticleDelete()}
+                        onClick={() => handleArticlePublish()}
                     >
-                        Deletar
+                        Publicar
                     </Button>
 
                     <Link href={'/dashboard'}>
