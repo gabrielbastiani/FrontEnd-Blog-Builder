@@ -16,21 +16,26 @@ export function ArticleHome() {
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
+   const [publishedBlog, setPublishedBlog] = useState(false);
+
 
    useEffect(() => {
       async function loadArticles() {
          try {
             const { data } = await api.get(`/article/published/blog?page=${currentPage}&limit=${limit}`);
-            setTotal(data?.total);
-            const totalPages = Math.ceil(total / limit);
+               setTotal(data?.total);
+               const totalPages = Math.ceil(total / limit);
 
-            const arrayPages = [];
-            for (let i = 1; i <= totalPages; i++) {
+               const arrayPages = [];
+
+               for (let i = 1; i <= totalPages; i++) {
                arrayPages.push(i);
-            }
 
-            setPages(arrayPages);
-            setArticles(data?.articles || []);
+               setPages(arrayPages);
+               setArticles(data?.articles || []);
+               setPublishedBlog()
+            
+            }
 
          } catch (error) {
 
