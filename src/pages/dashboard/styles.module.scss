@@ -58,18 +58,36 @@
     text-overflow: ellipsis;
   }
 
-  .dates {
-    width: 9%;
-    font-weight: lighter;
-    font-size: 0.7rem;
-    padding: 90px 10px 40px;
+  .datesAndPublish{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 11%;
     text-align: center;
 
-    span {
-      padding: 3px 0;
+    hr{
+      width: 100%;
+      height: 2px;
+      border: 0px;
+      border-top: 1px solid var(--black);
+      margin: 2px;
+    }
+
+    span{
+      padding: 2px;
+      font-size: 14px;
+      line-height: 1.3rem;
     }
   }
 
+}
+
+.nao{
+  background-color: var(--red);
+}
+
+.sim{
+  background-color: green;
 }
 
 .bannerArticle {
@@ -110,7 +128,8 @@
   cursor: pointer;
   background-color: var(--black);
   align-self: center;
-  padding: 35px;
+  padding: 25px;
+  justify-content: center;
   width: 100px;
   display: flex;
   align-items: center;
@@ -119,10 +138,10 @@
 
 .deleteArticle {
   cursor: pointer;
-  align-self: center;
   background-color: var(--black);
   align-self: center;
-  padding: 35px;
+  padding: 25px;
+  justify-content: center;
   width: 100px;
   display: flex;
   align-items: center;
@@ -133,7 +152,20 @@
   cursor: pointer;
   align-self: center;
   background-color: var(--black);
-  padding: 35px;
+  padding: 25px;
+  justify-content: center;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray);
+}
+
+.despublishArticle {
+  cursor: pointer;
+  align-self: center;
+  background-color: var(--black);
+  padding: 25px;
+  justify-content: center;
   width: 100px;
   display: flex;
   align-items: center;
@@ -188,19 +220,21 @@
   .articleUpdate {
     width: 100%;
     height: 20%;
-    padding: 20px 0px 20px 400px;
   }
 
   .deleteArticle {
     width: 100%;
     height: 20%;
-    padding: 20px 0px 20px 400px;
   }
 
   .publishArticle {
     width: 100%;
     height: 20%;
-    padding: 20px 0px 20px 400px;
+  }
+
+  .despublishArticle {
+    width: 100%;
+    height: 20%;
     margin-bottom: 50px;
   }
 }
@@ -214,22 +248,10 @@
     display: none;
   }
 
-  .articleUpdate {
-    padding: 20px 0px 20px 300px;
-  }
-
-  .deleteArticle {
-    padding: 20px 0px 20px 300px;
-  }
-
-  .publishArticle {
-    padding: 20px 0px 20px 300px;
-  }
-
-  .dates {
+  .datesAndPublish {
     display: flex;
     justify-content: center;
-    margin: 10px
+    margin: 10px;
   }
 }
 
@@ -250,20 +272,8 @@
     border-right: none;
   }
 
-  .articleUpdate {
-    padding: 20px 0px 20px 180px;
-  }
-
-  .deleteArticle {
-    padding: 20px 0px 20px 180px;
-  }
-
-  .publishArticle {
-    padding: 20px 0px 20px 180px;
-  }
-
-  .dates {
-    display: none;
+  .datesAndPublish {
+    display: none !important;
   }
 }
 
@@ -397,12 +407,23 @@
   text-align: center;
 }
 
-.dateSearch {
-  font-size: 10px;
+.datesAndPublishSearch {
   border: 1px solid black;
-  padding: 5px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+  hr{
+    width: 100%;
+    height: 2px;
+    border: 0px;
+    border-top: 1px solid var(--black);
+    margin: 2px;
+  }
 
   span {
+    padding: 2px;
     font-size: 9px;
   }
 }
@@ -410,8 +431,8 @@
 .articleUpdateSearch {
   cursor: pointer;
   background-color: var(--black);
-  align-self: center;
-  padding: 5px;
+  justify-content: center;
+  display: flex;
   align-items: center;
   border: 1px solid var(--black);
   width: 50%;
@@ -421,8 +442,8 @@
 .deleteArticleSearch {
   cursor: pointer;
   background-color: var(--black);
-  align-self: center;
-  padding: 5px;
+  justify-content: center;
+  display: flex;
   align-items: center;
   border: 1px solid var(--black);
   width: 50%;
@@ -432,8 +453,19 @@
 .publishArticleSearch {
   cursor: pointer;
   background-color: var(--black);
-  align-self: center;
-  padding: 5px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--black);
+  width: 50%;
+  height: 100%;
+}
+
+.despublishArticleSearch {
+  cursor: pointer;
+  background-color: var(--black);
+  justify-content: center;
+  display: flex;
   align-items: center;
   border: 1px solid var(--black);
   width: 50%;
@@ -474,6 +506,10 @@
   }
 
   .publishArticleSearch {
+    padding: 5px 0 5px;
+  }
+
+  .despublishArticleSearch {
     padding: 5px 0 5px;
   }
 }

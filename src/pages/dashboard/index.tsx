@@ -11,6 +11,7 @@ import { FaTrashAlt } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { MdPublish } from 'react-icons/md'
+import { AiOutlineDeleteColumn } from 'react-icons/ai'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
 import { Button } from '../../components/ui/Button/index';
@@ -23,6 +24,14 @@ export default function Dashboard() {
    const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
+
+   const [publish, setPublish] = useState([]);
+   const [totalPublish, setTotalPublish] = useState(0);
+   const [limitPublish, setLimitPublish] = useState(4);
+   const [pagesPublish, setPagesPublish] = useState([]);
+   const [currentPagePublish, setCurrentPagePublish] = useState(1);
+
+   
 
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
@@ -62,6 +71,34 @@ export default function Dashboard() {
       setCurrentPage(1);
    }, []);
 
+   useEffect(() => {
+      async function publishArticle() {
+         try {
+            const { data } = await api.get(`/article/published/blog?page=${currentPagePublish}&limit=${limitPublish}`);
+               setTotalPublish(data?.total);
+               const totalPagesPublish = Math.ceil(totalPublish / limitPublish);
+
+               const arrayPagesPublish = [];
+
+               for (let i = 1; i <= totalPagesPublish; i++) {
+               arrayPagesPublish.push(i);
+
+               setPagesPublish(arrayPagesPublish);
+               setPublish(data?.publish || []);
+            
+            }
+
+         } catch (error) {
+
+            console.error(error);
+            alert('Error call api list article');
+
+         }
+      }
+
+      publishArticle();
+   }, [currentPagePublish, limitPublish, totalPublish]);
+
    async function handleRefreshArticle() {
       const apiClient = setupAPIClient();
 
@@ -99,6 +136,14 @@ export default function Dashboard() {
 
    const showOrHide = () => {
       setShowElement(!showElement)
+   }
+
+   const renderOk = () => {
+      return <p className={styles.sim}>SIM</p>
+   }
+
+   const renderNo = () => {
+      return <p className={styles.nao}>NÃO</p>
    }
 
 
@@ -162,20 +207,29 @@ export default function Dashboard() {
                                  </div>
                               </div>
                               <div className={styles.containerUpdateDeleteSearch}>
-                                 <div className={styles.dateSearch}><span>Data do artigo: {moment(sear?.created_at).format('DD/MM/YYYY - HH:mm')}</span></div>
+                                 <div className={styles.datesAndPublishSearch}>
+                                    <span>Data do artigo: {moment(sear?.created_at).format('DD/MM/YYYY - HH:mm')}</span>
+                                    <hr />
+                                    <span>Esta publicado? {sear?.published && renderOk() || renderNo()}</span>
+                                 </div>
                                  <div className={styles.articleUpdateSearch}>
                                     <Link className={styles.articleUpdateSearch} href={`/articleUpdate?article_id=${sear.id}`}>
-                                       <FiEdit className={styles.editSearch} color='var(--red)' size={20} />
+                                       <FiEdit className={styles.editSearch} color='var(--red)' size={17} />
                                     </Link>
                                  </div>
                                  <div className={styles.deleteArticleSearch}>
                                     <Link className={styles.deleteArticleSearch} href={`/articleDelete?article_id=${sear.id}`}>
-                                       <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={20} />
+                                       <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={17} />
                                     </Link>
                                  </div>
                                  <div className={styles.publishArticleSearch}>
                                     <Link className={styles.publishArticleSearch} href={`/articlePublish?article_id=${sear.id}`}>
-                                       <MdPublish className={styles.publishSearch} color='var(--red)' size={20} />
+                                       <MdPublish className={styles.publishSearch} color='var(--red)' size={17} />
+                                    </Link>
+                                 </div>
+                                 <div className={styles.despublishArticleSearch}>
+                                    <Link className={styles.despublishArticSearch} href={`/articleDespublish?article_id=${sear.id}`}>
+                                       <AiOutlineDeleteColumn className={styles.despublishSearch} color='var(--red)' size={17} />
                                     </Link>
                                  </div>
                               </div>
@@ -246,24 +300,33 @@ export default function Dashboard() {
                                     <div className={styles.listArticles}>
                                        <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
                                        <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
-                                       <div className={styles.dates}><span>Data de criação do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span></div>
+                                       <div className={styles.datesAndPublish}>
+                                          <span>Data do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                                          <hr/>
+                                          <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
+                                       </div>
                                     </div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>
                                  <div className={styles.articleUpdate}>
                                     <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articl.id}`}>
-                                       <FiEdit className={styles.edit} color='var(--red)' size={35} />
+                                       <FiEdit className={styles.edit} color='var(--red)' size={30} />
                                     </Link>
                                  </div>
                                  <div className={styles.deleteArticle}>
                                     <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
-                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={35} />
+                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
                                     </Link>
                                  </div>
                                  <div className={styles.publishArticle}>
                                     <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
-                                       <MdPublish className={styles.publish} color='var(--red)' size={35}/>
+                                       <MdPublish className={styles.publish} color='var(--red)' size={30}/>
+                                    </Link>
+                                 </div>
+                                 <div className={styles.despublishArticle}>
+                                    <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articl.id}`}>
+                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30}/>
                                     </Link>
                                  </div>
                               </div>

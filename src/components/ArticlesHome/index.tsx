@@ -16,8 +16,6 @@ export function ArticleHome() {
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
-   const [publishedBlog, setPublishedBlog] = useState(false);
-
 
    useEffect(() => {
       async function loadArticles() {
@@ -33,7 +31,6 @@ export function ArticleHome() {
 
                setPages(arrayPages);
                setArticles(data?.articles || []);
-               setPublishedBlog()
             
             }
 
@@ -47,6 +44,7 @@ export function ArticleHome() {
 
       loadArticles();
    }, [currentPage, limit, total]);
+
 
 
    return (
