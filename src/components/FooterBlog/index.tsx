@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '../../services/apiClient';
 import styles from './styles.module.scss'
 import Link from 'next/link'
@@ -20,33 +20,25 @@ export function FooterBlog() {
    useEffect(() => {
       async function loadArticles() {
          try {
-            const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
-            /* setTotal(data?.articles?.length || 0); */
+            const { data } = await api.get(`/article/published/blog?page=${currentPage}&limit=${limit}`);
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
 
             const arrayPages = [];
             for (let i = 1; i <= totalPages; i++) {
                arrayPages.push(i);
+
+               setArticles(data?.articles || []);
             }
-
-            setArticles(data?.articles || []);
-
          } catch (error) {
-
             console.error(error);
             alert('Error call api list article');
-
          }
       }
 
       loadArticles();
    }, [currentPage, limit, total]);
 
-   const limits = useCallback((e) => {
-      setLimit(e.target.value);
-      setCurrentPage(1);
-   }, []);
 
    useEffect(() => {
       async function loadCategorys() {

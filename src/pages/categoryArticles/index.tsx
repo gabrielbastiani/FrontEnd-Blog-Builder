@@ -10,6 +10,9 @@ export default function CategoryArticles() {
 
     const [articelesCategory, setArticlesCategory] = useState([]);
 
+    const [categories, setCategories] = useState([])
+    const [categorySelected, setCategorySelected] = useState(0)
+
     console.log(articelesCategory)
 
     const router = useRouter()
@@ -27,6 +30,22 @@ export default function CategoryArticles() {
 
         loadArticlesCategory()
     }, [router.query.category_id])
+
+
+
+
+    useEffect(() => {
+        async function loadCategory() {
+            const categoryid = router.query.item_id
+            const responseProduct = await api.get(`/article/exact?category_id=${categoryid}`)
+            const { category_id } = responseProduct.data
+            let categoryFilter = categories.filter(result => result.id.match(category_id));
+
+            setCategories(categoryFilter)
+        }
+
+        loadCategory()
+    }, [])
 
 
 
@@ -50,7 +69,7 @@ export default function CategoryArticles() {
                         return (
                             <>
                                 <div key={article.id}>
-                                    <span>{article?.category_id.name}</span>
+                                    <span>{article?.category_id}</span>
                                     <span>{article?.title}</span>
                                     <span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                                     <span><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></span>
