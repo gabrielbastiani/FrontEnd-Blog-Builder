@@ -68,7 +68,7 @@ export function ArticleHome() {
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
                                  <span><AiOutlineFolderOpen color='var(--red)' size={25} />
-                                    
+                                    {articl.name}
                                  </span>
                               </div>
                               <div className={styles.bannerArticle}>
