@@ -123,8 +123,8 @@ export function FooterBlog() {
                               {categorys.map((category) => {
                                  return (
                                     <>
-                                       <Link href={`/categoryArticles?category_id=${category.id}`}>
-                                          <li><a>{category?.name}</a></li>
+                                       <Link href={`/categoryPage?name=${category.categoryName}`}>
+                                          <li><a>{category?.categoryName}</a></li>
                                        </Link>
                                     </>
                                  )

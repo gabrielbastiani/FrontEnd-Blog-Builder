@@ -69,8 +69,15 @@
   align-items: center;
   display: flex;
 
+  svg{
+    margin: 8px;
+  }
+
   span{
     font-size: 13px;
+    display: flex;
+    align-items: center;
+    align-content: center;
   }
 }
 

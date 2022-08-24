@@ -19,7 +19,7 @@ import { Button } from '../../components/ui/Button/index'
 
 export default function Category() {
 
-  const [name, setName] = useState('')
+  const [categoryName, setCategoryName] = useState('')
 
   const [categs, setCategs] = useState([]);
   const [total, setTotal] = useState(0);
@@ -67,7 +67,7 @@ export default function Category() {
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
-    if (name === '') {
+    if (categoryName === '') {
 
       toast.error('Digite algum nome para sua categoria!')
 
@@ -76,11 +76,11 @@ export default function Category() {
 
     const apiClient = setupAPIClient();
     await apiClient.post('/category', {
-      name: name
+      categoryName: categoryName
     })
 
     toast.success('Categoria cadastrada com sucesso!')
-    setName('');
+    setCategoryName('');
 
     Router.push('/newCategory')
 
@@ -117,7 +117,7 @@ export default function Category() {
       return;
     }
 
-    const filterArticles = search.filter((filt) => filt.name.toLowerCase().includes(target.value));
+    const filterArticles = search.filter((filt) => filt.categoryName.toLowerCase().includes(target.value));
     setSearch(filterArticles);
   }
 
@@ -147,8 +147,8 @@ export default function Category() {
               type="text"
               placeholder="Digite o nome da categoria"
               className={styles.input}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
             />
 
             <button className={styles.buttonAdd} type="submit">
@@ -191,7 +191,7 @@ export default function Category() {
                       <div className={styles.categorySearch}>
                         <Link className={styles.linkCategorySearch} href={`/categoryUpdate?category_id=${sear.id}`}>
                           <div className={styles.listCategoriesSearch}>
-                            <div className={styles.nameCategorySearch}>{sear?.name}</div>
+                            <div className={styles.nameCategorySearch}>{sear?.categoryName}</div>
                             <hr/>
                             <div className={styles.datesSearch}>
                               <span>Data de criação: {moment(sear?.created_at).format('DD/MM/YYYY HH:mm')}</span>
@@ -246,7 +246,7 @@ export default function Category() {
                       <div className={styles.category} key={categ.id}>
                         <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categ.id}`}>
                           <div className={styles.listCategories}>
-                            <div className={styles.nameCategory}>{categ?.name}</div>
+                            <div className={styles.nameCategory}>{categ?.categoryName}</div>
                             <div className={styles.dates}>
                               <span>Data de criação: {moment(categ?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                             </div>

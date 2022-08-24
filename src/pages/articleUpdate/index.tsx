@@ -17,7 +17,7 @@ import Link from '../../../node_modules/next/link'
 
 type ItemProps = {
     id: string
-    name: string
+    categoryName: string
 }
 
 interface CategoryProps {
@@ -87,7 +87,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
             data.append('file', imageBanner)
             data.append('title', title)
-            data.append('category_id', categories[categorySelected].id)
+            data.append('categoryName', categories[categorySelected].categoryName)
             data.append('description', description)
 
             const apiClient = setupAPIClient()
@@ -155,7 +155,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
                             {categories.map((item, index) => {
                                 return (
                                     <option key={item.id} value={index}>
-                                        {item.name}
+                                        {item.categoryName}
                                     </option>
                                 )
                             })}

@@ -13,7 +13,7 @@ import { Input } from '../../components/ui/Input/index'
 
 export default function Category() {
 
-    const [name, setName] = useState('')
+    const [categoryName, setCategoryName] = useState('')
 
     const router = useRouter()
 
@@ -23,7 +23,7 @@ export default function Category() {
         try {
             const data = new FormData()
 
-            if (name === '') {
+            if (categoryName === '') {
 
                 toast.error('Digite algum nome para sua categoria!')
 
@@ -34,7 +34,7 @@ export default function Category() {
 
             const apiClient = setupAPIClient()
 
-            await apiClient.put(`/category/update?category_id=${category_id}`, { name })
+            await apiClient.put(`/category/update?category_id=${category_id}`, { categoryName })
 
             toast.success('Categoria atualizada com sucesso.')
 
@@ -64,8 +64,8 @@ export default function Category() {
                             type="text"
                             placeholder={'Digite novo nome de categoria!'}
                             className={styles.input}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={categoryName}
+                            onChange={(e) => setCategoryName(e.target.value)}
                         />
 
                         <Button

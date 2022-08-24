@@ -26,6 +26,7 @@ export function HeaderBlog() {
       setShowMenu(!showMenu)
    }
 
+
    return (
       <header className={styles.headerContainer}>
          <div className={styles.headerContent}>
@@ -41,8 +42,8 @@ export function HeaderBlog() {
                      {categorys.map((category) => {
                         return (
                            <>
-                              <Link href={`/categoryArticles?category_id=${category.id}`}>
-                                 <li><a>{category?.name}</a></li>
+                              <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
+                                 <li><a>{category?.categoryName}</a></li>
                               </Link>
                            </>
                         )
@@ -68,8 +69,8 @@ export function HeaderBlog() {
                      {categorys.map((category) => {
                         return (
                            <>
-                              <Link href={`/categoryArticles?category_id=${category.id}`}>
-                                 <li><a>{category?.name}</a></li>
+                              <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
+                                 <li><a>{category?.categoryName}</a></li>
                               </Link>
                            </>
                         )

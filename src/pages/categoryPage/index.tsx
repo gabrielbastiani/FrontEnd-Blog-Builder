@@ -4,20 +4,21 @@ import styles from './styles.module.scss'
 import { useRouter } from 'next/router'
 import Head from "../../../node_modules/next/head";
 import moment from 'moment';
+import { HeaderBlog } from "../../components/HeaderBlog/index";
+import { FooterBlog } from "../../components/FooterBlog/index";
 
 
 export default function CategoryPage() {
 
     const [articelesCategory, setArticlesCategory] = useState([]);
 
-    console.log(articelesCategory)
-
     const router = useRouter()
+
 
     useEffect(() => {
         async function loadArticlesCategory() {
-            const name = router.query.name;
-            const response = await api.get(`/category/article?name=${name}`);
+            const categoryName = router.query.categoryName;
+            const response = await api.get(`/category/article?categoryName=${categoryName}`);
 
             const articles = response.data;
 
@@ -26,7 +27,7 @@ export default function CategoryPage() {
         }
 
         loadArticlesCategory()
-    }, [router.query.name])
+    }, [router.query.categoryName])
 
 
     return (
@@ -36,6 +37,8 @@ export default function CategoryPage() {
             </Head>
 
             <main className={styles.sectionCategory}>
+
+                <HeaderBlog />
 
                 <section className={styles.sectionArticles}>
                     
@@ -49,7 +52,7 @@ export default function CategoryPage() {
                         return (
                             <>
                                 <div key={article.id}>
-                                    <span>{article?.category_id}</span>
+                                    <span>{article?.categoryName}</span>
                                     <span>{article?.title}</span>
                                     <span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                                     <span><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></span>
@@ -59,6 +62,9 @@ export default function CategoryPage() {
                         )
                     })}
                 </section>
+
+                <FooterBlog />
+
             </main>
         </>
     )

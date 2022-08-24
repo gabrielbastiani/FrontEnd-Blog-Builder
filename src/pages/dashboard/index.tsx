@@ -31,7 +31,7 @@ export default function Dashboard() {
    const [pagesPublish, setPagesPublish] = useState([]);
    const [currentPagePublish, setCurrentPagePublish] = useState(1);
 
-   
+
 
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
@@ -75,17 +75,17 @@ export default function Dashboard() {
       async function publishArticle() {
          try {
             const { data } = await api.get(`/article/published/blog?page=${currentPagePublish}&limit=${limitPublish}`);
-               setTotalPublish(data?.total);
-               const totalPagesPublish = Math.ceil(totalPublish / limitPublish);
+            setTotalPublish(data?.total);
+            const totalPagesPublish = Math.ceil(totalPublish / limitPublish);
 
-               const arrayPagesPublish = [];
+            const arrayPagesPublish = [];
 
-               for (let i = 1; i <= totalPagesPublish; i++) {
+            for (let i = 1; i <= totalPagesPublish; i++) {
                arrayPagesPublish.push(i);
 
                setPagesPublish(arrayPagesPublish);
                setPublish(data?.publish || []);
-            
+
             }
 
          } catch (error) {
@@ -177,15 +177,15 @@ export default function Dashboard() {
                <br />
 
                <div className={styles.sectionBoxSearch}>
-               <Input
-                  placeholder='Busca por artigo'
-                  type="search"
-                  onChange={handleChange}
-               />
+                  <Input
+                     placeholder='Busca por artigo'
+                     type="search"
+                     onChange={handleChange}
+                  />
 
-               <Button
-                  onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
-               </Button>
+                  <Button
+                     onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
+                  </Button>
                </div>
 
                <br />
@@ -193,10 +193,10 @@ export default function Dashboard() {
                {/* BUSCA POR ARTIGOS AQUI ABAIXO */}
 
                <section className={styles.searchSection}>
-               {showElement ? search.map((sear) => {
-                  return (
-                     <>
-                        <div key={sear.id} className={styles.searchBox}>
+                  {showElement ? search.map((sear) => {
+                     return (
+                        <>
+                           <div key={sear.id} className={styles.searchBox}>
                               <div className={styles.search}>
                                  <div className={styles.boxSearch}>
                                     <div className={styles.titleSearch}>{sear?.title}</div>
@@ -208,6 +208,8 @@ export default function Dashboard() {
                               </div>
                               <div className={styles.containerUpdateDeleteSearch}>
                                  <div className={styles.datesAndPublishSearch}>
+                                    <span>Categoria: {sear?.categoryName}</span>
+                                    <hr />
                                     <span>Data do artigo: {moment(sear?.created_at).format('DD/MM/YYYY - HH:mm')}</span>
                                     <hr />
                                     <span>Esta publicado? {sear?.published && renderOk() || renderNo()}</span>
@@ -234,9 +236,9 @@ export default function Dashboard() {
                                  </div>
                               </div>
                            </div>
-                     </>
-                  )
-               }) : null}
+                        </>
+                     )
+                  }) : null}
                </section>
 
                <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
@@ -301,8 +303,10 @@ export default function Dashboard() {
                                        <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
                                        <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
                                        <div className={styles.datesAndPublish}>
+                                          <span>Categoria: {articl?.categoryName}</span>
+                                          <hr />
                                           <span>Data do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span>
-                                          <hr/>
+                                          <hr />
                                           <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
                                        </div>
                                     </div>
@@ -321,12 +325,12 @@ export default function Dashboard() {
                                  </div>
                                  <div className={styles.publishArticle}>
                                     <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
-                                       <MdPublish className={styles.publish} color='var(--red)' size={30}/>
+                                       <MdPublish className={styles.publish} color='var(--red)' size={30} />
                                     </Link>
                                  </div>
                                  <div className={styles.despublishArticle}>
                                     <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articl.id}`}>
-                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30}/>
+                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
                                     </Link>
                                  </div>
                               </div>

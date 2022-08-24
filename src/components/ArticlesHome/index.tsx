@@ -5,8 +5,8 @@ import moment from 'moment';
 import { api } from '../../services/apiClient';
 import { BsCalendarCheck } from 'react-icons/bs'
 import { AiOutlineFolderOpen, AiOutlineArrowRight } from 'react-icons/ai'
+import { BiEdit } from 'react-icons/bi'
 import { Button } from '../ui/Button/index';
-import { useRouter } from '../../../node_modules/next/router'
 
 
 export function ArticleHome() {
@@ -67,8 +67,9 @@ export function ArticleHome() {
                               </div>
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
+                                 <span><BiEdit color='var(--red)' size={20} /></span>
                                  <span><AiOutlineFolderOpen color='var(--red)' size={25} />
-                                    {articl.name}
+                                    {articl.categoryName}
                                  </span>
                               </div>
                               <div className={styles.bannerArticle}>

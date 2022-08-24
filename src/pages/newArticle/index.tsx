@@ -15,7 +15,7 @@ import Router from 'next/router'
 
 type ItemProps = {
    id: string;
-   name: string;
+   categoryName: string;
 }
 
 type ArticleProps = {
@@ -88,7 +88,7 @@ export default function Article({ categoryList }: CategoryProps) {
 
          data.append('title', title);
          data.append('description', description);
-         data.append('category_id', categories[categorySelected].id);
+         data.append('categoryName', categories[categorySelected].categoryName);
          data.append('file', imageBanner);
 
          const apiClient = setupAPIClient();
@@ -163,7 +163,7 @@ export default function Article({ categoryList }: CategoryProps) {
                      {categories.map((item, index) => {
                         return (
                            <option key={item.id} value={index}>
-                              {item.name}
+                              {item?.categoryName}
                            </option>
                         )
                      })}
