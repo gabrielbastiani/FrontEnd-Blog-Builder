@@ -52,7 +52,6 @@
 }
 
 .bannerArticle {
-  padding: 35px 0;
 
   img{
     width: 740px;
@@ -145,5 +144,22 @@
   &:active {
     background-color: var(--orange);
     border-radius: 0.3rem;
+  }
+}
+
+.tags{
+  align-items: center;
+  display: flex;
+  padding-bottom: 20px;
+
+  svg{
+    margin: 8px;
+  }
+
+  span{
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    align-content: center;
   }
 }

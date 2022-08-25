@@ -4,7 +4,7 @@ import Link from "../../../node_modules/next/link";
 import moment from 'moment';
 import { api } from '../../services/apiClient';
 import { BsCalendarCheck } from 'react-icons/bs'
-import { AiOutlineFolderOpen, AiOutlineArrowRight } from 'react-icons/ai'
+import { AiOutlineFolderOpen, AiOutlineArrowRight, AiOutlineTags } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { Button } from '../ui/Button/index';
 
@@ -75,6 +75,8 @@ export function ArticleHome() {
                               <div className={styles.bannerArticle}>
                                  <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
                               </div>
+                              <div className={styles.tags}><AiOutlineTags color='var(--red)' size={25} />{articl?.tag1} {articl?.tag2} {articl?.tag3} {articl?.tag4}</div>
+
                               <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
 
                               <Link href={`/articlePage?article_id=${articl.id}`}>

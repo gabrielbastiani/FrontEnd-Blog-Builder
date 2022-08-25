@@ -82,7 +82,7 @@ export default function Category() {
     toast.success('Categoria cadastrada com sucesso!')
     setCategoryName('');
 
-    Router.push('/newCategory')
+    handleRefreshCategory()
 
   }
 

@@ -310,6 +310,7 @@ export default function Dashboard() {
                                           <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
                                        </div>
                                     </div>
+                                    <div className={styles.tagsBox}><span>TAGS: {articl?.tag1}  {articl?.tag2}  {articl?.tag3}  {articl?.tag4}</span></div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>

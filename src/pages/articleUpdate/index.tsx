@@ -27,9 +27,11 @@ interface CategoryProps {
 export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
     const [title, setTitle] = useState('')
-
     const [description, setDescription] = useState('')
-
+    const [tag1, setTag1] = useState('');
+    const [tag2, setTag2] = useState('');
+    const [tag3, setTag3] = useState('');
+    const [tag4, setTag4] = useState('');
     const [bannerUrl, setBannerUrl] = useState('');
     const [imageBanner, setImageBanner] = useState(null);
 
@@ -39,7 +41,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
     const [text, setText] = useState('');
 
     const router = useRouter()
-    
+
 
     useEffect(() => {
         async function updateArticle() {
@@ -47,11 +49,15 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
             const data = new FormData()
             const article_id = router.query.article_id
             const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
-            const { title, description, banner } = responseArticle.data
+            const { title, description, banner, tag1, tag2, tag3, tag4 } = responseArticle.data
 
             setTitle(title)
             setDescription(description)
             setBannerUrl(`http://localhost:3333/files/${banner}`)
+            setTag1(tag1)
+            setTag2(tag2)
+            setTag3(tag3)
+            setTag4(tag4)
         }
 
         updateArticle()
@@ -89,6 +95,10 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
             data.append('title', title)
             data.append('categoryName', categories[categorySelected].categoryName)
             data.append('description', description)
+            data.append('tag1', tag1);
+            data.append('tag2', tag2);
+            data.append('tag3', tag3);
+            data.append('tag4', tag4);
 
             const apiClient = setupAPIClient()
 
@@ -123,11 +133,11 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
                     <form className={styles.form} onSubmit={handleRegister}>
 
-                            <br />
+                        <br />
 
-                            <h3>Atualize o banner do artigo</h3>
+                        <h3>Atualize o banner do artigo</h3>
 
-                            <br />
+                        <br />
 
                         <label className={styles.labelBanner}>
                             <span>
@@ -147,9 +157,9 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
                             )}
                         </label>
 
-                            <h3>Atualize a categoria do artigo</h3>
+                        <h3>Atualize a categoria do artigo</h3>
 
-                            <br />
+                        <br />
 
                         <select value={categorySelected} onChange={handleChangeCategory}>
                             {categories.map((item, index) => {
@@ -161,9 +171,9 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
                             })}
                         </select>
 
-                            <h3>Atualize o titulo do artigo</h3>
+                        <h3>Atualize o titulo do artigo</h3>
 
-                            <br />
+                        <br />
 
                         <Input
                             type='text'
@@ -244,6 +254,43 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
                                 setText(editor.getContent({ format: 'html' }));
                             }}
                         />
+
+                        <br />
+
+                        <h3 className={styles.titleTags}>Digite palavras chaves (NÃO É OBRIGATÓRIO!)</h3>
+
+                        <div className={styles.boxTags}>
+                            <input
+                                type="text"
+                                placeholder="TAG 1"
+                                className={styles.input}
+                                value={tag1}
+                                onChange={(e) => setTag1(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                placeholder="TAG 2"
+                                className={styles.input}
+                                value={tag2}
+                                onChange={(e) => setTag2(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                placeholder="TAG 3"
+                                className={styles.input}
+                                value={tag3}
+                                onChange={(e) => setTag3(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                placeholder="TAG 4"
+                                className={styles.input}
+                                value={tag4}
+                                onChange={(e) => setTag4(e.target.value)}
+                            />
+                        </div>
+
+                        <br />
 
                         <Button
                             className={styles.buttonUpdate}

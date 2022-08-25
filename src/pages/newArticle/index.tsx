@@ -37,9 +37,13 @@ export default function Article({ categoryList }: CategoryProps) {
 
    const { user } = useContext(AuthContext)
 
-   const [name, setName] = useState('')
+   const [name, setName] = useState('');
    const [title, setTitle] = useState('');
    const [description, setDescription] = useState('Digite aqui seu artigo...');
+   const [tag1, setTag1] = useState('');
+   const [tag2, setTag2] = useState('');
+   const [tag3, setTag3] = useState('');
+   const [tag4, setTag4] = useState('');
 
    const [bannerUrl, setBannerUrl] = useState('');
    const [imageBanner, setImageBanner] = useState(null);
@@ -91,9 +95,13 @@ export default function Article({ categoryList }: CategoryProps) {
             return;
          }
 
-         data.append('name', user.name)
+         data.append('name', user.name);
          data.append('title', title);
          data.append('description', description);
+         data.append('tag1', tag1);
+         data.append('tag2', tag2);
+         data.append('tag3', tag3);
+         data.append('tag4', tag4);
          data.append('categoryName', categories[categorySelected].categoryName);
          data.append('file', imageBanner);
 
@@ -106,6 +114,10 @@ export default function Article({ categoryList }: CategoryProps) {
          setName('');
          setTitle('');
          setDescription('')
+         setTag1('');
+         setTag2('');
+         setTag3('');
+         setTag4('');
          setImageBanner(null);
          setBannerUrl('');
 
@@ -144,11 +156,11 @@ export default function Article({ categoryList }: CategoryProps) {
                      onChange={(e) => setName(e.target.value)}
                   />
 
-                     <br />
+                  <br />
 
-                     <h3>Insira o banner do artigo</h3>
+                  <h3>Insira o banner do artigo</h3>
 
-                     <br />
+                  <br />
 
                   <label className={styles.labelBanner}>
                      <span>
@@ -199,15 +211,15 @@ export default function Article({ categoryList }: CategoryProps) {
                      apiKey='3uadxc7du623dpn0gcvz8d1520ngvsigncyxnuj5f580qyz4'
                      value={description}
                      onInit={(evt, editor) => {
-                        setText(editor.getContent({format: 'text'}));
-                      }}
+                        setText(editor.getContent({ format: 'text' }));
+                     }}
                      className={styles.input}
                      init={{
-                        selector : "textarea.editor",
+                        selector: "textarea.editor",
                         mode: 'textarea',
                         height: 900,
                         menubar: true,
-                           plugins: [
+                        plugins: [
                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                            'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
@@ -216,7 +228,7 @@ export default function Article({ categoryList }: CategoryProps) {
                            'bold italic forecolor | alignleft aligncenter ' +
                            'alignright alignjustify | bullist numlist outdent indent | ' +
                            'removeformat | help',
-                           content_style: '.left { text-align: left; } ' +
+                        content_style: '.left { text-align: left; } ' +
                            'img.left, audio.left, video.left { float: left; } ' +
                            'table.left { margin-left: 0px; margin-right: auto; } ' +
                            '.right { text-align: right; } ' +
@@ -234,7 +246,7 @@ export default function Article({ categoryList }: CategoryProps) {
                            '.example1 {} ' +
                            'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }' +
                            '.tablerow1 { background-color: #D3D3D3; }',
-                         formats: {
+                        formats: {
                            alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'left' },
                            aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'center' },
                            alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'right' },
@@ -243,9 +255,9 @@ export default function Article({ categoryList }: CategoryProps) {
                            italic: { inline: 'span', classes: 'italic' },
                            underline: { inline: 'span', classes: 'underline', exact: true },
                            strikethrough: { inline: 'del' },
-                           customformat: { inline: 'span', styles: { color: '#00ff00', fontSize: '20px' }, attributes: { title: 'My custom format'} , classes: 'example1'}
-                         },
-                         style_formats: [
+                           customformat: { inline: 'span', styles: { color: '#00ff00', fontSize: '20px' }, attributes: { title: 'My custom format' }, classes: 'example1' }
+                        },
+                        style_formats: [
                            { title: 'Custom format', format: 'customformat' },
                            { title: 'Align left', format: 'alignleft' },
                            { title: 'Align center', format: 'aligncenter' },
@@ -259,13 +271,50 @@ export default function Article({ categoryList }: CategoryProps) {
                            { title: 'Image formats' },
                            { title: 'Image Left', selector: 'img', styles: { 'float': 'left', 'margin': '0 10px 0 10px' } },
                            { title: 'Image Right', selector: 'img', styles: { 'float': 'right', 'margin': '0 0 10px 10px' } },
-                         ]
+                        ]
                      }}
                      onEditorChange={(description, editor) => {
                         setDescription(description);
-                        setText(editor.getContent({format: 'text'}));
-                      }}
+                        setText(editor.getContent({ format: 'text' }));
+                     }}
                   />
+
+                  <br />
+
+                  <h3 className={styles.titleTags}>Digite palavras chaves (NÃO É OBRIGATÓRIO!)</h3>
+
+                  <div className={styles.boxTags}>
+                     <input
+                        type="text"
+                        placeholder="TAG 1"
+                        className={styles.input}
+                        value={tag1}
+                        onChange={(e) => setTag1(e.target.value)}
+                     />
+                     <input
+                        type="text"
+                        placeholder="TAG 2"
+                        className={styles.input}
+                        value={tag2}
+                        onChange={(e) => setTag2(e.target.value)}
+                     />
+                     <input
+                        type="text"
+                        placeholder="TAG 3"
+                        className={styles.input}
+                        value={tag3}
+                        onChange={(e) => setTag3(e.target.value)}
+                     />
+                     <input
+                        type="text"
+                        placeholder="TAG 4"
+                        className={styles.input}
+                        value={tag4}
+                        onChange={(e) => setTag4(e.target.value)}
+                     />
+                  </div>
+
+                  <br />
 
                   <button
                      className={styles.buttonAdd}
@@ -285,7 +334,6 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
    const apliClient = setupAPIClient(ctx)
 
    const response = await apliClient.get('/category');
-   /* console.log(responseArticle.data); */
 
    return {
       props: {
