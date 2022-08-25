@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react'
+import React, { useState, ChangeEvent, FormEvent, useContext } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { Editor } from '@tinymce/tinymce-react';
 import Link from '../../../node_modules/next/link'
 import Router from 'next/router'
+import { AuthContext } from '../../contexts/AuthContext'
 
 
 type ItemProps = {
@@ -23,6 +24,7 @@ type ArticleProps = {
    title: string;
    description: string;
    banner: string;
+   name: string;
 }
 
 interface CategoryProps {
@@ -33,6 +35,9 @@ interface CategoryProps {
 
 export default function Article({ categoryList }: CategoryProps) {
 
+   const { user } = useContext(AuthContext)
+
+   const [name, setName] = useState('')
    const [title, setTitle] = useState('');
    const [description, setDescription] = useState('Digite aqui seu artigo...');
 
@@ -86,6 +91,7 @@ export default function Article({ categoryList }: CategoryProps) {
             return;
          }
 
+         data.append('name', user.name)
          data.append('title', title);
          data.append('description', description);
          data.append('categoryName', categories[categorySelected].categoryName);
@@ -97,6 +103,7 @@ export default function Article({ categoryList }: CategoryProps) {
 
          toast.success('Cadastrado com sucesso!')
 
+         setName('');
          setTitle('');
          setDescription('')
          setImageBanner(null);
@@ -129,6 +136,13 @@ export default function Article({ categoryList }: CategoryProps) {
                <h1>Novo artigo</h1>
 
                <form className={styles.form} onSubmit={handleRegister}>
+
+                  <input
+                     type="hidden"
+                     className={styles.input}
+                     value={name}
+                     onChange={(e) => setName(e.target.value)}
+                  />
 
                      <br />
 

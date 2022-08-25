@@ -67,7 +67,7 @@ export function ArticleHome() {
                               </div>
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
-                                 <span><BiEdit color='var(--red)' size={20} /></span>
+                                 <span><BiEdit color='var(--red)' size={20} />{articl?.name}</span>
                                  <span><AiOutlineFolderOpen color='var(--red)' size={25} />
                                     {articl.categoryName}
                                  </span>
