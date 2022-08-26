@@ -41,7 +41,7 @@ export default function CategoryPage() {
                 <HeaderBlog />
 
                 <section className={styles.sectionArticles}>
-                    
+
                     {articelesCategory.length === 0 && (
                         <span className={styles.emptyList}>
                             Nenhum artigo encontrado nessa categoria...
@@ -54,6 +54,8 @@ export default function CategoryPage() {
                                 <div key={article.id}>
                                     <span>{article?.categoryName}</span>
                                     <span>{article?.title}</span>
+                                    <span>{article?.name}</span>
+                                    <span>{article?.tag1} - {article?.tag2} - {article?.tag3} - {article?.tag4}</span>
                                     <span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                                     <span><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></span>
                                     <span dangerouslySetInnerHTML={{ __html: article?.description }}></span>

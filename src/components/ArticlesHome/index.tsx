@@ -42,6 +42,7 @@ export function ArticleHome() {
    }, [currentPage, limit, total]);
 
 
+
    return (
       <>
          <main className={styles.dashboard}>
@@ -67,15 +68,21 @@ export function ArticleHome() {
                               </div>
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
-                                 <span><BiEdit color='var(--red)' size={20} />{articl?.name}</span>
+                                 <span><BiEdit color='var(--red)' size={20} />
+                                    <Link href={`/authorArticles?nameUser=${articl?.name}`}>
+                                       {articl?.name}
+                                    </Link>
+                                 </span>
                                  <span><AiOutlineFolderOpen color='var(--red)' size={25} />
-                                    {articl.categoryName}
+                                    <Link href={`/categoryPage?categoryName=${articl?.categoryName}`}>
+                                       {articl?.categoryName}
+                                    </Link>
                                  </span>
                               </div>
                               <div className={styles.bannerArticle}>
                                  <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
                               </div>
-                              <div className={styles.tags}><AiOutlineTags color='var(--red)' size={25} />{articl?.tag1} {articl?.tag2} {articl?.tag3} {articl?.tag4}</div>
+                              <div className={styles.tags}><AiOutlineTags color='var(--red)' size={25} />{articl?.tag1} - {articl?.tag2} - {articl?.tag3} - {articl?.tag4}</div>
 
                               <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
 

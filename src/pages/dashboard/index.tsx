@@ -310,7 +310,12 @@ export default function Dashboard() {
                                           <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
                                        </div>
                                     </div>
-                                    <div className={styles.tagsBox}><span>TAGS: {articl?.tag1}  {articl?.tag2}  {articl?.tag3}  {articl?.tag4}</span></div>
+                                    <div className={styles.tagsAndAutorBox}>
+                                       <span>AUTOR:</span>
+                                       <p className={styles.author}>{articl?.name}</p>
+                                       <span>TAGS:</span>
+                                       <p>{articl?.tag1} - {articl?.tag2} - {articl?.tag3} - {articl?.tag4}</p>
+                                    </div>
                                  </div>
                               </div>
                               <div className={styles.containerUpdate}>

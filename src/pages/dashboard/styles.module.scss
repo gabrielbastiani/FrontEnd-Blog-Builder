@@ -58,22 +58,22 @@
     text-overflow: ellipsis;
   }
 
-  .datesAndPublish{
+  .datesAndPublish {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: 11%;
+    width: 13%;
     text-align: center;
 
-    hr{
+    hr {
       width: 100%;
       height: 2px;
       border: 0px;
       border-top: 1px solid var(--black);
     }
 
-    span{
-      padding: 5px;
+    span {
+      padding: 12px;
       font-size: 14px;
       line-height: 1.1rem;
     }
@@ -81,22 +81,33 @@
 
 }
 
-.tagsBox{
+.tagsAndAutorBox {
   border-bottom: 1px solid var(--black);
   border-left: 1px solid var(--black);
   border-right: 1px solid var(--black);
-  padding: 5px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding: 2px;
+
+  .author{
+    border-right: 1px solid var(--black);
+    padding-right: 10px;
+  }
 
   span {
-    padding: 0 20px;
+    color: var(--black);
+    font-weight: 800;
+    padding: 0 7px;
   }
+
 }
 
-.nao{
+.nao {
   background-color: var(--red);
 }
 
-.sim{
+.sim {
   background-color: green;
 }
 
@@ -138,7 +149,7 @@
   cursor: pointer;
   background-color: var(--black);
   align-self: center;
-  padding: 25px;
+  padding: 28px;
   justify-content: center;
   width: 100px;
   display: flex;
@@ -150,7 +161,7 @@
   cursor: pointer;
   background-color: var(--black);
   align-self: center;
-  padding: 25px;
+  padding: 28px;
   justify-content: center;
   width: 100px;
   display: flex;
@@ -162,7 +173,7 @@
   cursor: pointer;
   align-self: center;
   background-color: var(--black);
-  padding: 25px;
+  padding: 28px;
   justify-content: center;
   width: 100px;
   display: flex;
@@ -174,7 +185,7 @@
   cursor: pointer;
   align-self: center;
   background-color: var(--black);
-  padding: 25px;
+  padding: 28px;
   justify-content: center;
   width: 100px;
   display: flex;
@@ -424,7 +435,7 @@
   flex-wrap: wrap;
   text-align: center;
 
-  hr{
+  hr {
     width: 100%;
     height: 2px;
     border: 0px;

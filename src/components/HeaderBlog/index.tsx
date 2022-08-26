@@ -37,26 +37,26 @@ export function HeaderBlog() {
                <ul>
                   <li><Link href="/"><a>Inicio</a></Link></li>
                   <li><a>Categorias</a>
-                  {categorys.length !== 0 && (
-                     <ul>
-                     {categorys.map((category) => {
-                        return (
-                           <>
-                              <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
-                                 <li><a>{category?.categoryName}</a></li>
-                              </Link>
-                           </>
-                        )
-                     })}
-                  </ul>
-                  )}
+                     {categorys.length !== 0 && (
+                        <ul>
+                           {categorys.map((category) => {
+                              return (
+                                 <>
+                                    <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
+                                       <li><a>{category?.categoryName}</a></li>
+                                    </Link>
+                                 </>
+                              )
+                           })}
+                        </ul>
+                     )}
                   </li>
                   <li><Link href="https://builderseunegocioonline.com.br" target="_blank"><a>Nossos Serviços</a></Link></li>
                   <li><Link href="/sobre"><a>Sobre</a></Link></li>
                </ul>
             </nav>
-            
-            
+
+
             <GiHamburgerMenu className={styles.iconMobile} color='var(--white)' size={35} onClick={showOrHide} />
 
 
@@ -64,24 +64,24 @@ export function HeaderBlog() {
                <ul>
                   <li><Link href="/"><a>Inicio</a></Link></li>
                   <li><a>Categorias</a>
-                  {categorys.length !== 0 && (
-                     <ul>
-                     {categorys.map((category) => {
-                        return (
-                           <>
-                              <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
-                                 <li><a>{category?.categoryName}</a></li>
-                              </Link>
-                           </>
-                        )
-                     })}
-                  </ul>
-                  )}
+                     {categorys.length !== 0 && (
+                        <ul>
+                           {categorys.map((category) => {
+                              return (
+                                 <>
+                                    <Link href={`/categoryPage?categoryName=${category.categoryName}`}>
+                                       <li><a>{category?.categoryName}</a></li>
+                                    </Link>
+                                 </>
+                              )
+                           })}
+                        </ul>
+                     )}
                   </li>
                   <li><Link href="https://builderseunegocioonline.com.br" target="_blank"><a>Nossos Serviços</a></Link></li>
                   <li><Link href="/sobre"><a>Sobre</a></Link></li>
                </ul>
-            </nav>: null}
+            </nav> : null}
          </div>
       </header>
    )
