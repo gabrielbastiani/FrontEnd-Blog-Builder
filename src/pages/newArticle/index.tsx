@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from 'react'
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
-import { FiUpload } from 'react-icons/fi'
+import { FiUpload, FiEdit } from 'react-icons/fi'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
@@ -12,6 +12,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import Link from '../../../node_modules/next/link'
 import Router from 'next/router'
 import { AuthContext } from '../../contexts/AuthContext'
+import { api } from '../../services/apiClient';
 
 
 type ItemProps = {
@@ -19,17 +20,8 @@ type ItemProps = {
    categoryName: string;
 }
 
-type ArticleProps = {
-   id: string;
-   title: string;
-   description: string;
-   banner: string;
-   name: string;
-}
-
 interface CategoryProps {
    categoryList: ItemProps[];
-   articleList: ArticleProps[];
 }
 
 
@@ -40,18 +32,35 @@ export default function Article({ categoryList }: CategoryProps) {
    const [name, setName] = useState('');
    const [title, setTitle] = useState('');
    const [description, setDescription] = useState('Digite aqui seu artigo...');
-   const [tag1, setTag1] = useState('');
-   const [tag2, setTag2] = useState('');
-   const [tag3, setTag3] = useState('');
-   const [tag4, setTag4] = useState('');
 
    const [bannerUrl, setBannerUrl] = useState('');
    const [imageBanner, setImageBanner] = useState(null);
 
    const [categories, setCategories] = useState(categoryList || [])
    const [categorySelected, setCategorySelected] = useState(0)
+   const [categorySelectedSub, setCategorySelectedSub] = useState(0)
+
+   const [tags, setTags] = useState([])
+   const [tagSelected1, setTagSelected1] = useState(0)
+ 
 
    const [text, setText] = useState('');
+
+   useEffect(() => {
+      const loadTags = async () => {
+         try {
+            const response = await api.get('/tag');
+            const tagsList = await response.data;
+
+            setTags(tagsList)
+
+         } catch (error) {
+            console.log('Error call api list tags');
+         }
+      }
+
+      loadTags();
+   }, [])
 
 
    function handleFile(e: ChangeEvent<HTMLInputElement>) {
@@ -75,14 +84,11 @@ export default function Article({ categoryList }: CategoryProps) {
 
    }
 
-   //Quando você seleciona uma nova categoria na lista
    function handleChangeCategory(event) {
-      // console.log("POSICAO DA CATEGORIA SELECIONADA ", event.target.value)
-      //console.log('Categoria selecionada ', categories[event.target.value])
-
       setCategorySelected(event.target.value)
-
    }
+
+
 
    async function handleRegister(event: FormEvent) {
       event.preventDefault();
@@ -98,12 +104,10 @@ export default function Article({ categoryList }: CategoryProps) {
          data.append('name', user.name);
          data.append('title', title);
          data.append('description', description);
-         data.append('tag1', tag1);
-         data.append('tag2', tag2);
-         data.append('tag3', tag3);
-         data.append('tag4', tag4);
          data.append('categoryName', categories[categorySelected].categoryName);
          data.append('file', imageBanner);
+
+         data.append('tags', tags[tagSelected1].tag1)
 
          const apiClient = setupAPIClient();
 
@@ -113,11 +117,7 @@ export default function Article({ categoryList }: CategoryProps) {
 
          setName('');
          setTitle('');
-         setDescription('')
-         setTag1('');
-         setTag2('');
-         setTag3('');
-         setTag4('');
+         setDescription('');
          setImageBanner(null);
          setBannerUrl('');
 
@@ -159,6 +159,7 @@ export default function Article({ categoryList }: CategoryProps) {
                   <br />
 
                   <h3>Insira o banner do artigo</h3>
+                  <span>(dimensão recomendada 1120 x 528)</span>
 
                   <br />
 
@@ -194,6 +195,14 @@ export default function Article({ categoryList }: CategoryProps) {
                         )
                      })}
                   </select>
+
+
+                  <Link href="/newCategory">
+                     <div className={styles.categoryCadastre}>
+                        <FiEdit color='var(--red)' size={20} />
+                        <span>Cadastre aqui a categoria se não encontrar abaixo</span>
+                     </div>
+                  </Link>
 
                   <h3>De um titulo ao artigo</h3>
 
@@ -284,34 +293,8 @@ export default function Article({ categoryList }: CategoryProps) {
                   <h3 className={styles.titleTags}>Digite palavras chaves (NÃO É OBRIGATÓRIO!)</h3>
 
                   <div className={styles.boxTags}>
-                     <input
-                        type="text"
-                        placeholder="TAG 1"
-                        className={styles.input}
-                        value={tag1}
-                        onChange={(e) => setTag1(e.target.value)}
-                     />
-                     <input
-                        type="text"
-                        placeholder="TAG 2"
-                        className={styles.input}
-                        value={tag2}
-                        onChange={(e) => setTag2(e.target.value)}
-                     />
-                     <input
-                        type="text"
-                        placeholder="TAG 3"
-                        className={styles.input}
-                        value={tag3}
-                        onChange={(e) => setTag3(e.target.value)}
-                     />
-                     <input
-                        type="text"
-                        placeholder="TAG 4"
-                        className={styles.input}
-                        value={tag4}
-                        onChange={(e) => setTag4(e.target.value)}
-                     />
+
+
                   </div>
 
                   <br />
@@ -337,7 +320,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
 
    return {
       props: {
-         categoryList: response.data,
+         categoryList: response.data
       }
    }
 })

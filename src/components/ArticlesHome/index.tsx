@@ -69,7 +69,7 @@ export function ArticleHome() {
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
                                  <span><BiEdit color='var(--red)' size={20} />
-                                    <Link href={`/authorArticles?nameUser=${articl?.name}`}>
+                                    <Link href={`/authorArticles?name=${articl?.name}`}>
                                        {articl?.name}
                                     </Link>
                                  </span>

@@ -25,6 +25,12 @@
     text-align: center;
   }
 
+  span{
+    text-align: center;
+    font-size: 11px;
+    padding-top: 5px;
+  }
+
   select {
     width: 100%;
     height: 40px;
@@ -40,6 +46,15 @@
     cursor: pointer;
   }
 
+}
+
+.categoryCadastre{
+  cursor: pointer;
+  display: inline-flex;
+
+  span{
+    padding-left: 4px;
+  }
 }
 
 .input {
