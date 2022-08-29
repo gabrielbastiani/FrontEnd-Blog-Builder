@@ -38,21 +38,41 @@ export default function Article({ categoryList }: CategoryProps) {
 
    const [categories, setCategories] = useState(categoryList || [])
    const [categorySelected, setCategorySelected] = useState(0)
-   const [categorySelectedSub, setCategorySelectedSub] = useState(0)
 
-   const [tags, setTags] = useState([])
+   const [tags1, setTags1] = useState([])
    const [tagSelected1, setTagSelected1] = useState(0)
- 
+   const [tags2, setTags2] = useState([])
+   const [tagSelected2, setTagSelected2] = useState(0)
+   const [tags3, setTags3] = useState([])
+   const [tagSelected3, setTagSelected3] = useState(0)
+   const [tags4, setTags4] = useState([])
+   const [tagSelected4, setTagSelected4] = useState(0)
+   const [tags5, setTags5] = useState([])
+   const [tagSelected5, setTagSelected5] = useState(0)
+
 
    const [text, setText] = useState('');
 
    useEffect(() => {
       const loadTags = async () => {
          try {
-            const response = await api.get('/tag');
-            const tagsList = await response.data;
+            const responseTag1 = await api.get('/tag1');
+            const responseTag2 = await api.get('/tag2');
+            const responseTag3 = await api.get('/tag3');
+            const responseTag4 = await api.get('/tag4');
+            const responseTag5 = await api.get('/tag5');
 
-            setTags(tagsList)
+            const tagsList1 = await responseTag1.data;
+            const tagsList2 = await responseTag2.data;
+            const tagsList3 = await responseTag3.data;
+            const tagsList4 = await responseTag4.data;
+            const tagsList5 = await responseTag5.data;
+
+            setTags1(tagsList1)
+            setTags2(tagsList2)
+            setTags3(tagsList3)
+            setTags4(tagsList4)
+            setTags5(tagsList5)
 
          } catch (error) {
             console.log('Error call api list tags');
@@ -90,6 +110,26 @@ export default function Article({ categoryList }: CategoryProps) {
 
 
 
+   function handleChangeTags1(event) {
+      setTagSelected1(event.target.value)
+   }
+
+   function handleChangeTags2(event) {
+      setTagSelected2(event.target.value)
+   }
+
+   function handleChangeTags3(event) {
+      setTagSelected3(event.target.value)
+   }
+
+   function handleChangeTags4(event) {
+      setTagSelected4(event.target.value)
+   }
+
+   function handleChangeTags5(event) {
+      setTagSelected5(event.target.value)
+   }
+
    async function handleRegister(event: FormEvent) {
       event.preventDefault();
 
@@ -107,7 +147,11 @@ export default function Article({ categoryList }: CategoryProps) {
          data.append('categoryName', categories[categorySelected].categoryName);
          data.append('file', imageBanner);
 
-         data.append('tags', tags[tagSelected1].tag1)
+         data.append('tagName1', tags1[tagSelected1].tagName1);
+         data.append('tagName2', tags2[tagSelected2].tagName2);
+         data.append('tagName3', tags3[tagSelected3].tagName3);
+         data.append('tagName4', tags4[tagSelected4].tagName4);
+         data.append('tagName5', tags5[tagSelected5].tagName5);
 
          const apiClient = setupAPIClient();
 
@@ -200,7 +244,7 @@ export default function Article({ categoryList }: CategoryProps) {
                   <Link href="/newCategory">
                      <div className={styles.categoryCadastre}>
                         <FiEdit color='var(--red)' size={20} />
-                        <span>Cadastre aqui a categoria se não encontrar abaixo</span>
+                        <span>Cadastre aqui a categoria se não encontrar.</span>
                      </div>
                   </Link>
 
@@ -290,12 +334,68 @@ export default function Article({ categoryList }: CategoryProps) {
 
                   <br />
 
-                  <h3 className={styles.titleTags}>Digite palavras chaves (NÃO É OBRIGATÓRIO!)</h3>
+                  <h3 className={styles.titleTags}>Selecione palavras chaves relacionadas com o seu artigo!</h3>
 
                   <div className={styles.boxTags}>
 
+                     <select value={tagSelected1} onChange={handleChangeTags1} >
+                        {tags1.map((item, index) => {
+                           return (
+                              <option key={item.id} value={index}>
+                                 {item?.tagName1}
+                              </option>
+                           )
+                        })}
+                     </select>
+
+                     <select value={tagSelected2} onChange={handleChangeTags2} >
+                        {tags2.map((item, index) => {
+                           return (
+                              <option key={item.id} value={index}>
+                                 {item?.tagName2}
+                              </option>
+                           )
+                        })}
+                     </select>
+
+                     <select value={tagSelected3} onChange={handleChangeTags3} >
+                        {tags3.map((item, index) => {
+                           return (
+                              <option key={item.id} value={index}>
+                                 {item?.tagName3}
+                              </option>
+                           )
+                        })}
+                     </select>
+
+                     <select value={tagSelected4} onChange={handleChangeTags4} >
+                        {tags4.map((item, index) => {
+                           return (
+                              <option key={item.id} value={index}>
+                                 {item?.tagName4}
+                              </option>
+                           )
+                        })}
+                     </select>
+
+                     <select value={tagSelected5} onChange={handleChangeTags5} >
+                        {tags5.map((item, index) => {
+                           return (
+                              <option key={item.id} value={index}>
+                                 {item?.tagName5}
+                              </option>
+                           )
+                        })}
+                     </select>
 
                   </div>
+
+                  <Link href="/newsTags">
+                     <div className={styles.categoryCadastre}>
+                        <FiEdit color='var(--red)' size={20} />
+                        <span>Cadastre aqui novas Tags se não encontrar.</span>
+                     </div>
+                  </Link>
 
                   <br />
 

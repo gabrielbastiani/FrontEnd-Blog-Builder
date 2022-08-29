@@ -73,8 +73,9 @@
 
 .boxTags {
   text-align: center;
+  display: flex;
 
-  Input {
+  Select {
     margin: 15px;
     height: 22px;
   }

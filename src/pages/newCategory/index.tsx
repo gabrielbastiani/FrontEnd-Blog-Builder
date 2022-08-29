@@ -311,11 +311,8 @@ export default function Category() {
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
   const apliClient = setupAPIClient(ctx)
-  const categorys = await apliClient.get('/category');
 
   return {
-    props: {
-      categorysList: categorys.data
-    }
+    props: {}
   }
 })

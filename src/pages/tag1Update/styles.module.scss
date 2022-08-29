@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 620px;
+  height: 100vh;
+  flex-direction: column;
+  margin: auto;
+
+  .form{
+    justify-content: center;
+  }
+}
+
+.container h2 {
+  margin: 1rem 0;
+}
+
+.buttonUpdate {
+  cursor: pointer;
+  max-width: 600px;
+  background-color: var(--red);
+  border: 0;
+  padding: 0.8rem;
+  color: var(--white);
+  border-radius: 0.5rem;
+  transition: filter 0.2s;
+  color: var(--white);
+  font-weight: 700;
+  margin: 20px;
+
+  &[disabled] {
+    cursor: not-allowed;
+
+    svg {
+      animation: animate 2s infinite;
+    }
+  }
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes animate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@media screen and (max-width: 700px) {
+  .container {
+    width: 430px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .container {
+    width: 330px;
+  }
+}
+
+.containerContent{
+  padding: 52px;
+  background-color: var(--black);
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  border-radius: 3%;
+}
+
+.input{
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 40px;
+  border: 0;
+  border-radius: 0.5rem;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 1rem;
+  border: 1px solid var(--orange);
+}
+
+.input::placeholder{
+  color: rgba(255,255,255, 0.3);
+}

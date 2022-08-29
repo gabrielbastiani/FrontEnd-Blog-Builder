@@ -79,10 +79,44 @@ export function ArticleHome() {
                                     </Link>
                                  </span>
                               </div>
-                              <div className={styles.bannerArticle}>
-                                 <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
+                              <Link href={`/articlePage?article_id=${articl.id}`}>
+                                 <div className={styles.bannerArticle}>
+                                    <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
+                                 </div>
+                              </Link>
+                              <div className={styles.tags}>
+
+                                 <span><AiOutlineTags color='var(--red)' size={25} />
+                                    <Link href={`/tagArticlesPageOne?tagName1=${articl?.tagName1}`}>
+                                       {articl?.tagName1}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageTwo?tagName2=${articl?.tagName2}`}>
+                                       {articl?.tagName2}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageThree?tagName3=${articl?.tagName3}`}>
+                                       {articl?.tagName3}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageFour?tagName4=${articl?.tagName4}`}>
+                                       {articl?.tagName4}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageFive?tagName5=${articl?.tagName5}`}>
+                                       {articl?.tagName5}
+                                    </Link>
+                                 </span>
+
                               </div>
-                              <div className={styles.tags}><AiOutlineTags color='var(--red)' size={25} />{articl?.tag1} - {articl?.tag2} - {articl?.tag3} - {articl?.tag4}</div>
 
                               <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
 

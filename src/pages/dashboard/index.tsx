@@ -31,8 +31,6 @@ export default function Dashboard() {
    const [pagesPublish, setPagesPublish] = useState([]);
    const [currentPagePublish, setCurrentPagePublish] = useState(1);
 
-
-
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
 
@@ -172,6 +170,7 @@ export default function Dashboard() {
                   <option value="8">8</option>
                   <option value="12">12</option>
                   <option value="20">20</option>
+                  <option value="999999">Todos os artigos</option>
                </select>
 
                <br />
@@ -314,7 +313,7 @@ export default function Dashboard() {
                                        <span>AUTOR:</span>
                                        <p className={styles.author}>{articl?.name}</p>
                                        <span>TAGS:</span>
-                                       <p>{articl?.tag1} - {articl?.tag2} - {articl?.tag3} - {articl?.tag4}</p>
+                                       <p>{articl?.tagName1} - {articl?.tagName2} - {articl?.tagName3} - {articl?.tagName4} - {articl?.tagName5}</p>
                                     </div>
                                  </div>
                               </div>
