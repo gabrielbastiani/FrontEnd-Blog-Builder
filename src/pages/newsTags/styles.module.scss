@@ -2,9 +2,9 @@
   max-width: 1180px;
   margin: 4rem auto;
   padding: 0 2rem;
-  display: flex;
   justify-content: space-between;
   flex-direction: column;
+  display: flex;
 
   h1 {
     color: var(--black);
@@ -113,10 +113,10 @@
 
 .sectionBoxTags {
 
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
 
   .tagsBox {
-    width: 20%;
     margin: 0 10px;
 
     .selectBox {
@@ -197,5 +197,20 @@
     }
 
   }
+}
 
+@media (max-width: 775px) {
+  .sectionBoxTags {
+    grid-template-columns: auto auto auto;
+  }
+
+  .input {
+    width: 30%;
+  }
+}
+
+@media (max-width: 560px) {
+  .sectionBoxTags {
+    grid-template-columns: auto;
+  }
 }

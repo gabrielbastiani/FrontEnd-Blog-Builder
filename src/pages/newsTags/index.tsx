@@ -259,7 +259,7 @@ export default function NewsTags() {
   return (
     <>
       <Head>
-        <title>Novas TAGS - Builder Seu Negócio Online</title>
+        <title>Novas TAGs - Builder Seu Negócio Online</title>
       </Head>
       <main>
 
@@ -324,8 +324,6 @@ export default function NewsTags() {
 
           <br />
           <br />
-
-
 
           <div className={styles.sectionBoxTags}>
 
@@ -711,8 +709,8 @@ export default function NewsTags() {
             </div>
           </div>
         </section>
+        <FooterPainel />
       </main>
-      <FooterPainel />
     </>
   )
 }
