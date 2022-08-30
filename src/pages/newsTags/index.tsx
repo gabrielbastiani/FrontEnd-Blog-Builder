@@ -261,7 +261,7 @@ export default function NewsTags() {
       <Head>
         <title>Novas TAGs - Builder Seu Negócio Online</title>
       </Head>
-      <main>
+      <main className={styles.containerMain}>
 
         <HeaderPainel />
 
@@ -709,8 +709,8 @@ export default function NewsTags() {
             </div>
           </div>
         </section>
-        <FooterPainel />
       </main>
+      <FooterPainel />
     </>
   )
 }
