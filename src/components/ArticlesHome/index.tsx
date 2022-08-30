@@ -67,13 +67,13 @@ export function ArticleHome() {
                                  <h1>{articl.title}</h1>
                               </div>
                               <div className={styles.informationsArticle}>
-                                 <span><BsCalendarCheck color='var(--red)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
-                                 <span><BiEdit color='var(--red)' size={20} />
+                                 <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
+                                 <span><BiEdit color='var(--orange)' size={20} />
                                     <Link href={`/authorArticles?name=${articl?.name}`}>
                                        {articl?.name}
                                     </Link>
                                  </span>
-                                 <span><AiOutlineFolderOpen color='var(--red)' size={25} />
+                                 <span><AiOutlineFolderOpen color='var(--orange)' size={25} />
                                     <Link href={`/categoryPage?categoryName=${articl?.categoryName}`}>
                                        {articl?.categoryName}
                                     </Link>
@@ -86,7 +86,7 @@ export function ArticleHome() {
                               </Link>
                               <div className={styles.tags}>
 
-                                 <span><AiOutlineTags color='var(--red)' size={25} />
+                                 <span><AiOutlineTags color='var(--orange)' size={25} />
                                     <Link href={`/tagArticlesPageOne?tagName1=${articl?.tagName1}`}>
                                        {articl?.tagName1}
                                     </Link>
@@ -123,7 +123,7 @@ export function ArticleHome() {
                               <Link href={`/articlePage?article_id=${articl.id}`}>
                                  <div className={styles.articleMore}>
                                     <Button>Ler mais...</Button>
-                                    <AiOutlineArrowRight className={styles.arrowArticle} color='var(--red)' size={30} />
+                                    <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />
                                  </div>
                               </Link>
                               <hr />

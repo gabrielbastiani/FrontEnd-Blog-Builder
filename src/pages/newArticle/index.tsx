@@ -334,7 +334,7 @@ export default function Article({ categoryList }: CategoryProps) {
 
                   <br />
 
-                  <h3 className={styles.titleTags}>Selecione palavras chaves relacionadas com o seu artigo!</h3>
+                  <h3 className={styles.titleTags}>Escolha 5 palavras chaves (TAGs) para seu artigo!</h3>
 
                   <div className={styles.boxTags}>
 

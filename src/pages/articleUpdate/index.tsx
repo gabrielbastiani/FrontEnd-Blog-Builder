@@ -8,12 +8,13 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { toast } from 'react-toastify'
 import { Button } from '../../components/ui/Button/index'
 import { Input } from '../../components/ui/Input/index'
-import { FiUpload } from 'react-icons/fi'
+import { FiUpload, FiEdit } from 'react-icons/fi'
 import { Editor } from '@tinymce/tinymce-react';
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import Link from '../../../node_modules/next/link'
+import { api } from '../../services/apiClient';
 
 type ItemProps = {
     id: string
@@ -28,19 +29,92 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [tag1, setTag1] = useState('');
-    const [tag2, setTag2] = useState('');
-    const [tag3, setTag3] = useState('');
-    const [tag4, setTag4] = useState('');
     const [bannerUrl, setBannerUrl] = useState('');
     const [imageBanner, setImageBanner] = useState(null);
-
     const [categories, setCategories] = useState(categoryList || [])
     const [categorySelected, setCategorySelected] = useState(0)
 
-    const [text, setText] = useState('');
+    const [tag1, setTag1] = useState([])
+    const [tag2, setTag2] = useState([])
+    const [tag3, setTag3] = useState([])
+    const [tag4, setTag4] = useState([])
+    const [tag5, setTag5] = useState([])
+
+    const [tag1Selected, setTag1Selected] =useState(0)
+    const [tag2Selected, setTag2Selected] =useState(0)
+    const [tag3Selected, setTag3Selected] =useState(0)
+    const [tag4Selected, setTag4Selected] =useState(0)
+    const [tag5Selected, setTag5Selected] =useState(0)
+
+    const [text, setText] = useState('')
 
     const router = useRouter()
+
+
+    useEffect(() => {
+        async function loadTags1() {
+            try {
+                const tags1 = await api.get(`/tag1`);
+                setTag1(tags1.data);
+            } catch (error) {
+                console.error(error);
+                alert('Error call api list tags 1');
+            }
+        }
+        loadTags1();
+    }, []);
+
+    useEffect(() => {
+        async function loadTags2() {
+            try {
+                const tags2 = await api.get(`/tag2`);
+                setTag2(tags2.data);
+            } catch (error) {
+                console.error(error);
+                alert('Error call api list tags 2');
+            }
+        }
+        loadTags2();
+    }, []);
+
+    useEffect(() => {
+        async function loadTags3() {
+            try {
+                const tags3 = await api.get(`/tag3`);
+                setTag3(tags3.data);
+            } catch (error) {
+                console.error(error);
+                alert('Error call api list tags 3');
+            }
+        }
+        loadTags3();
+    }, []);
+
+    useEffect(() => {
+        async function loadTags4() {
+            try {
+                const tags4 = await api.get(`/tag4`);
+                setTag4(tags4.data);
+            } catch (error) {
+                console.error(error);
+                alert('Error call api list tags 4');
+            }
+        }
+        loadTags4();
+    }, []);
+
+    useEffect(() => {
+        async function loadTags5() {
+            try {
+                const tags5 = await api.get(`/tag5`);
+                setTag5(tags5.data);
+            } catch (error) {
+                console.error(error);
+                alert('Error call api list tags 5');
+            }
+        }
+        loadTags5();
+    }, []);
 
 
     useEffect(() => {
@@ -49,19 +123,16 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
             const data = new FormData()
             const article_id = router.query.article_id
             const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
-            const { title, description, banner, tag1, tag2, tag3, tag4 } = responseArticle.data
+            const { title, description, banner } = responseArticle.data
 
             setTitle(title)
             setDescription(description)
             setBannerUrl(`http://localhost:3333/files/${banner}`)
-            setTag1(tag1)
-            setTag2(tag2)
-            setTag3(tag3)
-            setTag4(tag4)
+
         }
 
         updateArticle()
-    }, [])
+    }, [router.query.article_id])
 
     function handleFile(e: ChangeEvent<HTMLInputElement>) {
         if (!e.target.files) {
@@ -83,6 +154,28 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
         setCategorySelected(e.target.value)
     }
 
+
+
+    function handleChangeTag1(e: any) {
+        setTag1Selected(e.target.value)
+    }
+
+    function handleChangeTag2(e: any) {
+        setTag2Selected(e.target.value)
+    }
+
+    function handleChangeTag3(e: any) {
+        setTag3Selected(e.target.value)
+    }
+
+    function handleChangeTag4(e: any) {
+        setTag4Selected(e.target.value)
+    }
+
+    function handleChangeTag5(e: any) {
+        setTag5Selected(e.target.value)
+    }
+
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
@@ -95,10 +188,12 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
             data.append('title', title)
             data.append('categoryName', categories[categorySelected].categoryName)
             data.append('description', description)
-            data.append('tag1', tag1);
-            data.append('tag2', tag2);
-            data.append('tag3', tag3);
-            data.append('tag4', tag4);
+
+            data.append('tagName1',tag1[tag1Selected].tagName1)
+            data.append('tagName2',tag2[tag2Selected].tagName2)
+            data.append('tagName3',tag3[tag3Selected].tagName3)
+            data.append('tagName4',tag4[tag4Selected].tagName4)
+            data.append('tagName5',tag5[tag5Selected].tagName5)
 
             const apiClient = setupAPIClient()
 
@@ -170,6 +265,13 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
                                 )
                             })}
                         </select>
+
+                        <Link href="/newCategory">
+                            <div className={styles.categoryCadastre}>
+                                <FiEdit color='var(--red)' size={20} />
+                                <span>Cadastre aqui a categoria se não encontrar.</span>
+                            </div>
+                        </Link>
 
                         <h3>Atualize o titulo do artigo</h3>
 
@@ -257,38 +359,63 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
                         <br />
 
-                        <h3 className={styles.titleTags}>Digite palavras chaves (NÃO É OBRIGATÓRIO!)</h3>
+                        <h3 className={styles.titleTags}>Escolha 5 palavras chaves (TAGs) para seu artigo!</h3>
+
 
                         <div className={styles.boxTags}>
-                            <input
-                                type="text"
-                                placeholder="TAG 1"
-                                className={styles.input}
-                                value={tag1}
-                                onChange={(e) => setTag1(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="TAG 2"
-                                className={styles.input}
-                                value={tag2}
-                                onChange={(e) => setTag2(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="TAG 3"
-                                className={styles.input}
-                                value={tag3}
-                                onChange={(e) => setTag3(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="TAG 4"
-                                className={styles.input}
-                                value={tag4}
-                                onChange={(e) => setTag4(e.target.value)}
-                            />
+                            <select value={tag1Selected} onChange={handleChangeTag1}>
+                                {tag1.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>
+                                            {item.tagName1}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            <select value={tag2Selected} onChange={handleChangeTag2}>
+                                {tag2.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>
+                                            {item.tagName2}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            <select value={tag3Selected} onChange={handleChangeTag3}>
+                                {tag3.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>
+                                            {item.tagName3}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            <select value={tag4Selected} onChange={handleChangeTag4}>
+                                {tag4.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>
+                                            {item.tagName4}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                            <select value={tag5Selected} onChange={handleChangeTag5}>
+                                {tag5.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>
+                                            {item.tagName5}
+                                        </option>
+                                    )
+                                })}
+                            </select>
                         </div>
+
+                        <Link href="/newsTags">
+                            <div className={styles.categoryCadastre}>
+                                <FiEdit color='var(--red)' size={20} />
+                                <span>Cadastre aqui um novo grupo de 5 TAGs.</span>
+                            </div>
+                        </Link>
 
                         <br />
 
