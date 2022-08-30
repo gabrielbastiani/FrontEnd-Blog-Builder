@@ -41,7 +41,7 @@ export default function ArticleDelete() {
         <>
 
             <Head>
-                <title>Deletar Artigo - Builder Seu Negócio Online</title>
+                <title>Deletar Artigo - Blog Builder Seu Negócio Online</title>
             </Head>
 
             <main className={styles.container}>
