@@ -4,12 +4,14 @@ import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
 import { FaTrashAlt } from 'react-icons/fa'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
+import { FiRefreshCcw } from 'react-icons/fi'
 import { api } from '../../services/apiClient';
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
+import Router from '../../../node_modules/next/router'
 
 
 export default function NewsTags() {
@@ -220,25 +222,50 @@ export default function NewsTags() {
     try {
       const apiClient = setupAPIClient();
 
-      await apiClient.post('/tag1', {
-        tagName1: tagName1
-      })
+      if (tagName1 === '') {
+        toast.warning('1º TAG cadastrado em branco!')
+      } else {
+        await apiClient.post('/tag1', {
+          tagName1: tagName1
+        })
+        toast.success('1º TAG cadastrada com sucesso!')
+      }
 
-      await apiClient.post('/tag2', {
-        tagName2: tagName2
-      })
+      if (tagName2 === '') {
+        toast.warning('2º TAG cadastrado em branco!')
+      } else {
+        await apiClient.post('/tag2', {
+          tagName2: tagName2
+        })
+        toast.success('2º TAG cadastrada com sucesso!')
+      }
 
-      await apiClient.post('/tag3', {
-        tagName3: tagName3
-      })
+      if (tagName3 === '') {
+        toast.warning('3º TAG cadastrado em branco!')
+      } else {
+        await apiClient.post('/tag3', {
+          tagName3: tagName3
+        })
+        toast.success('3º TAG cadastrada com sucesso!')
+      }
 
-      await apiClient.post('/tag4', {
-        tagName4: tagName4
-      })
+      if (tagName4 === '') {
+        toast.warning('4º TAG cadastrado em branco!')
+      } else {
+        await apiClient.post('/tag4', {
+          tagName4: tagName4
+        })
+        toast.success('4º TAG cadastrada com sucesso!')
+      }
 
-      await apiClient.post('/tag5', {
-        tagName5: tagName5
-      })
+      if (tagName5 === '') {
+        toast.warning('5º TAG cadastrado em branco!')
+      } else {
+        await apiClient.post('/tag5', {
+          tagName5: tagName5
+        })
+        toast.success('5º TAG cadastrada com sucesso!')
+      }
 
       toast.success('Grupo de TAGs cadastrada com sucesso!')
 
@@ -247,6 +274,9 @@ export default function NewsTags() {
       setTagName3('');
       setTagName4('');
       setTagName5('');
+
+      handleRefreshCategory()
+
     } catch (error) {
 
       console.log(error);
@@ -255,13 +285,29 @@ export default function NewsTags() {
     }
   }
 
+  async function handleRefreshCategory() {
+    const apiClient = setupAPIClient();
+
+    const response1 = await apiClient.get('/tag1')
+    const response2 = await apiClient.get('/tag2')
+    const response3 = await apiClient.get('/tag3')
+    const response4 = await apiClient.get('/tag4')
+    const response5 = await apiClient.get('/tag5')
+
+    setTags1(response1.data)
+    setTags2(response2.data)
+    setTags3(response3.data)
+    setTags4(response4.data)
+    setTags5(response5.data)
+}
+
 
   return (
     <>
       <Head>
         <title>Novas TAGs - Builder Seu Negócio Online</title>
       </Head>
-      <main>
+      <main className={styles.containerMain}>
 
         <HeaderPainel />
 
@@ -324,6 +370,10 @@ export default function NewsTags() {
 
           <br />
           <br />
+
+          <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
+            <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de TAGs
+          </button>
 
           <div className={styles.sectionBoxTags}>
 
@@ -709,8 +759,8 @@ export default function NewsTags() {
             </div>
           </div>
         </section>
-        <FooterPainel />
       </main>
+      <FooterPainel />
     </>
   )
 }

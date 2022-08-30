@@ -52,7 +52,7 @@ export function HeaderPainel() {
                </Link>
 
                <Link href="/newArticle">
-                  <a>Artigos</a>
+                  <a>Artigo</a>
                </Link>
 
                <Link href="/comments">
@@ -88,7 +88,7 @@ export function HeaderPainel() {
                   </Link>
 
                   <Link href="/newArticle">
-                     <a>Artigos</a>
+                     <a>Artigo</a>
                   </Link>
 
                   <Link href="/comments">
