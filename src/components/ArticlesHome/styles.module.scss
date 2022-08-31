@@ -32,10 +32,6 @@
   }
 }
 
-.articlesSection{
-  margin-bottom: 60px;
-}
-
 .articleBox {
   background-color: var(--white);
   width: 940px;
@@ -112,6 +108,7 @@
 .containerPagination {
   display: flex;
   justify-content: space-between;
+  max-width: 950px;
 }
 
 .totalArticles {

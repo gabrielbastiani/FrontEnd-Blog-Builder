@@ -126,6 +126,7 @@ export function ArticleHome() {
                                     <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />
                                  </div>
                               </Link>
+                              
                               <hr />
                            </div>
                         </>

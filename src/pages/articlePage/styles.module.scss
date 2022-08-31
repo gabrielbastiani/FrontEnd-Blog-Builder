@@ -1,21 +1,90 @@
 .sectionContent {
-    display: grid;
-    width: 100%;
-    grid-template-areas: "head head"
-       "nav  main"
-       "nav  foot";
-    grid-template-rows: 50px 1fr 30px;
-    grid-template-columns: 150px 1fr;
- }
- 
- .sectionContent>nav {
-    grid-area: nav;
- }
- 
- .sectionContent>article {
-    grid-area: main;
- }
+   display: grid;
+   width: 100%;
+   grid-template-areas: "head head"
+      "nav  main"
+      "nav  foot";
+   grid-template-rows: 50px 1fr 30px;
+   grid-template-columns: 150px 1fr;
+}
 
- .sectionArticle{
-    
- }
+.sectionContent>nav {
+   grid-area: nav;
+}
+
+.sectionContent>article {
+   grid-area: main;
+}
+
+.sectionArticle {
+   max-width: 1000px;
+
+   h1 {
+      font-size: 3rem;
+      text-align: center;
+   }
+
+}
+
+.sectionArticle {
+   span {
+      align-items: center;
+   }
+
+   a {
+      text-decoration: none;
+      color: var(--black);
+   }
+}
+
+.containerArticlesPages {
+
+   .articleBoxFooter {
+      display: contents;
+   }
+
+   .articleBoxFooter {
+      display: flex;
+      background-color: var(--white);
+      padding: 10px;
+      width: 300px;
+
+      h4{
+         padding-bottom: 10px;
+      }
+   }
+
+   .article {
+
+      img {
+         width: 150px;
+      }
+   }
+}
+
+.containerArticles {
+   display: flex;
+   text-align: center;
+   justify-content: space-around;
+}
+
+.pagesFooter{
+   text-align: center;
+   margin: 15px 0;
+   justify-content: center;
+}
+
+.previus{
+   button{
+      background-color: var(--orange);
+      padding: 8px;
+   }
+}
+
+.next{
+   button{
+      background-color: var(--orange);
+      padding: 8px;
+      border: 0;
+   }
+}

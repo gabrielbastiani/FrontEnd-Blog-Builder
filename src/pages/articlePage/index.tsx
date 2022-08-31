@@ -30,14 +30,13 @@ export default function ArticlePage() {
 
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
-   const [limit, setLimit] = useState(1);
+   const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
 
-
    useEffect(() => {
-      async function loadArticle() {
+      async function loadArticles() {
          try {
             const article_id = router.query.article_id
             const articleDate = await api.get(`/article/exact?article_id=${article_id}`);
@@ -55,17 +54,6 @@ export default function ArticlePage() {
             setTagName5(tagName5)
             setCreated_at(created_at)
 
-         } catch (error) {
-            console.log(error)
-            alert('Error call API article')
-         }
-      }
-      loadArticle();
-   }, [router.query.article_id])
-
-   useEffect(() => {
-      async function loadArticles() {
-         try {
             const { data } = await api.get(`/article/published/blog?page=${currentPage}&limit=${limit}`);
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
@@ -84,7 +72,7 @@ export default function ArticlePage() {
       }
 
       loadArticles();
-   }, [currentPage, limit, total]);
+   }, [currentPage, limit, router.query.article_id, total]);
 
 
 
@@ -153,6 +141,51 @@ export default function ArticlePage() {
                         </Link>
                      </span>
                   </div>
+
+                  <br />
+                  <br />
+
+                  <div className={styles.containerArticlesPages}>
+
+                     <div className={styles.containerArticles}>
+                        {articles.map((posts) => {
+                           return (
+                              <>
+                                 <div className={styles.articleBoxFooter}>
+                                    <Link href={`/articlePage?article_id=${posts.id}`}>
+                                       <div className={styles.article}>
+                                          <h4>{posts?.title}</h4>
+                                          <img src={"http://localhost:3333/files/" + posts?.banner} alt="banner do artigo" />
+                                       </div>
+                                    </Link>
+                                 </div>
+                              </>
+                           )
+                        })}
+                     </div>
+
+                     <div className={styles.pagesFooter}>
+
+                        {currentPage > 1 && (
+                           <div className={styles.previus}>
+                              <button onClick={() => setCurrentPage(currentPage - 1)}>
+                                 Voltar
+                              </button>
+                           </div>
+                        )}
+
+                        {currentPage < articles.length && (
+                           <div className={styles.next}>
+                              <button onClick={() => setCurrentPage(currentPage + 1)}>
+                                 Avançar
+                              </button>
+                           </div>
+                        )}
+
+                     </div>
+
+                  </div>
+
                </article>
             </section>
             <FooterBlog />
