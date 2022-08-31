@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/components/Tiny/index.js"  ],
+, "src/components/Tiny/index.js", "src/pages/articlePage/[id].js"  ],
   "exclude": [
     "node_modules"
   ]

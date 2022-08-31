@@ -7,7 +7,7 @@ import { api } from '../../services/apiClient';
 import moment from 'moment';
 import Link from "../../../node_modules/next/link";
 import { useRouter } from '../../../node_modules/next/router'
-import { BsCalendarCheck } from 'react-icons/bs'
+import { BsCalendarCheck, BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { BiEdit } from 'react-icons/bi'
 import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
 
@@ -144,10 +144,26 @@ export default function ArticlePage() {
 
                   <br />
                   <br />
+                  <br />
+
+                  <h2 className={styles.vejaTambem}>Veja também...</h2>
 
                   <div className={styles.containerArticlesPages}>
 
                      <div className={styles.containerArticles}>
+
+                        {articles.length === 0 && (
+                           <span className={styles.emptyList}>
+                              Nenhum artigo cadastrado...
+                           </span>
+                        )}
+
+                        {currentPage > 1 && (
+                           <div className={styles.previus}>
+                              <BsFillArrowLeftSquareFill color='var(--orange)' size={35} onClick={() => setCurrentPage(currentPage - 1)} />
+                           </div>
+                        )}
+
                         {articles.map((posts) => {
                            return (
                               <>
@@ -162,28 +178,14 @@ export default function ArticlePage() {
                               </>
                            )
                         })}
-                     </div>
-
-                     <div className={styles.pagesFooter}>
-
-                        {currentPage > 1 && (
-                           <div className={styles.previus}>
-                              <button onClick={() => setCurrentPage(currentPage - 1)}>
-                                 Voltar
-                              </button>
-                           </div>
-                        )}
 
                         {currentPage < articles.length && (
                            <div className={styles.next}>
-                              <button onClick={() => setCurrentPage(currentPage + 1)}>
-                                 Avançar
-                              </button>
+                              <BsFillArrowRightSquareFill color='var(--orange)' size={35} onClick={() => setCurrentPage(currentPage + 1)} />
                            </div>
                         )}
 
                      </div>
-
                   </div>
 
                </article>
