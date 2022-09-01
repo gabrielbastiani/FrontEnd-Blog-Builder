@@ -36,7 +36,7 @@ export default function ArticlePage() {
 
 
    useEffect(() => {
-      async function loadArticles() {
+      async function articlesLoad() {
          try {
             const article_id = router.query.article_id
             const articleDate = await api.get(`/article/exact?article_id=${article_id}`);
@@ -54,6 +54,19 @@ export default function ArticlePage() {
             setTagName5(tagName5)
             setCreated_at(created_at)
 
+         } catch (error) {
+            console.error(error);
+            alert('Error call api list articles pagination');
+         }
+      }
+      
+      articlesLoad()
+   }, [router.query.article_id])
+
+
+   useEffect(() => {
+      async function loadArticles() {
+         try {
             const { data } = await api.get(`/article/published/blog?page=${currentPage}&limit=${limit}`);
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
@@ -65,14 +78,15 @@ export default function ArticlePage() {
                setPages(arrayPages);
                setArticles(data?.articles || []);
             }
+
          } catch (error) {
             console.error(error);
-            alert('Error call api list article');
+            alert('Error call api list');
          }
       }
 
       loadArticles();
-   }, [currentPage, limit, router.query.article_id, total]);
+   }, [currentPage, limit, total]);
 
 
 
@@ -185,6 +199,16 @@ export default function ArticlePage() {
                            </div>
                         )}
 
+                     </div>
+                  </div>
+
+                  <div className={styles.pagination}>
+                     <div className={styles.antes}>
+                        <Link href={``}>Anterior</Link>
+                     </div>
+
+                     <div className={styles.proximo}>
+                        <Link href={``}>Próximo</Link>
                      </div>
                   </div>
 

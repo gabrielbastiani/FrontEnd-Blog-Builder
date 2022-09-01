@@ -73,3 +73,44 @@
    margin: 45px 0;
    justify-content: center;
 }
+
+.previus{
+
+   svg{
+      cursor: pointer;
+   }
+}
+
+.next{
+
+   svg{
+      cursor: pointer;
+   }
+}
+
+.pagination{
+   display: flex;
+   justify-content: space-between;
+   margin-top: 80px;
+   margin-bottom: 70px;
+
+   .antes{
+      background-color: var(--orange);
+      padding: 13px;
+      font-weight: 900;
+
+      a{
+         padding: 20px;
+      }
+   }
+
+   .proximo{
+      background-color: var(--orange);
+      padding: 13px;
+      font-weight: 900;
+
+      a{
+         padding: 20px;
+      }
+   }
+}
