@@ -33,7 +33,7 @@
       color: var(--black);
    }
 
-   .vejaTambem{
+   .vejaTambem {
       margin: 15px 0;
    }
 
@@ -74,42 +74,44 @@
    justify-content: center;
 }
 
-.previus{
+.previus {
 
-   svg{
+   svg {
       cursor: pointer;
    }
 }
 
-.next{
+.next {
 
-   svg{
+   svg {
       cursor: pointer;
    }
 }
 
-.pagination{
+.pagination {
    display: flex;
    justify-content: space-between;
    margin-top: 80px;
    margin-bottom: 70px;
 
-   .antes{
+   .antes {
       background-color: var(--orange);
       padding: 13px;
       font-weight: 900;
+      border: 0;
 
-      a{
+      a {
          padding: 20px;
       }
    }
 
-   .proximo{
+   .proximo {
       background-color: var(--orange);
       padding: 13px;
       font-weight: 900;
+      border: 0;
 
-      a{
+      a {
          padding: 20px;
       }
    }
