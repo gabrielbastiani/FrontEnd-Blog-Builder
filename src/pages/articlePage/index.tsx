@@ -203,13 +203,13 @@ export default function ArticlePage() {
                   </div>
 
                   <div className={styles.pagination}>
-                     <div className={styles.antes}>
+                     <button className={styles.antes}>
                         <Link href={``}>Anterior</Link>
-                     </div>
+                     </button>
 
-                     <div className={styles.proximo}>
+                     <button className={styles.proximo}>
                         <Link href={``}>Próximo</Link>
-                     </div>
+                     </button>
                   </div>
 
                </article>
