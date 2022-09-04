@@ -8,31 +8,37 @@ import moment from 'moment';
 import Link from "../../../node_modules/next/link";
 import { useRouter } from '../../../node_modules/next/router'
 import { BsCalendarCheck, BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill } from 'react-icons/bs'
-import { BiEdit } from 'react-icons/bi'
+import { BiEdit, BiRightArrow, BiLeftArrow } from 'react-icons/bi'
 import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
 
 
 export default function ArticlePage() {
 
-   const router = useRouter()
+   const router = useRouter();
 
-   const [title, setTitle] = useState('')
-   const [description, setDescription] = useState('')
-   const [banner, setBanner] = useState('')
-   const [categoryName, setCategoryName] = useState('')
-   const [name, setName] = useState('')
-   const [tagName1, setTagName1] = useState('')
-   const [tagName2, setTagName2] = useState('')
-   const [tagName3, setTagName3] = useState('')
-   const [tagName4, setTagName4] = useState('')
-   const [tagName5, setTagName5] = useState('')
-   const [created_at, setCreated_at] = useState('')
+   const [title, setTitle] = useState('');
+   const [description, setDescription] = useState('');
+   const [banner, setBanner] = useState('');
+   const [categoryName, setCategoryName] = useState('');
+   const [name, setName] = useState('');
+   const [tagName1, setTagName1] = useState('');
+   const [tagName2, setTagName2] = useState('');
+   const [tagName3, setTagName3] = useState('');
+   const [tagName4, setTagName4] = useState('');
+   const [tagName5, setTagName5] = useState('');
+   const [created_at, setCreated_at] = useState('');
 
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
    const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
+
+   const [post, setPost] = useState([]);
+   const [postPrevious, setPostPrevious] = useState([]);
+   const [postPreviousTitle, setPostPreviousTitle] = useState('');
+   const [postNext, setPostNext] = useState([]);
+   const [postNextTitle, setPostNextTitle] = useState('');
 
 
    useEffect(() => {
@@ -87,6 +93,29 @@ export default function ArticlePage() {
 
       loadArticles();
    }, [currentPage, limit, total]);
+
+
+   useEffect(() => {
+      async function loadArticlePage() {
+         try {
+            const article_id = router.query.article_id;
+            const dataPage = await api.get(`/article/read?article_id=${article_id}`);
+
+            setPost(dataPage?.data.post.id);
+            setPostPrevious(dataPage?.data.postPrevious.id);
+            setPostPreviousTitle(dataPage?.data.postPrevious.title)
+            setPostNext(dataPage?.data.postNext.id);
+            setPostNextTitle(dataPage?.data.postNext.title)
+
+
+         } catch (error) {
+            console.error(error);
+            alert('Error call api previus and next article');
+         }
+      }
+
+      loadArticlePage();
+   }, [router.query.article_id]);
 
 
 
@@ -204,12 +233,21 @@ export default function ArticlePage() {
 
                   <div className={styles.pagination}>
                      <button className={styles.antes}>
-                        <Link href={``}>Anterior</Link>
+                        <Link href={`/articlePage?article_id=${postPrevious}`}>
+                           {postPreviousTitle}
+                        </Link>
+                        <BiLeftArrow color='var(--black)' size={25}/>
+                        <BiLeftArrow color='var(--black)' size={25}/>
                      </button>
 
                      <button className={styles.proximo}>
-                        <Link href={``}>Próximo</Link>
+                        <Link href={`/articlePage?article_id=${postNext}`}>
+                           {postNextTitle}
+                        </Link>
+                        <BiRightArrow color='var(--black)' size={25}/>
+                        <BiRightArrow color='var(--black)' size={25}/>
                      </button>
+                     
                   </div>
 
                </article>
