@@ -169,3 +169,69 @@
     color: var(--black);
   }
 }
+
+@media (max-width: 1358px){
+  .articleBox{
+    width: 740px;
+  }
+
+  .bannerArticle{
+
+    img{
+      width: 640px;
+    }
+  }
+}
+
+@media (max-width: 770px){
+  .articleBox{
+    width: 540px;
+  }
+
+  .bannerArticle{
+
+    img{
+      width: 440px;
+    }
+  }
+}
+
+@media (max-width: 585px){
+  .articleBox{
+    width: 440px;
+  }
+
+  .bannerArticle{
+
+    img{
+      width: 280px;
+      height: 200px;
+    }
+  }
+}
+
+@media (max-width: 478px){
+  .titleArticle{
+
+    h1{
+      font-size: 1.6rem;
+    }
+  }
+  .articleBox{
+    width: 350px;
+  }
+
+  .bannerArticle{
+
+    img{
+      width: 280px;
+      height: 200px;
+    }
+  }
+
+  .tags{
+    span{
+      font-size: 9px;
+    }
+  }
+}

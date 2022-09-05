@@ -55,9 +55,6 @@ export function ArticleHome() {
                   </span>
                )}
 
-               <br />
-               <br />
-
                <div className={styles.articlesSection}>
                   {articles.map((articl) => {
                      return (

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./styles.module.scss";
 import { api } from '../../services/apiClient';
-import { IoCloseCircleSharp } from 'react-icons/io';
-import { AiOutlineSearch } from 'react-icons/ai'
 import Link from '../../../node_modules/next/link';
 
 
@@ -11,7 +9,7 @@ export function SearchBar() {
    const [filteredData, setFilteredData] = useState([]);
    const [wordEntered, setWordEntered] = useState('');
 
-   console.log(filteredData)
+   const [showMenu, setShowMenu] = useState(false);
 
 
    useEffect(() => {
@@ -47,12 +45,9 @@ export function SearchBar() {
       }
    };
 
-   const clearInput = () => {
-      setFilteredData([]);
-      setWordEntered('');
-   };
-
-
+   const showOrHide = () => {
+      setShowMenu(!showMenu)
+   }
 
    return (
       <>
@@ -60,31 +55,28 @@ export function SearchBar() {
             <div className={styles.searchInputs}>
                <input
                   type="text"
-                  placeholder="Digite sua busca"
+                  placeholder='Digite sua busca...'
                   value={wordEntered}
                   onChange={handleFilter}
+                  onClick={showOrHide}
                />
-               <div className={styles.searchIcon}>
-                  {filteredData.length === 0 ? (
-                     <AiOutlineSearch />
-                  ) : (
-                     <IoCloseCircleSharp id="clearBtn" onClick={clearInput} />
-                  )}
-               </div>
             </div>
-            {filteredData.length != 0 && (
-               <div className={styles.dataResult}>
-                  {filteredData.map((value) => {
-                     return (
-                        <>
-                           <Link className={styles.dataItem} href={`/articlePage?article_id=${filteredData.id}`} target="_blank">
-                              <p>{value.title} </p>
-                           </Link>
-                        </>
-                     );
-                  })}
-               </div>
-            )}
+
+            {showMenu ? <div className={styles.dataResult}>
+               {filteredData.length != 0 && (
+                  <div className={styles.dataResult}>
+                     {filteredData.slice(0, 15).map((value) => {
+                        return (
+                           <>
+                              <Link className={styles.dataItem} href={`/articlePage?article_id=${value.id}`} target="_blank">
+                                 <li>{value.title}</li>
+                              </Link>
+                           </>
+                        );
+                     })}
+                  </div>
+               )}
+            </div> : null}
          </div>
       </>
    )

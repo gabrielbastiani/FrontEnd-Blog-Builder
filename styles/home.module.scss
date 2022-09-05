@@ -5,13 +5,37 @@
       "nav  main"
       "nav  foot";
    grid-template-rows: 50px 1fr 30px;
-   grid-template-columns: 150px 1fr;
+   grid-template-columns: 400px 1fr;
 }
 
 .sectionContent>nav {
    grid-area: nav;
+   padding: 0 90px;
 }
 
 .sectionContent>article {
    grid-area: main;
+}
+
+@media (max-width: 1162px){
+   .sectionContent{
+      grid-template-columns: 300px 1fr;
+   }
+
+   .sectionContent>nav{
+      padding: 0 40px;
+   }
+}
+
+@media (max-width: 1088px){
+   .sectionContent {
+      display: flex;
+      flex-direction: column;
+   }
+}
+
+@media (max-width: 770px){
+   .sectionContent{
+      align-items: center;
+   }
 }
