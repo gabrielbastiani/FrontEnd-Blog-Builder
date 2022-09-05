@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { FooterBlog } from '../components/FooterBlog/index'
 import { HeaderBlog } from '../components/HeaderBlog/index'
 import { ArticleHome } from '../components/ArticlesHome/index'
+import { SearchBar } from '../components/SearchBar/index'
 import styles from '../../styles/home.module.scss'
 
 export default function Home() {
@@ -17,7 +18,9 @@ export default function Home() {
       <main>
         <HeaderBlog />
         <section className={styles.sectionContent}>
-          <nav>Navigation</nav>
+          <nav>
+            <SearchBar />
+          </nav>
           <article>
             <ArticleHome />
           </article>

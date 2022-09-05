@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { FooterBlog } from '../../components/FooterBlog/index'
 import { HeaderBlog } from '../../components/HeaderBlog/index'
 import Head from '../../../node_modules/next/head'
@@ -10,6 +11,7 @@ import { useRouter } from '../../../node_modules/next/router'
 import { BsCalendarCheck, BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { BiEdit, BiRightArrow, BiLeftArrow } from 'react-icons/bi'
 import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
+import Disqus from "disqus-react"
 
 
 export default function ArticlePage() {
@@ -40,13 +42,18 @@ export default function ArticlePage() {
    const [postNext, setPostNext] = useState([]);
    const [postNextTitle, setPostNextTitle] = useState('');
 
+   /* const [nameComment, setNameComment] = useState('');
+   const [content, setContent] = useState('');
+   const [comment, setComment] = useState([])
+   const [commentSelected, setCommentSelected] = useState(0) */
+
 
    useEffect(() => {
       async function articlesLoad() {
          try {
             const article_id = router.query.article_id
             const articleDate = await api.get(`/article/exact?article_id=${article_id}`);
-            const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5 } = articleDate.data
+            const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5, nameComment, content } = articleDate.data
 
             setTitle(title)
             setDescription(description)
@@ -65,7 +72,7 @@ export default function ArticlePage() {
             alert('Error call api list articles pagination');
          }
       }
-      
+
       articlesLoad()
    }, [router.query.article_id])
 
@@ -117,6 +124,43 @@ export default function ArticlePage() {
       loadArticlePage();
    }, [router.query.article_id]);
 
+/*    async function handleRegisterComment(event: FormEvent) {
+      event.preventDefault();
+      try {
+         const data = new FormData();
+
+         if (nameComment === '') {
+            toast.error('Digite seu nome antes de enviar seu comentario!')
+            return;
+         }
+
+         const dataComment = await api.post('/comment', {
+            nameComment,
+            content
+         });
+
+         toast.success('Comentario enviado com sucesso!')
+
+         setNameComment('');
+         setContent('');
+
+      } catch (err) {
+         console.log(err);
+         toast.error("Ops erro ao cadastrar seu comentario!")
+      }
+
+   } */
+
+   const article_id = router.query.article_id
+
+   const disqusShortname = "blog-builder-seu-negocio-online" //found in your Disqus.com dashboard
+   const disqusConfig = {
+      url: `http://localhost:3000/articlePage?article_id=${article_id}`, //this.props.pageUrl
+      identifier: `${article_id}`, //this.props.uniqueId
+      title: `${title}` //this.props.title
+   }
+
+   console.log(disqusConfig)
 
 
    return (
@@ -185,9 +229,41 @@ export default function ArticlePage() {
                      </span>
                   </div>
 
+                 {/*  <div className={styles.commentContainer}>
+                     <span>{nameComment}</span>
+                     <span>{content}</span>
+                  </div> */}
+
                   <br />
                   <br />
                   <br />
+
+                  {/*                  <form className={styles.form} onSubmit={handleRegisterComment}>
+                     <input
+                        type="text"
+                        placeholder="Digite seu nome"
+                        className={styles.input}
+                        value={nameComment}
+                        onChange={(e) => setNameComment(e.target.value)}
+                     />
+
+                     <textarea
+                        placeholder="Digite seu comentario aqui!"
+                        className={styles.input}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                     >
+                     </textarea>
+
+                     
+
+                     <button
+                        className={styles.buttonAdd}
+                        type="submit"
+                     >
+                        Enviar comentario
+                     </button>
+                  </form> */}
 
                   <h2 className={styles.vejaTambem}>Veja também...</h2>
 
@@ -203,7 +279,7 @@ export default function ArticlePage() {
 
                         {currentPage > 1 && (
                            <div className={styles.previus}>
-                              <BsFillArrowLeftSquareFill color='var(--orange)' size={35} onClick={() => setCurrentPage(currentPage - 1)} />
+                              <BsFillArrowLeftSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage - 1)} />
                            </div>
                         )}
 
@@ -224,7 +300,7 @@ export default function ArticlePage() {
 
                         {currentPage < articles.length && (
                            <div className={styles.next}>
-                              <BsFillArrowRightSquareFill color='var(--orange)' size={35} onClick={() => setCurrentPage(currentPage + 1)} />
+                              <BsFillArrowRightSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage + 1)} />
                            </div>
                         )}
 
@@ -236,19 +312,24 @@ export default function ArticlePage() {
                         <Link href={`/articlePage?article_id=${postPrevious}`}>
                            {postPreviousTitle}
                         </Link>
-                        <BiLeftArrow color='var(--black)' size={25}/>
-                        <BiLeftArrow color='var(--black)' size={25}/>
+                        <BiLeftArrow color='var(--black)' size={25} />
+                        <BiLeftArrow color='var(--black)' size={25} />
                      </button>
 
                      <button className={styles.proximo}>
                         <Link href={`/articlePage?article_id=${postNext}`}>
                            {postNextTitle}
                         </Link>
-                        <BiRightArrow color='var(--black)' size={25}/>
-                        <BiRightArrow color='var(--black)' size={25}/>
+                        <BiRightArrow color='var(--black)' size={25} />
+                        <BiRightArrow color='var(--black)' size={25} />
                      </button>
-                     
+
                   </div>
+
+                  <Disqus.DiscussionEmbed
+                     shortname={disqusShortname}
+                     config={disqusConfig}
+                  />
 
                </article>
             </section>
