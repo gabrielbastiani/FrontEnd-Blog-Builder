@@ -5,6 +5,7 @@ import { ArticleHome } from '../components/ArticlesHome/index'
 import { SearchBar } from '../components/SearchBar/index'
 import { RecentPosts } from '../components/RecentPosts/index'
 import styles from '../../styles/home.module.scss'
+import { Newslatter } from '../components/Newslatter/index'
 
 export default function Home() {
 
@@ -21,6 +22,7 @@ export default function Home() {
             <RecentPosts />
           </nav>
           <article>
+            <Newslatter />
             <ArticleHome />
           </article>
         </section>

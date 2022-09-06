@@ -54,7 +54,7 @@ export function SearchBar() {
          <div className={styles.search}>
             <div className={styles.searchInputs}>
                <input
-                  placeholder='Busca por artigo'
+                  placeholder='Busca por artigo...'
                   type="search"
                   onClick={showOrHide}
                   onChange={handleChange}

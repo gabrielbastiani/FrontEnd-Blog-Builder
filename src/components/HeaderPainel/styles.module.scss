@@ -8,7 +8,6 @@
   height: 5rem;
   margin: 0 auto;
   padding: 0 2rem;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,9 +23,13 @@
   }
 
   .userImg {
-    max-width: 15%;
-    border-radius: 50%;
-    object-fit: cover;
+    
+    img{
+      border-radius: 50%;
+      max-width: 40px;
+      max-height: 50px;
+    }
+    
   }
 
 }

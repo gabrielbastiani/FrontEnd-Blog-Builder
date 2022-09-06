@@ -33,9 +33,12 @@ export function HeaderPainel() {
                   <span>{user?.name}</span>
                </Link>
 
-               <Link href="/detailUser">
-                  <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
-               </Link>
+               <div className={styles.userImg}>
+                  <Link href="/detailUser">
+                     <img src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
+                  </Link>
+               </div>
+               
             </div>
 
             <nav className={styles.menuNav}>

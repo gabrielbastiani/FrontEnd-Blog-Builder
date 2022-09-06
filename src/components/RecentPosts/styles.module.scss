@@ -2,11 +2,11 @@
 
   margin-top: 35px;
 
-  h2{
+  h2 {
     width: 250px;
   }
 
-  hr{
+  hr {
     width: 25px;
     height: 4px;
     border: 0px;
@@ -50,9 +50,9 @@
   color: var(--orange);
 }
 
-.contentFooter{
+.contentFooter {
 
-  ul{
+  ul {
     padding-top: 5px;
   }
 }
@@ -61,8 +61,8 @@
   color: var(--orange);
 }
 
-@media (max-width: 1088px){
+@media (max-width: 1088px) {
   .sectionRecentPost {
-     display: none !important;
+    display: none !important;
   }
 }
