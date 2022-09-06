@@ -1,7 +1,6 @@
 .searchInputs {
   margin-top: 105px;
   display: flex;
-  width: 200%;
 
   input {
     background-color: white;
@@ -18,11 +17,12 @@
 .dataResult {
   margin-top: 5px;
   width: 250px;
-  height: auto;
+  height: 230px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   overflow: hidden;
   overflow-y: auto;
+  position: absolute;
 }
 
 .dataResult .dataItem {

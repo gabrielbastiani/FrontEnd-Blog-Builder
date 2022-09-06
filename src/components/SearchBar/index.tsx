@@ -6,18 +6,21 @@ import Link from '../../../node_modules/next/link';
 
 export function SearchBar() {
 
-   const [filteredData, setFilteredData] = useState([]);
-   const [wordEntered, setWordEntered] = useState('');
+   const [initialFilter, setInitialFilter] = useState();
+   const [search, setSearch] = useState([]);
 
    const [showMenu, setShowMenu] = useState(false);
+   const [showElement, setShowElement] = useState(false);
 
 
    useEffect(() => {
       async function loadArticles() {
          try {
             const dataArticle = await api.get('/article/search');
+            const filter = await dataArticle.data;
 
-            setFilteredData(dataArticle.data)
+            setInitialFilter(filter);
+            setSearch(filter);
 
          } catch (error) {
             console.error(error);
@@ -29,43 +32,39 @@ export function SearchBar() {
    }, []);
 
 
-   const handleFilter = (event) => {
-      const searchWord = event.target.value;
+   const handleChange = ({ target }) => {
+      if (!target.value) {
+         setSearch(initialFilter);
 
-      setWordEntered(searchWord);
-
-      const newFilter = filteredData.filter((value) => {
-         return value.title.toLowerCase().includes(searchWord.toLowerCase());
-      });
-
-      if (searchWord === "") {
-         setFilteredData([]);
-      } else {
-         setFilteredData(newFilter);
+         return;
       }
-   };
+
+      const filterArticles = search.filter((filt) => filt.title.toLowerCase().includes(target.value));
+      setSearch(filterArticles);
+   }
 
    const showOrHide = () => {
-      setShowMenu(!showMenu)
+      setShowElement(!showElement)
    }
+
+
 
    return (
       <>
          <div className={styles.search}>
             <div className={styles.searchInputs}>
                <input
-                  type="text"
-                  placeholder='Digite sua busca...'
-                  value={wordEntered}
-                  onChange={handleFilter}
+                  placeholder='Busca por artigo'
+                  type="search"
                   onClick={showOrHide}
+                  onChange={handleChange}
                />
             </div>
 
-            {showMenu ? <div className={styles.dataResult}>
-               {filteredData.length != 0 && (
+            {showElement ? <div className={styles.dataResult}>
+               {search.length !== 0 && (
                   <div className={styles.dataResult}>
-                     {filteredData.slice(0, 15).map((value) => {
+                     {search.slice(0, 15).map((value) => {
                         return (
                            <>
                               <Link className={styles.dataItem} href={`/articlePage?article_id=${value.id}`} target="_blank">

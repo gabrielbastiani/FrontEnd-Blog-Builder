@@ -39,3 +39,9 @@
       align-items: center;
    }
 }
+
+@media (max-width: 440px){
+   .sectionContent{
+      text-align: -webkit-center;
+   }
+}

@@ -1,0 +1,68 @@
+.sectionRecentPost {
+
+  margin-top: 35px;
+
+  h2{
+    width: 250px;
+  }
+
+  hr{
+    width: 25px;
+    height: 4px;
+    border: 0px;
+    background-color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  ul {
+    padding-bottom: 15px;
+    list-style-type: none;
+  }
+
+  li {
+    color: var(--black);
+    transition: color 0.7s;
+    cursor: pointer;
+    padding-bottom: 5px;
+  }
+
+  li:hover {
+    color: var(--orange);
+  }
+
+  a {
+    cursor: pointer;
+    display: flex;
+    color: var(--white);
+    text-decoration: none;
+    padding-bottom: 15px;
+    transition: color 0.7s;
+
+    &:hover {
+      color: var(--orange);
+    }
+
+  }
+
+}
+
+.emptyList {
+  color: var(--orange);
+}
+
+.contentFooter{
+
+  ul{
+    padding-top: 5px;
+  }
+}
+
+.dateArticles {
+  color: var(--orange);
+}
+
+@media (max-width: 1088px){
+  .sectionRecentPost {
+     display: none !important;
+  }
+}

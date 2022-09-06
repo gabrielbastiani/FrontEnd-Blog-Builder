@@ -3,6 +3,7 @@ import { FooterBlog } from '../components/FooterBlog/index'
 import { HeaderBlog } from '../components/HeaderBlog/index'
 import { ArticleHome } from '../components/ArticlesHome/index'
 import { SearchBar } from '../components/SearchBar/index'
+import { RecentPosts } from '../components/RecentPosts/index'
 import styles from '../../styles/home.module.scss'
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <section className={styles.sectionContent}>
           <nav>
             <SearchBar />
+            <RecentPosts />
           </nav>
           <article>
             <ArticleHome />

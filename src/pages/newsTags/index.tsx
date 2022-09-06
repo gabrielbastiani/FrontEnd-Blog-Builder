@@ -11,7 +11,6 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
-import Router from '../../../node_modules/next/router'
 
 
 export default function NewsTags() {
@@ -536,7 +535,7 @@ export default function NewsTags() {
 
                 <h5>Total do 3º grupo de TAGs por página</h5>
 
-                <select onChange={limitsTag1}>
+                <select onChange={limitsTag3}>
                   <option value="3">3</option>
                   <option value="7">7</option>
                   <option value="10">10</option>
