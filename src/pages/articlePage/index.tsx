@@ -1,16 +1,18 @@
-import React from 'react';
-import { useEffect, useState, FormEvent } from 'react';
-import { FooterBlog } from '../../components/FooterBlog/index'
-import { HeaderBlog } from '../../components/HeaderBlog/index'
-import Head from '../../../node_modules/next/head'
+import { useEffect, useState } from "react";
+import { api } from "../../services/apiClient";
 import styles from './styles.module.scss'
-import { api } from '../../services/apiClient';
+import { useRouter } from 'next/router'
+import Head from "../../../node_modules/next/head";
 import moment from 'moment';
+import { HeaderBlog } from "../../components/HeaderBlog/index";
+import { FooterBlog } from "../../components/FooterBlog/index";
+import { SearchBar } from "../../components/SearchBar/index";
+import { RecentPosts } from "../../components/RecentPosts/index";
+import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs'
+import { AiOutlineFolderOpen, AiOutlineTags, AiOutlineArrowRight } from 'react-icons/ai'
+import { BiEdit, BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import Link from "../../../node_modules/next/link";
-import { useRouter } from '../../../node_modules/next/router'
-import { BsCalendarCheck, BsFillArrowRightSquareFill, BsFillArrowLeftSquareFill } from 'react-icons/bs'
-import { BiEdit, BiRightArrow, BiLeftArrow } from 'react-icons/bi'
-import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
+import { Button } from "../../components/ui/Button/index";
 import Disqus from "disqus-react"
 
 
@@ -124,32 +126,32 @@ export default function ArticlePage() {
       loadArticlePage();
    }, [router.query.article_id]);
 
-/*    async function handleRegisterComment(event: FormEvent) {
-      event.preventDefault();
-      try {
-         const data = new FormData();
-
-         if (nameComment === '') {
-            toast.error('Digite seu nome antes de enviar seu comentario!')
-            return;
+   /*    async function handleRegisterComment(event: FormEvent) {
+         event.preventDefault();
+         try {
+            const data = new FormData();
+   
+            if (nameComment === '') {
+               toast.error('Digite seu nome antes de enviar seu comentario!')
+               return;
+            }
+   
+            const dataComment = await api.post('/comment', {
+               nameComment,
+               content
+            });
+   
+            toast.success('Comentario enviado com sucesso!')
+   
+            setNameComment('');
+            setContent('');
+   
+         } catch (err) {
+            console.log(err);
+            toast.error("Ops erro ao cadastrar seu comentario!")
          }
-
-         const dataComment = await api.post('/comment', {
-            nameComment,
-            content
-         });
-
-         toast.success('Comentario enviado com sucesso!')
-
-         setNameComment('');
-         setContent('');
-
-      } catch (err) {
-         console.log(err);
-         toast.error("Ops erro ao cadastrar seu comentario!")
-      }
-
-   } */
+   
+      } */
 
    const article_id = router.query.article_id
 
@@ -160,7 +162,6 @@ export default function ArticlePage() {
       title: `${title}` //this.props.title
    }
 
-   console.log(disqusConfig)
 
 
    return (
@@ -169,168 +170,150 @@ export default function ArticlePage() {
             <title>{title} - Blog Builder Seu Negócio Online</title>
          </Head>
 
-         <main className={styles.articleMain}>
+         <main className={styles.sectionCategory}>
+
             <HeaderBlog />
+
             <section className={styles.sectionContent}>
-               <nav>Navigation</nav>
-               <article className={styles.sectionArticle}>
-                  <h1>{title}</h1>
-                  <br />
-                  <div className={styles.informationsArticle}>
-                     <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(created_at).format('DD/MM/YYYY')}</span>
-                     <span><BiEdit color='var(--orange)' size={20} />
-                        <Link href={`/authorArticles?name=${name}`}>
-                           {name}
-                        </Link>
-                     </span>
-                     <span><AiOutlineFolderOpen color='var(--orange)' size={25} />
-                        <Link href={`/categoryPage?categoryName=${categoryName}`}>
-                           {categoryName}
-                        </Link>
-                     </span>
-                  </div>
 
-                  <div className={styles.bannerBox}>
-                     <img src={"http://localhost:3333/files/" + banner} alt="banner do artigo" />
-                  </div>
+               <nav className={styles.articleSidbar}>
+                  <SearchBar />
+                  <RecentPosts />
+               </nav>
 
-                  <div className={styles.contentBox} dangerouslySetInnerHTML={{ __html: description }}></div>
+               <article className={styles.articleMaster}>
 
-                  <div className={styles.tags}>
 
-                     <span><AiOutlineTags color='var(--orange)' size={25} />
-                        <Link href={`/tagArticlesPageOne?tagName1=${tagName1}`}>
-                           {tagName1}
-                        </Link>
-                        &nbsp;
-                        <span> - </span>
-                        &nbsp;
-                        <Link href={`/tagArticlesPageTwo?tagName2=${tagName2}`}>
-                           {tagName2}
-                        </Link>
-                        &nbsp;
-                        <span> - </span>
-                        &nbsp;
-                        <Link href={`/tagArticlesPageThree?tagName3=${tagName3}`}>
-                           {tagName3}
-                        </Link>
-                        &nbsp;
-                        <span> - </span>
-                        &nbsp;
-                        <Link href={`/tagArticlesPageFour?tagName4=${tagName4}`}>
-                           {tagName4}
-                        </Link>
-                        &nbsp;
-                        <span> - </span>
-                        &nbsp;
-                        <Link href={`/tagArticlesPageFive?tagName5=${tagName5}`}>
-                           {tagName5}
-                        </Link>
-                     </span>
-                  </div>
+                  <div className={styles.articleBox}>
+                     <div className={styles.titleArticle}>
+                        <h1>{title}</h1>
+                     </div>
+                     <div className={styles.informationsArticle}>
+                        <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(created_at).format('DD/MM/YYYY')}</span>
+                        <span><BiEdit color='var(--orange)' size={20} />
+                           <Link href={`/authorArticles?name=${name}`}>
+                              {name}
+                           </Link>
+                        </span>
+                        <span><AiOutlineFolderOpen color='var(--orange)' size={25} />
+                           <Link href={`/categoryPage?categoryName=${categoryName}`}>
+                              {categoryName}
+                           </Link>
+                        </span>
+                     </div>
 
-                 {/*  <div className={styles.commentContainer}>
-                     <span>{nameComment}</span>
-                     <span>{content}</span>
-                  </div> */}
+                     <Link href={`/articlePage?article_id=${article_id}`}>
+                        <div className={styles.bannerArticle}>
+                           <img src={"http://localhost:3333/files/" + banner} alt="banner do artigo" />
+                        </div>
+                     </Link>
 
-                  <br />
-                  <br />
-                  <br />
+                     <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: description }}></div>
 
-                  {/*                  <form className={styles.form} onSubmit={handleRegisterComment}>
-                     <input
-                        type="text"
-                        placeholder="Digite seu nome"
-                        className={styles.input}
-                        value={nameComment}
-                        onChange={(e) => setNameComment(e.target.value)}
-                     />
+                     <div className={styles.tags}>
 
-                     <textarea
-                        placeholder="Digite seu comentario aqui!"
-                        className={styles.input}
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                     >
-                     </textarea>
+                        <span><AiOutlineTags color='var(--orange)' size={25} />
+                           <Link href={`/tagArticlesPageOne?tagName1=${tagName1}`}>
+                              {tagName1}
+                           </Link>
+                           &nbsp;
+                           <span> - </span>
+                           &nbsp;
+                           <Link href={`/tagArticlesPageTwo?tagName2=${tagName2}`}>
+                              {tagName2}
+                           </Link>
+                           &nbsp;
+                           <span> - </span>
+                           &nbsp;
+                           <Link href={`/tagArticlesPageThree?tagName3=${tagName3}`}>
+                              {tagName3}
+                           </Link>
+                           &nbsp;
+                           <span> - </span>
+                           &nbsp;
+                           <Link href={`/tagArticlesPageFour?tagName4=${tagName4}`}>
+                              {tagName4}
+                           </Link>
+                           &nbsp;
+                           <span> - </span>
+                           &nbsp;
+                           <Link href={`/tagArticlesPageFive?tagName5=${tagName5}`}>
+                              {tagName5}
+                           </Link>
+                        </span>
+                     </div>
 
-                     
+                     <br />
+                     <br />
+                     <br />
 
-                     <button
-                        className={styles.buttonAdd}
-                        type="submit"
-                     >
-                        Enviar comentario
-                     </button>
-                  </form> */}
+                     <h2 className={styles.vejaTambem}>Veja também...</h2>
 
-                  <h2 className={styles.vejaTambem}>Veja também...</h2>
+                     <div className={styles.containerArticlesPages}>
 
-                  <div className={styles.containerArticlesPages}>
+                        <div className={styles.containerArticles}>
 
-                     <div className={styles.containerArticles}>
+                           {articles.length === 0 && (
+                              <span className={styles.emptyList}>
+                                 Nenhum artigo cadastrado...
+                              </span>
+                           )}
 
-                        {articles.length === 0 && (
-                           <span className={styles.emptyList}>
-                              Nenhum artigo cadastrado...
-                           </span>
-                        )}
+                           {currentPage > 1 && (
+                              <div className={styles.previus}>
+                                 <BsFillArrowLeftSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage - 1)} />
+                              </div>
+                           )}
 
-                        {currentPage > 1 && (
-                           <div className={styles.previus}>
-                              <BsFillArrowLeftSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage - 1)} />
-                           </div>
-                        )}
+                           {articles.map((posts) => {
+                              return (
+                                 <>
+                                    <div className={styles.articleBoxFooter}>
+                                       <Link href={`/articlePage?article_id=${posts.id}`}>
+                                          <div className={styles.article}>
+                                             <h4>{posts?.title}</h4>
+                                             <img src={"http://localhost:3333/files/" + posts?.banner} alt="banner do artigo" />
+                                          </div>
+                                       </Link>
+                                    </div>
+                                 </>
+                              )
+                           })}
 
-                        {articles.map((posts) => {
-                           return (
-                              <>
-                                 <div className={styles.articleBoxFooter}>
-                                    <Link href={`/articlePage?article_id=${posts.id}`}>
-                                       <div className={styles.article}>
-                                          <h4>{posts?.title}</h4>
-                                          <img src={"http://localhost:3333/files/" + posts?.banner} alt="banner do artigo" />
-                                       </div>
-                                    </Link>
-                                 </div>
-                              </>
-                           )
-                        })}
+                           {currentPage < articles.length && (
+                              <div className={styles.next}>
+                                 <BsFillArrowRightSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage + 1)} />
+                              </div>
+                           )}
 
-                        {currentPage < articles.length && (
-                           <div className={styles.next}>
-                              <BsFillArrowRightSquareFill color='var(--orange)' size={40} onClick={() => setCurrentPage(currentPage + 1)} />
-                           </div>
-                        )}
+                        </div>
+                     </div>
+
+                     <div className={styles.pagination}>
+                        <button className={styles.antes}>
+                           <Link href={`/articlePage?article_id=${postPrevious}`}>
+                              {postPreviousTitle}
+                           </Link>
+                           <BiLeftArrow color='var(--black)' size={25} />
+                           <BiLeftArrow color='var(--black)' size={25} />
+                        </button>
+
+                        <button className={styles.proximo}>
+                           <Link href={`/articlePage?article_id=${postNext}`}>
+                              {postNextTitle}
+                           </Link>
+                           <BiRightArrow color='var(--black)' size={25} />
+                           <BiRightArrow color='var(--black)' size={25} />
+                        </button>
 
                      </div>
-                  </div>
 
-                  <div className={styles.pagination}>
-                     <button className={styles.antes}>
-                        <Link href={`/articlePage?article_id=${postPrevious}`}>
-                           {postPreviousTitle}
-                        </Link>
-                        <BiLeftArrow color='var(--black)' size={25} />
-                        <BiLeftArrow color='var(--black)' size={25} />
-                     </button>
-
-                     <button className={styles.proximo}>
-                        <Link href={`/articlePage?article_id=${postNext}`}>
-                           {postNextTitle}
-                        </Link>
-                        <BiRightArrow color='var(--black)' size={25} />
-                        <BiRightArrow color='var(--black)' size={25} />
-                     </button>
+                     <Disqus.DiscussionEmbed
+                        shortname={disqusShortname}
+                        config={disqusConfig}
+                     />
 
                   </div>
-
-                  <Disqus.DiscussionEmbed
-                     shortname={disqusShortname}
-                     config={disqusConfig}
-                  />
-
                </article>
             </section>
             <FooterBlog />

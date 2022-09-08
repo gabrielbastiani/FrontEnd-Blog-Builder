@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "./styles.module.scss"
 import Link from "../../../node_modules/next/link";
 import moment from 'moment';

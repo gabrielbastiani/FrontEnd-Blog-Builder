@@ -19,30 +19,28 @@ export function Newslatter() {
         event.preventDefault();
 
         try {
-            
+            const validEmail = new RegExp("/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i");
+
             if (nameEmail === '') {
-                toast.error('Digite seu nome ou email valido!')
+                toast.error('Digite seu nome ou email valido!');
                 return;
             }
 
-            const validEmail = new RegExp("/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/");
-
             if (!validEmail.test(emailName)) {
-                
-                const data = await api.post('/newslatter', {
-                    nameEmail: nameEmail,
-                    emailName: emailName
-                });
-                
-                toast.success('Dados enviados com sucesso!');
-                
-            } else {
+                toast.error('Por favor digite um email valido!');
+                return;
+            } 
 
-                toast.error('Por favor digete um email valido!');
-            }
+            const data = await api.post('/newslatter', {
+                nameEmail: nameEmail,
+                emailName: emailName
+            });
+
+            toast.success('Dados enviados com sucesso!');
            
             setNameEmail('');
             setEmailName('');
+
         } catch (error) {
             console.log(error)
         }

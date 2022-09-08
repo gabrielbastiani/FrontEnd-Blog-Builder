@@ -6,6 +6,13 @@ import Head from "../../../node_modules/next/head";
 import moment from 'moment';
 import { HeaderBlog } from "../../components/HeaderBlog/index";
 import { FooterBlog } from "../../components/FooterBlog/index";
+import { BsCalendarCheck } from 'react-icons/bs'
+import { AiOutlineFolderOpen, AiOutlineArrowRight, AiOutlineTags } from 'react-icons/ai'
+import { BiEdit } from 'react-icons/bi'
+import { Button } from '../../components/ui/Button';
+import Link from "../../../node_modules/next/link";
+import { SearchBar } from "../../components/SearchBar/index";
+import { RecentPosts } from "../../components/RecentPosts/index";
 
 
 export default function AuthorArticles() {
@@ -44,29 +51,100 @@ export default function AuthorArticles() {
 
             <HeaderBlog />
 
-            <section className={styles.sectionArticles}>
+            <section className={styles.sectionContent}>
 
-               {articlesUser.length === 0 && (
-                  <span className={styles.emptyList}>
-                     Nenhum artigo encontrado com esse usúario...
-                  </span>
-               )}
+               <nav className={styles.articleSidbar}>
+                  <SearchBar />
+                  <RecentPosts />
+               </nav>
 
-               {articlesUser.map((article) => {
-                  return (
-                     <>
-                        <div key={article.id}>
-                           <span>{article?.name}</span>
-                           <span>{article?.categoryName}</span>
-                           <span>{article?.title}</span>
-                           <span>{article?.tag1} - {article?.tag2} - {article?.tag3} - {article?.tag4}</span>
-                           <span>Data de criação do artigo: {moment(article?.created_at).format('DD/MM/YYYY HH:mm')}</span>
-                           <span><img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" /></span>
-                           <span dangerouslySetInnerHTML={{ __html: article?.description }}></span>
-                        </div>
-                     </>
-                  )
-               })}
+               <div className={styles.emptyListBox}>
+                  {articlesUser.length === 0 && (
+                     <span className={styles.emptyList}>
+                        Nenhum artigo encontrado com esse autor...
+                     </span>
+                  )}
+               </div>
+
+               <article className={styles.articleMaster}>
+
+                  <h1>Autor: {user}</h1>
+
+                  {articlesUser.map((article) => {
+                     return (
+                        <>
+                           <div className={styles.articleBox}>
+                              <div className={styles.titleArticle}>
+                                 <h1>{article.title}</h1>
+                              </div>
+                              <div className={styles.informationsArticle}>
+                                 <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(article?.created_at).format('DD/MM/YYYY')}</span>
+                                 <span><BiEdit color='var(--orange)' size={20} />
+                                    <Link href={`/authorArticles?name=${article?.name}`}>
+                                       {article?.name}
+                                    </Link>
+                                 </span>
+                                 <span><AiOutlineFolderOpen color='var(--orange)' size={25} />
+                                    <Link href={`/categoryPage?categoryName=${article?.categoryName}`}>
+                                       {article?.categoryName}
+                                    </Link>
+                                 </span>
+                              </div>
+
+                              <Link href={`/articlePage?article_id=${article.id}`}>
+                                 <div className={styles.bannerArticle}>
+                                    <img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" />
+                                 </div>
+                              </Link>
+
+                              <div className={styles.tags}>
+
+                                 <span><AiOutlineTags color='var(--orange)' size={25} />
+                                    <Link href={`/tagArticlesPageOne?tagName1=${article?.tagName1}`}>
+                                       {article?.tagName1}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageTwo?tagName2=${article?.tagName2}`}>
+                                       {article?.tagName2}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageThree?tagName3=${article?.tagName3}`}>
+                                       {article?.tagName3}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageFour?tagName4=${article?.tagName4}`}>
+                                       {article?.tagName4}
+                                    </Link>
+                                    &nbsp;
+                                    <span> - </span>
+                                    &nbsp;
+                                    <Link href={`/tagArticlesPageFive?tagName5=${article?.tagName5}`}>
+                                       {article?.tagName5}
+                                    </Link>
+                                 </span>
+                              </div>
+
+                              <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: article?.description }}></div>
+
+                              <Link href={`/articlePage?article_id=${article.id}`}>
+                                 <div className={styles.articleMore}>
+                                    <Button>Ler mais...</Button>
+                                    <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />
+                                 </div>
+                              </Link>
+
+                              <hr />
+                           </div>
+                        </>
+                     )
+                  })}
+               </article>
             </section>
 
             <FooterBlog />
