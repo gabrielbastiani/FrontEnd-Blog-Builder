@@ -11,6 +11,7 @@ import { FooterBlog } from "../../components/FooterBlog/index";
 export default function TagArticlesPageFour() {
 
     const [tag4Articles, setTag4Articles] = useState([]);
+    const [tag, setTag] = useState('');
 
     const router = useRouter()
 
@@ -23,8 +24,8 @@ export default function TagArticlesPageFour() {
 
             const articlesTag4 = responseTag4.data;
 
-            setTag4Articles(articlesTag4)
-
+            setTag4Articles(articlesTag4);
+            setTag(tagName4);
         }
 
         loadArticlesTag()
@@ -34,7 +35,7 @@ export default function TagArticlesPageFour() {
     return (
         <>
             <Head>
-                <title>TAG - Blog Builder Seu Negócio Online</title>
+                <title>TAG - {tag} - Blog Builder Seu Negócio Online</title>
             </Head>
 
             <main className={styles.sectionCategory}>

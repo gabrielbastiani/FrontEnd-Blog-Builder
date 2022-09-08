@@ -15,33 +15,36 @@
 
 .sectionContent>article {
    grid-area: main;
+   display: flex;
+   flex-direction: column;
+   align-items: start;
 }
 
-@media (max-width: 1162px){
-   .sectionContent{
+@media (max-width: 1162px) {
+   .sectionContent {
       grid-template-columns: 300px 1fr;
    }
 
-   .sectionContent>nav{
+   .sectionContent>nav {
       padding: 0 40px;
    }
 }
 
-@media (max-width: 1088px){
+@media (max-width: 1088px) {
    .sectionContent {
       display: flex;
       flex-direction: column;
    }
 }
 
-@media (max-width: 770px){
-   .sectionContent{
+@media (max-width: 770px) {
+   .sectionContent {
       align-items: center;
    }
 }
 
-@media (max-width: 440px){
-   .sectionContent{
+@media (max-width: 440px) {
+   .sectionContent {
       text-align: -webkit-center;
    }
 }

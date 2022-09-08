@@ -211,7 +211,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
     return (
         <>
             <Head>
-                <title>Atualizar artigo - Builder Seu Negócio Online</title>
+                <title>Atualizar artigo - {title} - Builder Seu Negócio Online</title>
             </Head>
             <div>
                 <HeaderPainel />

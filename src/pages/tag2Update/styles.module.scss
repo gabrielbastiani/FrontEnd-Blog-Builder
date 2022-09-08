@@ -7,6 +7,10 @@
   height: 100vh;
   flex-direction: column;
   margin: auto;
+
+  .form{
+    justify-content: center;
+  }
 }
 
 .container h2 {
@@ -15,7 +19,6 @@
 
 .buttonUpdate {
   cursor: pointer;
-  width: 40%;
   max-width: 600px;
   background-color: var(--red);
   border: 0;
@@ -50,14 +53,6 @@
   }
 }
 
-.containerContent{
-  background-color: var(--black);
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  color: var(--white);
-  border-radius: 3%;
-}
 
 @media screen and (max-width: 700px) {
   .container {
@@ -71,9 +66,29 @@
   }
 }
 
-@media screen and (max-width: 515px){
-  .containerContent{
-    display: flex;
-    flex-wrap: wrap;
-  }
+.containerContent{
+  padding: 52px;
+  background-color: var(--black);
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  border-radius: 3%;
+}
+
+.input{
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 40px;
+  border: 0;
+  border-radius: 0.5rem;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 1rem;
+  border: 1px solid var(--orange);
+}
+
+.input::placeholder{
+  color: rgba(255,255,255, 0.3);
 }

@@ -84,7 +84,7 @@ export default function DetailUser() {
   return (
     <>
       <Head>
-        <title>Detalhes do Usuario</title>
+        <title>{user.name} - Detalhes do Usuario</title>
       </Head>
 
       <HeaderPainel />

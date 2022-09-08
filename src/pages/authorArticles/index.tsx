@@ -11,6 +11,9 @@ import { FooterBlog } from "../../components/FooterBlog/index";
 export default function AuthorArticles() {
 
    const [articlesUser, setArticlesUser] = useState([]);
+   const [user, setUser] = useState('');
+
+   console.log(articlesUser.map((item) => item.name))
 
    const router = useRouter()
 
@@ -22,9 +25,8 @@ export default function AuthorArticles() {
 
          const articles = response.data;
 
-         console.log(articles)
-
-         setArticlesUser(articles)
+         setArticlesUser(articles);
+         setUser(name)
 
       }
 
@@ -35,7 +37,7 @@ export default function AuthorArticles() {
    return (
       <>
          <Head>
-            <title>Artigos por Usúarios - Blog Builder Seu Negócio Online</title>
+            <title>{user} - Blog Builder Seu Negócio Online</title>
          </Head>
 
          <main className={styles.sectionCategory}>

@@ -2,7 +2,6 @@ import React, { useState, FormEvent, useEffect, useCallback } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
-import { FaTrashAlt } from 'react-icons/fa'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { api } from '../../services/apiClient';
@@ -11,6 +10,7 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
+
 
 
 export default function NewsTags() {
@@ -304,7 +304,7 @@ export default function NewsTags() {
   return (
     <>
       <Head>
-        <title>Novas TAGs - Builder Seu Negócio Online</title>
+        <title>TAGs - Builder Seu Negócio Online</title>
       </Head>
       <main className={styles.containerMain}>
 
@@ -414,11 +414,6 @@ export default function NewsTags() {
                               </div>
                             </Link>
                           </div>
-                          <div className={styles.tagDelete}>
-                            <Link className={styles.deleteTag} href={`/tag1Delete?tag1_id=${tag1s.id}`}>
-                              <FaTrashAlt className={styles.trash} color='var(--red)' size={15} />
-                            </Link>
-                          </div>
                         </div>
                       </>
                     )
@@ -450,8 +445,6 @@ export default function NewsTags() {
                 </div>
               </div>
             </div>
-
-
 
             <div className={styles.tagsBox}>
 
@@ -491,11 +484,6 @@ export default function NewsTags() {
                               </div>
                             </Link>
                           </div>
-                          <div className={styles.tagDelete}>
-                            <Link className={styles.deleteTag} href={`/tag2Delete?tag2_id=${tag2s.id}`}>
-                              <FaTrashAlt className={styles.trash} color='var(--red)' size={15} />
-                            </Link>
-                          </div>
                         </div>
                       </>
                     )
@@ -527,7 +515,6 @@ export default function NewsTags() {
                 </div>
               </div>
             </div>
-
 
             <div className={styles.tagsBox}>
 
@@ -567,11 +554,6 @@ export default function NewsTags() {
                               </div>
                             </Link>
                           </div>
-                          <div className={styles.tagDelete}>
-                            <Link className={styles.deleteTag} href={`/tag3Delete?tag3_id=${tag3s.id}`}>
-                              <FaTrashAlt className={styles.trash} color='var(--red)' size={15} />
-                            </Link>
-                          </div>
                         </div>
                       </>
                     )
@@ -603,7 +585,6 @@ export default function NewsTags() {
                 </div>
               </div>
             </div>
-
 
             <div className={styles.tagsBox}>
 
@@ -641,11 +622,6 @@ export default function NewsTags() {
                               <div className={styles.listTags}>
                                 <div className={styles.nameTag}>{tag4s?.tagName4}</div>
                               </div>
-                            </Link>
-                          </div>
-                          <div className={styles.tagDelete}>
-                            <Link className={styles.deleteTag} href={`/tag4Delete?tag4_id=${tag4s.id}`}>
-                              <FaTrashAlt className={styles.trash} color='var(--red)' size={15} />
                             </Link>
                           </div>
                         </div>
@@ -718,11 +694,6 @@ export default function NewsTags() {
                               <div className={styles.listTags}>
                                 <div className={styles.nameTag}>{tag5s?.tagName5}</div>
                               </div>
-                            </Link>
-                          </div>
-                          <div className={styles.tagDelete}>
-                            <Link className={styles.deleteTag} href={`/tag5Delete?tag5_id=${tag5s.id}`}>
-                              <FaTrashAlt className={styles.trash} color='var(--red)' size={15} />
                             </Link>
                           </div>
                         </div>

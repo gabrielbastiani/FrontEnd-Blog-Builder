@@ -77,13 +77,6 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-
-  .deleteTag {
-    cursor: pointer;
-    background-color: var(--black);
-    padding: 14px;
-  }
-
 }
 
 .tag {
@@ -186,14 +179,6 @@
       padding-left: 0.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .tagDelete {
-      cursor: pointer;
-      align-self: center;
-      background-color: black;
-      align-self: center;
-      padding: 6px;
     }
 
     .containerPagination {

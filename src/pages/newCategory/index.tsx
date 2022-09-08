@@ -2,9 +2,7 @@ import React, { useState, FormEvent, useEffect, useCallback } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
-import Router from 'next/router'
 import { FiRefreshCcw } from 'react-icons/fi'
-import { FaTrashAlt } from 'react-icons/fa'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { api } from '../../services/apiClient';
 import Link from 'next/link';
@@ -199,11 +197,6 @@ export default function Category() {
                           </div>
                         </Link>
                       </div>
-                      <div className={styles.categoryDeleteSearch}>
-                        <Link className={styles.deleteCategorySearch} href={`/categoryDelete?category_id=${sear.id}`}>
-                          <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={18} />
-                        </Link>
-                      </div>
                     </div>
                   </>
                 )
@@ -251,11 +244,6 @@ export default function Category() {
                               <span>Data de criação: {moment(categ?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                             </div>
                           </div>
-                        </Link>
-                      </div>
-                      <div className={styles.categoryDelete}>
-                        <Link className={styles.deleteCategory} href={`/categoryDelete?category_id=${categ.id}`}>
-                          <FaTrashAlt className={styles.trash} color='var(--red)' size={20} />
                         </Link>
                       </div>
                     </div>

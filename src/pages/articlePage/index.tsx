@@ -166,7 +166,7 @@ export default function ArticlePage() {
    return (
       <>
          <Head>
-            <title>Blog Builder Seu Negócio Online</title>
+            <title>{title} - Blog Builder Seu Negócio Online</title>
          </Head>
 
          <main className={styles.articleMain}>
