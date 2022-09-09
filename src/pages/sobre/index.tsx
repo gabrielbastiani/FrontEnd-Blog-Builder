@@ -18,13 +18,8 @@ export default function Sobre() {
 
             <section className={styles.userSection}>
                <div className={styles.userBox}>
-                  <img
-                     className={styles.userImg}
-                     src={"https://prnt.sc/zhxjrx_i_7Zu"} alt="foto usuario"
-                     alt="Foto do usuario"
-                     width={150}
-                     height={150}
-                  />
+
+               <img src="gabriel.png" width={220} height={200} />
 
                   <h1>Gabriel Campos de Bastiani</h1>
 

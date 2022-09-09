@@ -26,6 +26,10 @@
       line-height: 2;
    }
 
+   img{
+      margin: 50px;
+   }
+
 }
 
 .userDescription {
@@ -41,10 +45,17 @@
       cursor: pointer;
       background-color: orange;
       font-weight: bold;
+      margin-bottom: 50px;
    }
 
    svg{
       margin: 10px;
       cursor: pointer;
+   }
+}
+
+@media (max-width: 895px){
+   .userBox{
+      width: 80%;
    }
 }
