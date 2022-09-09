@@ -42,7 +42,7 @@
 
 .articleBox {
    background-color: var(--white);
-   width: 880px;
+   width: 950px;
    margin-bottom: 90px;
    padding: 28px;
 
@@ -54,16 +54,17 @@
    }
 
    h1 {
-      font-size: 2rem;
+      text-align: center;
+      font-size: 3rem;
    }
 }
 
 .bannerArticle {
 
    img {
-      width: 740px;
+      width: auto;
       height: 418px;
-      object-fit: contain;
+      object-fit: cover;
    }
 }
 
@@ -88,15 +89,12 @@
 
    a {
       text-decoration: none;
-      color: black;
+      color: var(--black);
    }
 }
 
 .descriptionArticle {
-   height: 150px;
    white-space: pre-line;
-   overflow: hidden;
-   text-overflow: ellipsis;
 }
 
 .articleMore {
@@ -129,6 +127,7 @@
 
 .containerArticlesPages {
    display: flex;
+   justify-content: center;
 
    button {
       margin: 0 15px;
@@ -161,6 +160,7 @@
 }
 
 .tags {
+   margin-top: 50px;
    align-items: center;
    display: flex;
    padding-bottom: 20px;
@@ -182,7 +182,11 @@
    }
 }
 
-@media (max-width: 1358px) {
+.news{
+   margin-bottom: 65px;
+}
+
+@media (max-width: 1224px){
    .articleBox {
       width: 740px;
    }
@@ -190,45 +194,90 @@
    .bannerArticle {
 
       img {
-         width: 640px;
+         width: 670px;
       }
    }
+
+   .news{
+      display: flex;
+      width: 650px !important;
+   }
+
 }
 
-@media (max-width: 1358px) {
+@media (max-width: 1160px){
    .articleBox {
-      width: 640px;
+      width: 540px;
+
+      h1 {
+         font-size: 2rem;
+      }
    }
 
    .bannerArticle {
 
       img {
-         width: 540px;
+         width: 470px;
+         height: 220px;
+      }
+   }
+
+   .vejaTambem{
+      display: none;
+   }
+
+   .containerArticlesPages {
+      display: none !important;
+   }
+
+   .pagination{
+      margin-top: 10px !important;
+      display: inline-flex !important;
+      width: 100%;
+   }
+
+   .antes {
+      max-width: 100px;
+
+      a{
+         font-size: 12px;
+      }
+   }
+
+   .proximo {
+      max-width: 100px;
+
+      a{
+         font-size: 12px;
       }
    }
 }
+
 
 @media (max-width: 1050px) {
    .sectionContent {
       display: flex;
       flex-direction: column !important;
       align-items: center;
-
-      h1 {
-         margin-top: 20px;
-      }
    }
 
    .articleBox {
-      width: 440px;
+      width: 640px;
+      margin-top: 50px;
    }
 
    .bannerArticle {
 
       img {
-         width: 340px;
+         width: 440px;
+         height: 220px;
       }
    }
+
+   .news{
+      width: 550px !important;
+   }
+
 }
 
 @media (max-width: 585px) {
@@ -253,6 +302,10 @@
       span {
          display: none;
       }
+   }
+
+   .news{
+      width: 80px !important;
    }
 
 }
@@ -282,6 +335,7 @@
          font-size: 9px;
       }
    }
+
 }
 
 .vejaTambem {
@@ -294,7 +348,7 @@
       display: flex;
       background-color: var(--white);
       padding: 10px;
-      width: 300px;
+      width: 250px;
       height: 220px;
       align-items: center;
 
@@ -349,10 +403,12 @@
       padding: 13px;
       font-weight: 900;
       border: 0;
-      max-width: 380px;
+      max-width: 320px;
 
       a {
          padding: 20px;
+         text-decoration: none;
+         color: var(--black);
       }
    }
 
@@ -361,10 +417,12 @@
       padding: 13px;
       font-weight: 900;
       border: 0;
-      max-width: 380px;
+      max-width: 320px;
 
       a {
          padding: 20px;
+         text-decoration: none;
+         color: var(--black);
       }
    }
 }

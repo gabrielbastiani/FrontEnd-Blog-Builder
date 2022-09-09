@@ -1,0 +1,50 @@
+.userSection {
+   min-height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   background-color: var(--gray);
+}
+
+.userBox {
+   margin-top: 2rem;
+   text-align: center;
+   width: 880px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   padding: 2rem 1.5rem;
+
+   h1 {
+      color: var(--black);
+      padding-bottom: 1rem;
+   }
+
+   p {
+      line-height: 2;
+   }
+
+}
+
+.userDescription {
+
+   h2 {
+      padding: 20px;
+   }
+
+   span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background-color: orange;
+      font-weight: bold;
+   }
+
+   svg{
+      margin: 10px;
+      cursor: pointer;
+   }
+}

@@ -9,11 +9,12 @@ import { FooterBlog } from "../../components/FooterBlog/index";
 import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
 import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs'
-import { AiOutlineFolderOpen, AiOutlineTags, AiOutlineArrowRight } from 'react-icons/ai'
+import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
 import { BiEdit, BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import Link from "../../../node_modules/next/link";
-import { Button } from "../../components/ui/Button/index";
 import Disqus from "disqus-react"
+import { Newslatter } from "../../components/Newslatter/index";
+
 
 
 export default function ArticlePage() {
@@ -34,7 +35,7 @@ export default function ArticlePage() {
 
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
-   const [limit, setLimit] = useState(4);
+   const [limit, setLimit] = useState(3);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
 
@@ -244,8 +245,6 @@ export default function ArticlePage() {
                      </div>
 
                      <br />
-                     <br />
-                     <br />
 
                      <h2 className={styles.vejaTambem}>Veja também...</h2>
 
@@ -307,7 +306,11 @@ export default function ArticlePage() {
                         </button>
 
                      </div>
-
+                     
+                     <div className={styles.news}>
+                        <Newslatter />    
+                     </div>
+                     
                      <Disqus.DiscussionEmbed
                         shortname={disqusShortname}
                         config={disqusConfig}
