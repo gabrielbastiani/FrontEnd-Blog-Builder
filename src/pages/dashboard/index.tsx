@@ -15,9 +15,12 @@ import { AiOutlineDeleteColumn } from 'react-icons/ai'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
 import { Button } from '../../components/ui/Button/index';
+import { useRouter } from 'next/router'
 
 
 export default function Dashboard() {
+
+   const router = useRouter()
 
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
@@ -33,8 +36,6 @@ export default function Dashboard() {
 
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
-
-   const [showElement, setShowElement] = useState(false);
 
 
    useEffect(() => {
@@ -102,24 +103,9 @@ export default function Dashboard() {
 
       const response = await apiClient.get('/article/filter')
       setArticles(response.data);
+
+      router.reload()
    }
-
-   useEffect(() => {
-      const loadSearch = async () => {
-         try {
-            const response = await api.get('/article/filter');
-            const filter = await response.data;
-
-            setInitialFilter(filter);
-            setSearch(filter);
-
-         } catch (error) {
-            console.log('Error call api list filter');
-         }
-      }
-
-      loadSearch();
-   }, [])
 
    const handleChange = ({ target }) => {
       if (!target.value) {
@@ -128,12 +114,16 @@ export default function Dashboard() {
          return;
       }
 
-      const filterArticles = search.filter((filt) => filt.description.toLowerCase().includes(target.value));
-      setSearch(filterArticles);
+      const filterArticles = articles.filter((filt) => filt.description.toLowerCase().includes(target.value));
+      setArticles(filterArticles);
    }
 
-   const showOrHide = () => {
-      setShowElement(!showElement)
+   async function handleRefreshFilter() {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/article/filter')
+      setArticles(response.data);
+
    }
 
    const renderOk = () => {
@@ -175,74 +165,23 @@ export default function Dashboard() {
 
                <br />
 
-               <div className={styles.sectionBoxSearch}>
+               <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
+                  <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
+               </button>
+
+               <section className={styles.boxSearch}>
                   <Input
                      placeholder='Busca por artigo'
                      type="search"
                      onChange={handleChange}
                   />
 
-                  <Button
-                     onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
-                  </Button>
-               </div>
-
-               <br />
-
-               {/* BUSCA POR ARTIGOS AQUI ABAIXO */}
-
-               <section className={styles.searchSection}>
-                  {showElement ? search.map((sear) => {
-                     return (
-                        <>
-                           <div key={sear.id} className={styles.searchBox}>
-                              <div className={styles.search}>
-                                 <div className={styles.boxSearch}>
-                                    <div className={styles.titleSearch}>{sear?.title}</div>
-                                    <div className={styles.listSearch}>
-                                       <div className={styles.bannerSearch}><img src={"http://localhost:3333/files/" + sear?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.descriptionSearch} dangerouslySetInnerHTML={{ __html: sear?.description }}></div>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className={styles.containerUpdateDeleteSearch}>
-                                 <div className={styles.datesAndPublishSearch}>
-                                    <span>Categoria: {sear?.categoryName}</span>
-                                    <hr />
-                                    <span>Data do artigo: {moment(sear?.created_at).format('DD/MM/YYYY - HH:mm')}</span>
-                                    <hr />
-                                    <span>Esta publicado? {sear?.published && renderOk() || renderNo()}</span>
-                                 </div>
-                                 <div className={styles.articleUpdateSearch}>
-                                    <Link className={styles.articleUpdateSearch} href={`/articleUpdate?article_id=${sear.id}`}>
-                                       <FiEdit className={styles.editSearch} color='var(--red)' size={17} />
-                                    </Link>
-                                 </div>
-                                 <div className={styles.deleteArticleSearch}>
-                                    <Link className={styles.deleteArticleSearch} href={`/articleDelete?article_id=${sear.id}`}>
-                                       <FaTrashAlt className={styles.trashSearch} color='var(--red)' size={17} />
-                                    </Link>
-                                 </div>
-                                 <div className={styles.publishArticleSearch}>
-                                    <Link className={styles.publishArticleSearch} href={`/articlePublish?article_id=${sear.id}`}>
-                                       <MdPublish className={styles.publishSearch} color='var(--red)' size={17} />
-                                    </Link>
-                                 </div>
-                                 <div className={styles.despublishArticleSearch}>
-                                    <Link className={styles.despublishArticSearch} href={`/articleDespublish?article_id=${sear.id}`}>
-                                       <AiOutlineDeleteColumn className={styles.despublishSearch} color='var(--red)' size={17} />
-                                    </Link>
-                                 </div>
-                              </div>
-                           </div>
-                        </>
-                     )
-                  }) : null}
+                  <button
+                     onClick={handleRefreshFilter}>Limpar filtro
+                  </button>
                </section>
 
-               <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
-                  <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
-               </button>
+               <br />
 
                {articles.length === 0 && (
                   <span className={styles.emptyList}>
@@ -393,4 +332,5 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
    return {
       props: {}
    }
+   
 })

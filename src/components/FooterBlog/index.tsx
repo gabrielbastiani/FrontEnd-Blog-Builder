@@ -7,6 +7,7 @@ import { GrMail } from 'react-icons/gr'
 import { FaMapMarker, FaGithubSquare } from 'react-icons/fa'
 import { AiFillInstagram, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai'
 import moment from 'moment';
+import { ContactForm } from '../ContactForm/index';
 
 export function FooterBlog() {
 
@@ -155,6 +156,15 @@ export function FooterBlog() {
                <Link href="https://github.com/gabrielbastiani" target="_blank">
                   <FaGithubSquare color='var(--orange)' size={45} />
                </Link>
+
+               <br />
+               <br />
+
+               <h3>Entre em contato</h3>
+               <hr />
+               
+               <ContactForm />
+               
             </div>
          </section>
 

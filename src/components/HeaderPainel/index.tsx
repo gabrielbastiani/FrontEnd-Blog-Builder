@@ -62,6 +62,14 @@ export function HeaderPainel() {
                   <a>Comentarios</a>
                </Link>
 
+               <Link href="/contacts">
+                  <a>Contatos</a>
+               </Link>
+
+               <Link href="/newslatters">
+                  <a>Lista de E-mails</a>
+               </Link>
+
                <button onClick={signOut}>
                   <FiLogOut color="#FFF" size={24} />
                </button>
@@ -96,6 +104,14 @@ export function HeaderPainel() {
 
                   <Link href="/comments">
                      <a>Comentarios</a>
+                  </Link>
+
+                  <Link href="/contacts">
+                     <a>Contatos</a>
+                  </Link>
+
+                  <Link href="/newslatters">
+                     <a>Lista de E-mails</a>
                   </Link>
                </nav>
 

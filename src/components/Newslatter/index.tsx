@@ -12,24 +12,25 @@ export function Newslatter() {
     const [nameEmail, setNameEmail] = useState('');
     const [emailName, setEmailName] = useState('');
 
-    const [inputEmailErr, setInputEmailErr] = useState(false);
+    function isEmail(emailName: string) {
+        return /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(emailName)
+    }
 
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
         try {
-            const validEmail = new RegExp("/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i");
 
             if (nameEmail === '') {
-                toast.error('Digite seu nome ou email valido!');
+                toast.error('Digite seu nome!');
                 return;
             }
 
-            if (!validEmail.test(emailName)) {
+            if (!isEmail(emailName)) {
                 toast.error('Por favor digite um email valido!');
                 return;
-            } 
+            }
 
             const data = await api.post('/newslatter', {
                 nameEmail: nameEmail,
@@ -42,6 +43,7 @@ export function Newslatter() {
             setEmailName('');
 
         } catch (error) {
+            toast.error('Esse endereço de e-mail ja está cadastrado!');
             console.log(error)
         }
 
@@ -73,8 +75,6 @@ export function Newslatter() {
                         value={emailName}
                         onChange={(e) => setEmailName(e.target.value)}
                     />
-
-                    {inputEmailErr && <p>Por favor digete um email valido!</p>}
 
                     <Button
                         type="submit"

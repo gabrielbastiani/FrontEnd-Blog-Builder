@@ -2,8 +2,8 @@ import React, { useState, FormEvent, useEffect, useCallback } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
-import { FiRefreshCcw } from 'react-icons/fi'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
+import { FiRefreshCcw } from 'react-icons/fi'
 import { api } from '../../services/apiClient';
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
@@ -13,9 +13,12 @@ import { toast } from 'react-toastify'
 import moment from 'moment';
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
+import { useRouter } from 'next/router'
 
 
 export default function Category() {
+
+  const router = useRouter()
 
   const [categoryName, setCategoryName] = useState('')
 
@@ -28,7 +31,6 @@ export default function Category() {
   const [initialFilter, setInitialFilter] = useState();
   const [search, setSearch] = useState([]);
 
-  const [showElement, setShowElement] = useState(false);
 
 
   useEffect(() => {
@@ -85,28 +87,22 @@ export default function Category() {
   }
 
   async function handleRefreshCategory() {
-      const apiClient = setupAPIClient();
+    const apiClient = setupAPIClient();
 
-      const response = await apiClient.get('/category')
-      setCategs(response.data);
+    const response = await apiClient.get('/category')
+    setCategs(response.data);
+
+    router.reload()
+
   }
 
-  useEffect(() => {
-    const loadSearch = async () => {
-      try {
-        const response = await api.get('/category/filter');
-        const filter = await response.data;
+  async function handleRefreshFilter() {
+    const apiClient = setupAPIClient();
 
-        setInitialFilter(filter);
-        setSearch(filter);
+    const response = await apiClient.get('/category')
+    setCategs(response.data);
 
-      } catch (error) {
-        console.log('Error call api list filter');
-      }
-    }
-
-    loadSearch();
-  }, [])
+  }
 
   const handleChange = ({ target }) => {
     if (!target.value) {
@@ -115,13 +111,11 @@ export default function Category() {
       return;
     }
 
-    const filterArticles = search.filter((filt) => filt.categoryName.toLowerCase().includes(target.value));
-    setSearch(filterArticles);
+    const filterArticles = categs.filter((filt) => filt.categoryName.toLowerCase().includes(target.value));
+    setCategs(filterArticles);
   }
 
-  const showOrHide = () => {
-    setShowElement(!showElement)
-  }
+
 
   return (
     <>
@@ -155,11 +149,11 @@ export default function Category() {
 
           </form>
 
-          <h3>Categorias Cadastradas</h3>
-
           <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
             <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
           </button>
+
+          <h3>Categorias Cadastradas</h3>
 
           <br />
 
@@ -172,35 +166,9 @@ export default function Category() {
               />
 
               <Button
-                onClick={showOrHide}>{showElement ? 'Ocultar Busca' : 'Mostrar Busca'}
+                onClick={handleRefreshFilter}>Limpar filtro
               </Button>
 
-            </div>
-
-            <br />
-
-            {/* BUSCA POR CATEGORIAS AQUI ABAIXO */}
-
-            <div className={styles.searchSection}>
-              {showElement ? search.map((sear) => {
-                return (
-                  <>
-                    <div key={sear.id} className={styles.categoryBoxSearch}>
-                      <div className={styles.categorySearch}>
-                        <Link className={styles.linkCategorySearch} href={`/categoryUpdate?category_id=${sear.id}`}>
-                          <div className={styles.listCategoriesSearch}>
-                            <div className={styles.nameCategorySearch}>{sear?.categoryName}</div>
-                            <hr/>
-                            <div className={styles.datesSearch}>
-                              <span>Data de criação: {moment(sear?.created_at).format('DD/MM/YYYY HH:mm')}</span>
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  </>
-                )
-              }) : null}
             </div>
 
           </section>

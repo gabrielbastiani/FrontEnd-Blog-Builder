@@ -1,4 +1,5 @@
 .container {
+  min-height: 100vh;
   max-width: 1180px;
   margin: 4rem auto;
   padding: 0 2rem;
@@ -109,6 +110,9 @@
   border-radius: 0.3rem;
   color: var(--white);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .refresh {
@@ -191,59 +195,22 @@
   }
 }
 
-.searchSection {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-gap: 10px;
-}
-
-.categorySearch {
-  cursor: pointer;
-  background-color: var(--black);
-  color: white;
-  padding: 10px;
-  height: 70px
-}
-
-.linkCategorySearch {
-  padding-bottom: 5px;
-}
-
-.nameCategorySearch {
-  padding-bottom: 5px;
-}
-
-.datesSearch span {
-  font-size: 9px;
-}
-
 @media (max-width: 555px) {
   .sectionBoxContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 
     Input {
-      width: 69%;
+      width: 89%;
     }
 
     Button {
       margin-left: 10px;
       padding: 15px;
-      width: 25%;
+      width: 45%;
     }
-  }
-
-  .datesSearch span {
-    font-size: 8px;
-  }
-}
-
-@media (max-width: 725px) {
-  .categorySearch {
-    height: 97px
-  }
-}
-
-@media (max-width: 650px) {
-  .searchSection {
-    grid-template-columns: auto auto auto;
   }
 }

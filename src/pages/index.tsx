@@ -14,7 +14,7 @@ export default function Home() {
       <Head>
         <title>Blog Builder Seu Negócio Online - Home</title>
       </Head>
-      <main>
+      <main className={styles.mainContent}>
         <HeaderBlog />
         <section className={styles.sectionContent}>
           <nav>
