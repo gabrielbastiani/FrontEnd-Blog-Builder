@@ -10,10 +10,12 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
-
+import { useRouter } from 'next/router'
 
 
 export default function NewsTags() {
+
+  const router = useRouter()
 
   const [tagName1, setTagName1] = useState('')
   const [tagName2, setTagName2] = useState('')
@@ -298,6 +300,8 @@ export default function NewsTags() {
     setTags3(response3.data)
     setTags4(response4.data)
     setTags5(response5.data)
+
+    router.reload()
 }
 
 

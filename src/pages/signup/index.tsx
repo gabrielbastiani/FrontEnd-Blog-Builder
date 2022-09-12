@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEvent } from 'react'
+import { useState, FormEvent, ChangeEvent, useRef } from 'react'
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../../pages/signup/styles.module.scss';
@@ -7,12 +7,13 @@ import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
 import { FiUpload } from 'react-icons/fi'
 import { setupAPIClient } from '../../services/api'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import Link from 'next/link';
 import Router from 'next/router';
+import ReCAPTCHA from "react-google-recaptcha";
 
 
-export default function SignUp(){
+export default function SignUp() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,19 +24,29 @@ export default function SignUp(){
   const [avatarUrl, setAvatarUrl] = useState('');
   const [imageAvatar, setImageAvatar] = useState(null);
 
-  function handleFile(e: ChangeEvent<HTMLInputElement>){
+  const [userValid, setUserValid] = useState(false);
 
-    if(!e.target.files){
+  const captcha = useRef(null);
+
+  function isEmail(emailName: string) {
+    return /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(emailName)
+  }
+
+
+
+  function handleFile(e: ChangeEvent<HTMLInputElement>) {
+
+    if (!e.target.files) {
       return;
     }
 
     const image = e.target.files[0];
 
-    if(!image){
+    if (!image) {
       return;
     }
 
-    if(image.type === 'image/jpeg' || image.type === 'image/png'){
+    if (image.type === 'image/jpeg' || image.type === 'image/png') {
 
       setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(e.target.files[0]))
@@ -44,15 +55,32 @@ export default function SignUp(){
 
   }
 
-  async function handleRegister(event: FormEvent){
+  async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
-    try{
+    try {
       const data = new FormData();
 
-      if(name === '' || email === '' || password === '' || imageAvatar === null){
+      if (captcha.current.getValue()) {
+        console.log('Usuario válido!')
+        setUserValid(true)
+      } else {
+        console.log('Por favor, acerte o recaptcha!')
+        toast.error('Por favor, acerte o recaptcha!')
+
+        return;
+      }
+
+      if (name === '' || email === '' || password === '' || imageAvatar === null) {
         toast.warning('Preencha todos os campos! (Carregue uma foto - Digite o seu nome - Digite seu email - Digite uma senha')
         console.log("Preencha todos os campos!");
+        return;
+      }
+
+      if (!isEmail(email)) {
+
+        toast.error('Por favor digite um email valido!');
+
         return;
       }
 
@@ -71,7 +99,7 @@ export default function SignUp(){
 
       console.log('Cadastrado com sucesso!')
 
-    }catch(err){
+    } catch (err) {
       console.log(err);
       toast.error('Erro ao cadastrar!')
       console.log("Ops erro ao cadastrar!")
@@ -83,17 +111,25 @@ export default function SignUp(){
 
   }
 
-  return(
+  const onChange = () => {
+    if (captcha.current.getValue()) {
+      console.log('Usuario não é um robo!')
+    }
+  }
+
+
+
+  return (
     <>
       <Head>
-        <title>Faça seu cadastro agora!</title> 
+        <title>Faça seu cadastro agora!</title>
       </Head>
 
       <div className={styles.containerCenter}>
         <Image src={logoImg} alt="Logo Blog Builder Seu Negocio Online" />
 
         <div className={styles.login}>
-        <h1>Crie sua conta</h1>
+          <h1>Crie sua conta</h1>
 
           <form className={styles.form} onSubmit={handleRegister}>
 
@@ -104,14 +140,14 @@ export default function SignUp(){
 
               <input type="file" accept="image/png, image/jpeg" onChange={handleFile} />
 
-              {avatarUrl && (     
-                  <img 
-                    className={styles.preview}
-                    src={avatarUrl}
-                    alt="Foto do usuario" 
-                    width={150}
-                    height={150}
-                  />
+              {avatarUrl && (
+                <img
+                  className={styles.preview}
+                  src={avatarUrl}
+                  alt="Foto do usuario"
+                  width={150}
+                  height={150}
+                />
               )}
 
             </label>
@@ -122,30 +158,38 @@ export default function SignUp(){
               placeholder="Digite seu nome"
               type="text"
               value={name}
-              onChange={ (e) => setName(e.target.value) }
+              onChange={(e) => setName(e.target.value)}
             />
 
             <Input
               placeholder="Digite seu email"
-              type="text"
+              type="email"
+              name='email'
               value={email}
-              onChange={ (e) => setEmail(e.target.value) }
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <Input
               placeholder="Sua senha"
               type="password"
               value={password}
-              onChange={ (e) => setPassword(e.target.value) }
-            /> 
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-            <Button
-              type="submit"
-              loading={loading}
-            >
-              Cadastrar
-            </Button>  
+            <ReCAPTCHA
+              ref={captcha}
+              sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+              onChange={onChange}
+            />
 
+            {!userValid &&
+              <Button
+                type="submit"
+                loading={loading}
+              >
+                Cadastrar
+              </Button>
+            }
           </form>
 
           <Link href="/login">

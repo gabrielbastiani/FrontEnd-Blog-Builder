@@ -14,7 +14,6 @@ import { MdPublish } from 'react-icons/md'
 import { AiOutlineDeleteColumn } from 'react-icons/ai'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
-import { Button } from '../../components/ui/Button/index';
 import { useRouter } from 'next/router'
 
 

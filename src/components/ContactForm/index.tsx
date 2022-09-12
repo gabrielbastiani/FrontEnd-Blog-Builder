@@ -1,9 +1,10 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useRef } from 'react';
 import styles from "./styles.module.scss";
 import { api } from '../../services/apiClient';
 import { toast } from 'react-toastify'
 import { Input } from '../ui/Input/index';
 import { Button } from '../ui/Button/index';
+import ReCAPTCHA from "react-google-recaptcha";
 
 
 export function ContactForm() {
@@ -11,6 +12,10 @@ export function ContactForm() {
     const [nameContact, setNameContact] = useState('');
     const [emailContact, setEmailContact] = useState('');
     const [textContact, setTextContact] = useState('');
+
+    const [userValid, setUserValid] = useState(false);
+
+    const captcha = useRef(null);
 
     function isEmail(emailContact: string) {
         return /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(emailContact)
@@ -21,6 +26,15 @@ export function ContactForm() {
         event.preventDefault();
 
         try {
+            if(captcha.current.getValue()){
+                console.log('Usuario válido!')
+                setUserValid(true)
+            } else {
+                console.log('Por favor, acerte o recaptcha!')
+                toast.error('Por favor, acerte o recaptcha!')
+
+                return;
+            }
 
             if (nameContact === '') {
                 toast.error('Digite seu nome!');
@@ -55,6 +69,12 @@ export function ContactForm() {
 
     }
 
+    const onChange = () => {
+        if(captcha.current.getValue()){
+            console.log('Usuario não é um robo!')
+        }
+    }
+
 
     return (
         <>
@@ -85,11 +105,19 @@ export function ContactForm() {
                         onChange={(e) => setTextContact(e.target.value)}
                     />
 
+                    <ReCAPTCHA
+                        ref={captcha}
+                        sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+                        onChange={onChange}
+                    />
+
+                    {!userValid &&
                     <Button
                         type="submit"
                     >
                         Enviar
                     </Button>
+                    }
                 </form>
 
             </section>

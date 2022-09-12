@@ -1,4 +1,4 @@
-import { useContext, FormEvent, useState } from 'react'
+import { useContext, FormEvent, useState, useRef } from 'react'
 import { canSSRGuest } from '../../utils/canSSRGuest'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -9,8 +9,12 @@ import { Button } from '../../components/ui/Button/index'
 import { AuthContext } from '../../contexts/AuthContext'
 import {toast} from 'react-toastify'
 import Link from 'next/link';
+import ReCAPTCHA from "react-google-recaptcha";
+
+
 
 export default function Login(){
+
    const {signIn} = useContext(AuthContext)
 
    const [email, setEmail] = useState('');
@@ -18,8 +22,23 @@ export default function Login(){
 
    const [loading, setLoading] = useState(false);
 
+   const [userValid, setUserValid] = useState(false);
+
+   const captcha = useRef(null);
+
+
    async function handleLogin(event: FormEvent){
       event.preventDefault();
+
+      if(captcha.current.getValue()){
+         console.log('Usuario válido!')
+         setUserValid(true)
+      } else {
+         console.log('Por favor, acerte o recaptcha!')
+         toast.error('Por favor, acerte o recaptcha!')
+
+         return;
+      }
 
       if(email === '' || password === ''){
          toast.warning('Preencha os campos! (Email e Senha)')
@@ -38,6 +57,14 @@ export default function Login(){
       setLoading(false)
 
    }
+
+   const onChange = () => {
+      if(captcha.current.getValue()){
+          console.log('Usuario não é um robo!')
+      }
+   }
+
+
 
    return(
       <>
@@ -63,12 +90,20 @@ export default function Login(){
                   onChange={ (e) => setPassword(e.target.value) }
                />
 
+               <ReCAPTCHA
+                  ref={captcha}
+                  sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+                  onChange={onChange}
+               />
+
+               {!userValid &&
                <Button
                   type="submit"
                   loading={loading}
                >
                   Acessar
                </Button>
+               }
             </form>
 
             <Link href="/signup">
