@@ -96,20 +96,23 @@ export function Newslatter() {
                         value={emailName}
                         onChange={(e) => setEmailName(e.target.value)}
                     />
+                    
+                    <div className={styles.recaptcha}>
+                        <ReCAPTCHA
+                            ref={captcha}
+                            sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+                            onChange={onChange}
+                        />
+                    </div>
 
-                    <ReCAPTCHA
-                        ref={captcha}
-                        sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
-                        onChange={onChange}
-                    />
+                    {!userValid && <div className={styles.buttonSend}>
+                        <Button
+                            type="submit"
+                        >
+                            Cadastrar
+                        </Button>
+                    </div>}
 
-                    {!userValid &&
-                    <Button
-                        type="submit"
-                    >
-                        Cadastrar
-                    </Button>
-                    }
                 </form>
 
                 <span><AiFillLock size={18} />Não enviamos spam. Seu e-mail está 100% seguro!</span>

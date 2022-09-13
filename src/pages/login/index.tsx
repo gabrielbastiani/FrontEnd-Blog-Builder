@@ -90,11 +90,13 @@ export default function Login(){
                   onChange={ (e) => setPassword(e.target.value) }
                />
 
-               <ReCAPTCHA
-                  ref={captcha}
-                  sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
-                  onChange={onChange}
-               />
+               <div className={styles.recaptcha}>
+                  <ReCAPTCHA
+                     ref={captcha}
+                     sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+                     onChange={onChange}
+                  />
+               </div>
 
                {!userValid &&
                <Button

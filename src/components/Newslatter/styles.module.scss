@@ -12,7 +12,8 @@
       display: flex;
       align-items: center;
       font-size: 12px;
-      padding: 10px;
+      padding: 20px;
+      justify-content: center;
    }
 }
 
@@ -30,18 +31,32 @@
    Input {
       margin-right: 16px;
       height: 5px !important;
-      font-size: 12px;
+      font-size: 14px;
+      width: 35%;
    }
 
    Button {
       padding: 0.5rem;
-      width: 20%;
+      width: 40%;
       margin-top: 12px;
    }
 
    p{
       text-align: center;
    }
+}
+
+.recaptcha{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.buttonSend{
+   display: flex;
+   align-content: center;
+   justify-content: center;
+   align-items: center;
 }
 
 @media (max-width: 1358px) {
@@ -77,6 +92,10 @@
    .formBox{
       display: flex;
       flex-direction: column;
+
+      Input{
+         width: 100%;
+      }
 
       Button{
          width: 50%;

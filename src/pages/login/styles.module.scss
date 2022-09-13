@@ -37,6 +37,13 @@
    }
 }
 
+.recaptcha{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+}
+
 .text{
    margin-top: 1rem;
    color: var(--black);
