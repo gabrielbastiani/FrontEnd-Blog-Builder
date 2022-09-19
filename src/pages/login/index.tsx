@@ -112,6 +112,10 @@ export default function Login(){
                <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
             </Link>
 
+            <Link href="/recoveryPassword">
+               <a className={styles.text}>Esqueceu sua senha?</a>
+            </Link>
+
             <Link href="/">
                <a className={styles.text}>Ir para o Blog</a>
             </Link>
