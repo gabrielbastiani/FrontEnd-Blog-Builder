@@ -16,6 +16,7 @@ export default function Category() {
     const [categoryName, setCategoryName] = useState('')
 
     const router = useRouter()
+    
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault();

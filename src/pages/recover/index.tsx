@@ -8,7 +8,6 @@ import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
 import { toast } from 'react-toastify'
 import Link from 'next/link';
-import ReCAPTCHA from "react-google-recaptcha";
 import Router from 'next/router'
 import { useRouter } from '../../../node_modules/next/router'
 import { setupAPIClient } from '../../services/api'
@@ -19,6 +18,7 @@ export default function Recover() {
 
    const router = useRouter()
 
+   const [newPassword, setNewPassword] = useState('')
    const [password, setPassword] = useState('');
 
 
@@ -26,6 +26,13 @@ export default function Recover() {
       event.preventDefault();
 
       try {
+
+         if (newPassword != password) {
+
+            toast.error('Senhas diferentes')
+
+            return;
+        }
 
          const recovery_id = router.query.recovery_id
 
@@ -58,7 +65,14 @@ export default function Recover() {
                <form onSubmit={handleLogin}>
 
                   <Input
-                     placeholder='Digite sua senha'
+                     placeholder='Digite nova senha'
+                     type='password'
+                     value={newPassword}
+                     onChange={(e) => setNewPassword(e.target.value)}
+                  />
+
+                  <Input
+                     placeholder='Repetir a nova senha'
                      type='password'
                      value={password}
                      onChange={(e) => setPassword(e.target.value)}

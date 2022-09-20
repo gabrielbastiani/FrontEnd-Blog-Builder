@@ -52,6 +52,7 @@ export default function RecoveryPassword() {
             })
 
             toast.success('Verifique sua caixa de e-mail')
+            toast.warning('NÃO DEIXE DE VERIFICAR O SPAN OU LIXEIRA!!!')
 
         } catch (err) {
             console.log(err);
@@ -65,7 +66,7 @@ export default function RecoveryPassword() {
     }
 
     const onChange = () => {
-        if (captcha.current.getValue()) {
+        if (captcha.current?.getValue()) {
             console.log('Usuario não é um robo!')
         }
     }
