@@ -6,7 +6,7 @@ import { api } from '../../services/apiClient';
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
-import { FaTrashAlt } from 'react-icons/fa'
+import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { RiMailSendLine } from 'react-icons/ri'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
@@ -91,6 +91,13 @@ export default function Contacts() {
 
    }
 
+   async function handleExportContacts() {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/contactform/export')
+
+   }
+
 
 
    return (
@@ -142,6 +149,12 @@ export default function Contacts() {
 
                <button
                   onClick={handleRefreshFilter}>Limpar filtro
+               </button>
+            </section>
+
+            <section className={styles.refresh}>
+               <button className={styles.buttonRefresh} onClick={handleExportContacts}>
+                  <FaFileExport size={22} />Exportar Lista de Contatos
                </button>
             </section>
 

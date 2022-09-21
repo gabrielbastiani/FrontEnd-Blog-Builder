@@ -8,7 +8,7 @@ import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
 import moment from 'moment';
 import Link from '../../../node_modules/next/link';
-import { FaTrashAlt } from 'react-icons/fa'
+import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { useRouter } from 'next/router'
@@ -35,8 +35,6 @@ export default function Newslatters() {
             const { data } = await api.get(`/newslatter/page?pageNews=${currentPageNews}&limitNews=${limitNews}`);
             setTotalNews(data?.totalNews);
             const totalPagesNews = Math.ceil(totalNews / limitNews);
-
-            console.log(data)
 
             const arrayPagesNews = [];
             for (let i = 1; i <= totalPagesNews; i++) {
@@ -87,6 +85,13 @@ export default function Newslatters() {
 
       const response = await apiClient.get('/newslatter/all')
       setNewslatter(response.data);
+
+   }
+
+   async function handleExportNewslatter() {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/newslatter/export')
 
    }
 
@@ -141,6 +146,12 @@ export default function Newslatters() {
 
                <button
                   onClick={handleRefreshFilter}>Limpar filtro
+               </button>
+            </section>
+
+            <section className={styles.refresh}>
+               <button className={styles.buttonRefresh} onClick={handleExportNewslatter}>
+                  <FaFileExport size={22} />Exportar Lista de E-mails
                </button>
             </section>
 
