@@ -26,7 +26,7 @@ export function ContactForm() {
         event.preventDefault();
 
         try {
-            if(captcha.current.getValue()){
+            if (captcha.current.getValue()) {
                 console.log('Usuario válido!')
                 setUserValid(true)
             } else {
@@ -51,17 +51,19 @@ export function ContactForm() {
                 return;
             }
 
-            const data = await api.post('/contactform', {
+            await api.post('/contactform', {
                 nameContact: nameContact,
                 emailContact: emailContact,
                 textContact: textContact
             });
 
             toast.success('Mensagem enviada com sucesso!');
-           
+
             setNameContact('');
             setEmailContact('');
             setTextContact('');
+
+            await api.post('/sendemail')
 
         } catch (error) {
             console.log(error)
@@ -70,18 +72,17 @@ export function ContactForm() {
     }
 
     const onChange = () => {
-        if(captcha.current.getValue()){
+        if (captcha.current.getValue()) {
             console.log('Usuario não é um robo!')
         }
     }
-
 
     return (
         <>
             <section className={styles.sectionNewslatter}>
 
                 <form className={styles.formBox} onSubmit={handleRegister}>
-  
+
                     <Input
                         type="text"
                         name="name"
@@ -112,11 +113,11 @@ export function ContactForm() {
                     />
 
                     {!userValid &&
-                    <Button
-                        type="submit"
-                    >
-                        Enviar
-                    </Button>
+                        <Button
+                            type="submit"
+                        >
+                            Enviar
+                        </Button>
                     }
                 </form>
 

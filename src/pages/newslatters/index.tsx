@@ -13,6 +13,7 @@ import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
+import { toast } from 'react-toastify';
 
 
 export default function Newslatters() {
@@ -91,7 +92,9 @@ export default function Newslatters() {
    async function handleExportNewslatter() {
       const apiClient = setupAPIClient();
 
-      const response = await apiClient.get('/newslatter/export')
+      const response = await apiClient.get('/newslatter/export');
+
+      toast.success('Lista de contatos exportada com sucesso!')
 
    }
 

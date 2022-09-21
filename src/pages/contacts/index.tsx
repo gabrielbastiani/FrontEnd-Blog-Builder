@@ -14,6 +14,7 @@ import Link from '../../../node_modules/next/link';
 import moment from 'moment';
 import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
+import { toast } from 'react-toastify'
 
 
 
@@ -94,7 +95,9 @@ export default function Contacts() {
    async function handleExportContacts() {
       const apiClient = setupAPIClient();
 
-      const response = await apiClient.get('/contactform/export')
+      const response = await apiClient.get('/contactform/export');
+
+      toast.success('Lista de mensagens exportada com sucesso!')
 
    }
 
