@@ -1,33 +1,52 @@
-import { useState, ChangeEvent, FormEvent, useContext } from 'react'
+import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react'
 import styles from '../detailUser/styles.module.scss'
 import Head from 'next/head'
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import { AuthContext } from '../../contexts/AuthContext'
-
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
-
 import Router from 'next/router'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FiUpload } from 'react-icons/fi'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { setupAPIClient } from '../../services/api'
-
 import { toast } from 'react-toastify'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import Link from '../../../node_modules/next/link'
+import { api } from '../../services/apiClient'
 
 
 export default function DetailUser() {
-  const { user } = useContext(AuthContext)
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const { user } = useContext(AuthContext);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   const [avatarUrl, setAvatarUrl] = useState('');
   const [photo, setPhoto] = useState(null);
 
   const [loading, setLoading] = useState(false);
+
+  const [usuarios, setUsuarios] = useState([]);
+
+  console.log(usuarios)
+
+  useEffect(() => {
+    async function loadUsers() {
+      try {
+        const response = await api.get('/users');
+
+        setUsuarios(response.data);
+
+      } catch (error) {
+        console.log('Error list users')
+        alert('Error list users')
+      }
+
+    }
+      loadUsers()
+  }, []);
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -81,10 +100,12 @@ export default function DetailUser() {
 
   }
 
+
+
   return (
     <>
       <Head>
-        <title>{user.name} - Detalhes do Usuario</title>
+        <title>{user?.name} - Detalhes do Usuario</title>
       </Head>
 
       <HeaderPainel />
@@ -145,6 +166,18 @@ export default function DetailUser() {
 
         </section>
 
+        <section className={styles.usersSection}>
+            {usuarios.map((use) => {
+              return(
+                <>
+                  <div key={use.user_id}>
+                    <span>{use.name}</span>
+                  </div>
+                </>
+              )
+            })}
+        </section>
+
       </main>
 
       <FooterPainel />
@@ -153,7 +186,7 @@ export default function DetailUser() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-  const apiClient = setupAPIClient(ctx)
+  const apiClient = setupAPIClient(ctx);
 
   return {
     props: {}

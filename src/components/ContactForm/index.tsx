@@ -63,7 +63,7 @@ export function ContactForm() {
             setEmailContact('');
             setTextContact('');
 
-            await api.post('/sendemail')
+            await api.post('/sendemail');
 
         } catch (error) {
             console.log(error)
