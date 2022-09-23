@@ -95,9 +95,9 @@ export default function SignUp() {
 
       await apiClient.post('/users', data);
 
-      toast.success('Cadastrado com sucesso!')
+      toast.warning('Acesse seu email para confirmar seu cadastro!')
 
-      console.log('Cadastrado com sucesso!')
+      console.log('Acesse seu email para confirmar seu cadastro!')
 
     } catch (err) {
       console.log(err);
@@ -107,7 +107,7 @@ export default function SignUp() {
 
     setLoading(false);
 
-    Router.push('/login')
+    Router.push('/whaitAuthenticated')
 
   }
 

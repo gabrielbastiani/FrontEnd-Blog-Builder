@@ -1,11 +1,9 @@
 import { createContext, ReactNode, useState, useEffect } from 'react';
-
 import { api } from '../services/apiClient';
-
 import { destroyCookie, setCookie, parseCookies } from 'nookies'
 import Router from 'next/router';
-
 import {toast} from 'react-toastify'
+
 
 type AuthContextData = {
   user: UserProps;
@@ -100,8 +98,8 @@ export function AuthProvider({ children }: AuthProviderProps){
 
 
     }catch(err){
-      toast.error("Erro ao acessar!")
-      console.log("ERRO AO ACESSAR ", err)
+      toast.error("Erro ao acessar, confirmou seu cadastro em seu email?")
+      console.log("Erro ao acessar, confirmou seu cadastro em seu email? ", err)
     }
   }
 

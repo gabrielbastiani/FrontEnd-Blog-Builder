@@ -28,25 +28,6 @@ export default function DetailUser() {
 
   const [loading, setLoading] = useState(false);
 
-  const [usuarios, setUsuarios] = useState([]);
-
-  console.log(usuarios)
-
-  useEffect(() => {
-    async function loadUsers() {
-      try {
-        const response = await api.get('/users');
-
-        setUsuarios(response.data);
-
-      } catch (error) {
-        console.log('Error list users')
-        alert('Error list users')
-      }
-
-    }
-      loadUsers()
-  }, []);
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -164,18 +145,6 @@ export default function DetailUser() {
             </Button>
           </form>
 
-        </section>
-
-        <section className={styles.usersSection}>
-            {usuarios.map((use) => {
-              return(
-                <>
-                  <div key={use.user_id}>
-                    <span>{use.name}</span>
-                  </div>
-                </>
-              )
-            })}
         </section>
 
       </main>
