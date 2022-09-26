@@ -13,7 +13,7 @@ import Router from 'next/router';
 import ReCAPTCHA from "react-google-recaptcha";
 
 
-export default function SignUp() {
+export default function SignupAdmin() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -93,22 +93,22 @@ export default function SignUp() {
 
       const apiClient = setupAPIClient();
 
-      await apiClient.post('/users', data);
+      await apiClient.post('/users/admin', data)
 
-      toast.warning('Acesse seu email para confirmar seu cadastro!')
+      toast.warning('Cadastro de usuario ADMINISTRADOR feito com sucesso!')
 
-      console.log('Acesse seu email para confirmar seu cadastro!')
+      console.log('Cadastro de usuario ADMINISTRADOR feito com sucesso!')
 
     } catch (err) {
       console.log(err);
       toast.error('Erro ao cadastrar!')
-      Router.push('/signup')
+      Router.push('/signupAdmin')
       console.log("Ops erro ao cadastrar!")
     }
 
     setLoading(false);
 
-    Router.push('/whaitAuthenticated')
+    Router.push('/login')
 
   }
 
@@ -123,14 +123,14 @@ export default function SignUp() {
   return (
     <>
       <Head>
-        <title>Faça seu cadastro agora!</title>
+        <title>ADMINISTRADOR - Faça seu cadastro agora!</title>
       </Head>
 
-      <div className={styles.containerCenter}>
+      <section className={styles.containerCenter}>
         <Image src={logoImg} alt="Logo Blog Builder Seu Negocio Online" />
 
         <div className={styles.login}>
-          <h1>Crie sua conta</h1>
+          <h1>Crie sua conta de ADMINISTRADOR</h1>
 
           <form className={styles.form} onSubmit={handleRegister}>
 
@@ -203,7 +203,7 @@ export default function SignUp() {
 
         </div>
 
-      </div>
+      </section>
     </>
   )
 }

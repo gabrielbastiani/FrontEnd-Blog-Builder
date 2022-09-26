@@ -33,7 +33,7 @@ export const AuthContext = createContext({} as AuthContextData)
 export function signOut(){
   try{
     destroyCookie(undefined, '@blogbuilder.token')
-    Router.push('/')
+    Router.push('/login')
   }catch{
     toast.error('Erro ao deslogar!')
     console.log('erro ao deslogar')

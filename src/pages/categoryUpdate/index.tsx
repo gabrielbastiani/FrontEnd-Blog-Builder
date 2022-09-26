@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 import Head from "next/head"
 import styles from './styles.module.scss'
 import Router from 'next/router'
@@ -9,20 +9,37 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { toast } from 'react-toastify'
 import { Button } from '../../components/ui/Button/index'
 import { Input } from '../../components/ui/Input/index'
+import { api } from '../../services/apiClient'
 
 
 export default function Category() {
 
-    const [categoryName, setCategoryName] = useState('')
+    const router = useRouter();
 
-    const router = useRouter()
-    
+    const [categoryName, setCategoryName] = useState('');
+
+    const [roleUser, setRoleUser] = useState('');
+
+    const userRole = "ADMIN";
+
+    useEffect(() => {
+        async function loadUser() {
+            const response = await api.get('/me');
+            setRoleUser(response.data.role);
+        }
+        loadUser()
+    }, []);
+
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
         try {
             const data = new FormData()
+            if (roleUser != userRole) {
+                toast.error('Você não tem permisão para isso')
+                return
+            }
 
             if (categoryName === '') {
 
@@ -44,6 +61,7 @@ export default function Category() {
         } catch (err) {
 
             toast.error('Ops erro ao atualizar.')
+            Router.push('/newCategory')
 
         }
     }

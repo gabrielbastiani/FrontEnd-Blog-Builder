@@ -13,7 +13,7 @@ export default function UserAuthenticated() {
 
     const router = useRouter()
 
-    async function handleArticlePublish() {
+    async function handleAuthenticated() {
 
         try {
         
@@ -49,7 +49,7 @@ export default function UserAuthenticated() {
 
                     <Button
                         className={styles.buttonUpdate}
-                        onClick={() => handleArticlePublish()}
+                        onClick={() => handleAuthenticated()}
                     >
                         Confirmar
                     </Button>
