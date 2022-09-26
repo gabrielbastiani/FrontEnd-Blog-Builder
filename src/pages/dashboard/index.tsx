@@ -36,11 +36,17 @@ export default function Dashboard() {
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
 
+   const [currentUser, setCurrentUser] = useState('');
+
 
    useEffect(() => {
       async function loadArticles() {
          try {
-            const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}`);
+            const name = currentUser
+            const response = await api.get('/me');
+            setCurrentUser(response.data.name);
+
+            const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}&name=${name}`);
             /* setTotal(data?.articles?.length || 0); */
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
@@ -62,7 +68,7 @@ export default function Dashboard() {
       }
 
       loadArticles();
-   }, [currentPage, limit, total]);
+   }, [currentPage, currentUser, limit, total]);
 
    const limits = useCallback((e) => {
       setLimit(e.target.value);

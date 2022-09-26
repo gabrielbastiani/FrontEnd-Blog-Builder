@@ -20,8 +20,6 @@ export default function AuthorArticles() {
    const [articlesUser, setArticlesUser] = useState([]);
    const [user, setUser] = useState('');
 
-   console.log(articlesUser.map((item) => item.name))
-
    const router = useRouter()
 
 

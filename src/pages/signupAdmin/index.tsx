@@ -95,7 +95,7 @@ export default function SignupAdmin() {
 
       await apiClient.post('/users/admin', data)
 
-      toast.warning('Cadastro de usuario ADMINISTRADOR feito com sucesso!')
+      toast.success('Cadastro de usuario ADMINISTRADOR feito com sucesso!')
 
       console.log('Cadastro de usuario ADMINISTRADOR feito com sucesso!')
 
