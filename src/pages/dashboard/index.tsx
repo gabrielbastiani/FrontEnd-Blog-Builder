@@ -26,17 +26,60 @@ export default function Dashboard() {
    const [limit, setLimit] = useState(4);
    const [pages, setPages] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
+   const [currentUser, setCurrentUser] = useState('');
 
-   const [publish, setPublish] = useState([]);
+   const [admin, setAdmin] = useState([]);
+   const [totalAdmin, setTotalAdmin] = useState(0);
+   const [limitAdmin, setLimitAdmin] = useState(4);
+   const [pagesAdmin, setPagesAdmin] = useState([]);
+   const [currentPageAdmin, setCurrentPageAdmin] = useState(1);
+
+   const [currentAdmin, setCurrentAdmin] = useState('');
+   const roleADMIN = "ADMIN";
+
+   /* const [publish, setPublish] = useState([]);
    const [totalPublish, setTotalPublish] = useState(0);
    const [limitPublish, setLimitPublish] = useState(4);
    const [pagesPublish, setPagesPublish] = useState([]);
-   const [currentPagePublish, setCurrentPagePublish] = useState(1);
+   const [currentPagePublish, setCurrentPagePublish] = useState(1); */
 
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
 
-   const [currentUser, setCurrentUser] = useState('');
+
+   useEffect(() => {
+      async function loadAllArticlesAdmin() {
+         try {
+            const response = await api.get('/me');
+            setCurrentAdmin(response.data.role);
+
+            const { dataAdmin } = await api.get(`/article/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+            /* setTotal(data?.articles?.length || 0); */
+            setTotalAdmin(dataAdmin?.totalAdmin);
+            const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
+
+            const arrayPagesAdmin = [];
+            for (let i = 1; i <= totalPagesAdmin; i++) {
+               arrayPagesAdmin.push(i);
+            }
+
+            setPagesAdmin(arrayPagesAdmin);
+            setAdmin(dataAdmin?.admin || []);
+
+         } catch (error) {
+
+            console.error(error);
+            alert('Error call api list ALL article');
+
+         }
+      }
+      loadAllArticlesAdmin();
+   }, [currentPageAdmin, limitAdmin, totalAdmin]);
+
+   const limitsAdmin = useCallback((e) => {
+      setLimitAdmin(e.target.value);
+      setCurrentPageAdmin(1);
+   }, []);
 
 
    useEffect(() => {
@@ -75,7 +118,7 @@ export default function Dashboard() {
       setCurrentPage(1);
    }, []);
 
-   useEffect(() => {
+   /* useEffect(() => {
       async function publishArticle() {
          try {
             const { data } = await api.get(`/article/published/blog?page=${currentPagePublish}&limit=${limitPublish}`);
@@ -101,7 +144,7 @@ export default function Dashboard() {
       }
 
       publishArticle();
-   }, [currentPagePublish, limitPublish, totalPublish]);
+   }, [currentPagePublish, limitPublish, totalPublish]); */
 
    async function handleRefreshArticle() {
       const apiClient = setupAPIClient();
@@ -168,6 +211,15 @@ export default function Dashboard() {
                   <option value="999999">Todos os artigos</option>
                </select>
 
+               {currentAdmin === roleADMIN && (
+                  <select onChange={limitsAdmin}>
+                     <option value="4">4</option>
+                     <option value="8">8</option>
+                     <option value="12">12</option>
+                     <option value="20">20</option>
+                     <option value="999999">Todos os artigos</option>
+                  </select>
+               )}
                <br />
 
                <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
@@ -194,135 +246,276 @@ export default function Dashboard() {
                   </span>
                )}
 
-               <br />
-               <br />
-
-               <div className={styles.containerPagination}>
-                  <div className={styles.totalArticles} key={total}>
-                     <span>Total de artigos: {total}</span>
-                  </div>
-
-                  <div className={styles.containerArticlesPages} key={currentPage}>
-                     {currentPage > 1 && (
-                        <div className={styles.previus}>
-                           <button onClick={() => setCurrentPage(currentPage - 1)}>
-                              Voltar
-                           </button>
-                        </div>
-                     )}
-
-                     {pages.map((page) => (
-                        <span
-                           className={styles.page}
-                           key={page}
-                           onClick={() => setCurrentPage(page)}
-                        >
-                           {page}
+               {currentAdmin === roleADMIN && (
+                  <div>
+                     {admin.length === 0 && (
+                        <span className={styles.emptyList}>
+                           Nenhum artigo cadastrado...
                         </span>
-                     ))}
-
-                     {currentPage < articles.length && (
-                        <div className={styles.next}>
-                           <button onClick={() => setCurrentPage(currentPage + 1)}>
-                              Avançar
-                           </button>
-                        </div>
                      )}
-
                   </div>
-               </div>
+               )}
 
                <br />
+               <br />
 
-               <div className={styles.articlesSection}>
-                  {articles.map((articl) => {
-                     return (
-                        <>
-                           <div key={articl.id} className={styles.articleBox}>
-                              <div className={styles.article}>
-                                 <div className={styles.boxArticle}>
-                                    <div className={styles.titleArticle}>{articl?.title}</div>
-                                    <div className={styles.listArticles}>
-                                       <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
-                                       <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
-                                       <div className={styles.datesAndPublish}>
-                                          <span>Categoria: {articl?.categoryName}</span>
-                                          <hr />
-                                          <span>Data do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span>
-                                          <hr />
-                                          <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
+               {/*<div className={styles.containerPagination}>
+                     <div className={styles.totalArticles} key={total}>
+                        <span>Total de artigos: {total}</span>
+                     </div>
+
+                     <div className={styles.containerArticlesPages} key={currentPage}>
+                        {currentPage > 1 && (
+                           <div className={styles.previus}>
+                              <button onClick={() => setCurrentPage(currentPage - 1)}>
+                                 Voltar
+                              </button>
+                           </div>
+                        )}
+
+                        {pages.map((page) => (
+                           <span
+                              className={styles.page}
+                              key={page}
+                              onClick={() => setCurrentPage(page)}
+                           >
+                              {page}
+                           </span>
+                        ))}
+
+                        {currentPage < articles.length && (
+                           <div className={styles.next}>
+                              <button onClick={() => setCurrentPage(currentPage + 1)}>
+                                 Avançar
+                              </button>
+                           </div>
+                        )}
+
+                     </div>
+                  </div>
+
+                  <br />
+
+                  <div className={styles.articlesSection}>
+                     {articles.map((articl) => {
+                        return (
+                           <>
+                              <div key={articl.id} className={styles.articleBox}>
+                                 <div className={styles.article}>
+                                    <div className={styles.boxArticle}>
+                                       <div className={styles.titleArticle}>{articl?.title}</div>
+                                       <div className={styles.listArticles}>
+                                          <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" /></div>
+                                          <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
+                                          <div className={styles.datesAndPublish}>
+                                             <span>Categoria: {articl?.categoryName}</span>
+                                             <hr />
+                                             <span>Data do artigo: {moment(articl?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                                             <hr />
+                                             <span>Esta publicado? {articl?.published && renderOk() || renderNo()}</span>
+                                          </div>
+                                       </div>
+                                       <div className={styles.tagsAndAutorBox}>
+                                          <span>AUTOR:</span>
+                                          <p className={styles.author}>{articl?.name}</p>
+                                          <span>TAGS:</span>
+                                          <p>{articl?.tagName1} - {articl?.tagName2} - {articl?.tagName3} - {articl?.tagName4} - {articl?.tagName5}</p>
                                        </div>
                                     </div>
-                                    <div className={styles.tagsAndAutorBox}>
-                                       <span>AUTOR:</span>
-                                       <p className={styles.author}>{articl?.name}</p>
-                                       <span>TAGS:</span>
-                                       <p>{articl?.tagName1} - {articl?.tagName2} - {articl?.tagName3} - {articl?.tagName4} - {articl?.tagName5}</p>
+                                 </div>
+                                 <div className={styles.containerUpdate}>
+                                    <div className={styles.articleUpdate}>
+                                       <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articl.id}`}>
+                                          <FiEdit className={styles.edit} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.deleteArticle}>
+                                       <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
+                                          <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.publishArticle}>
+                                       <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
+                                          <MdPublish className={styles.publish} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.despublishArticle}>
+                                       <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articl.id}`}>
+                                          <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
+                                       </Link>
                                     </div>
                                  </div>
                               </div>
-                              <div className={styles.containerUpdate}>
-                                 <div className={styles.articleUpdate}>
-                                    <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articl.id}`}>
-                                       <FiEdit className={styles.edit} color='var(--red)' size={30} />
-                                    </Link>
+                           </>
+                        )
+                     })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                     <div className={styles.totalArticles}>
+                        <span>Total de artigos: {total}</span>
+                     </div>
+
+                     <div className={styles.containerArticlesPages}>
+                        {currentPage > 1 && (
+                           <div className={styles.previus}>
+                              <button onClick={() => setCurrentPage(currentPage - 1)}>
+                                 Voltar
+                              </button>
+                           </div>
+                        )}
+
+                        {pages.map((page) => (
+                           <span
+                              className={styles.page}
+                              key={page}
+                              onClick={() => setCurrentPage(page)}
+                           >
+                              {page}
+                           </span>
+                        ))}
+
+                        {currentPage < articles.length && (
+                           <div className={styles.next}>
+                              <button onClick={() => setCurrentPage(currentPage + 1)}>
+                                 Avançar
+                              </button>
+                           </div>
+                        )}
+
+                     </div>
+                  </div> */}
+
+               {currentAdmin === roleADMIN && (<section>
+
+                  <div className={styles.containerPagination}>
+                     <div className={styles.totalArticles} key={totalAdmin}>
+                        <span>Total de artigos: {totalAdmin}</span>
+                     </div>
+
+                     <div className={styles.containerArticlesPages} key={currentPageAdmin}>
+                        {currentPageAdmin > 1 && (
+                           <div className={styles.previus}>
+                              <button onClick={() => setCurrentPageAdmin(currentPageAdmin - 1)}>
+                                 Voltar
+                              </button>
+                           </div>
+                        )}
+
+                        {pagesAdmin.map((pageAdmin) => (
+                           <span
+                              className={styles.page}
+                              key={pageAdmin}
+                              onClick={() => setCurrentPage(pageAdmin)}
+                           >
+                              {pageAdmin}
+                           </span>
+                        ))}
+
+                        {currentPageAdmin < admin.length && (
+                           <div className={styles.next}>
+                              <button onClick={() => setCurrentPageAdmin(currentPageAdmin + 1)}>
+                                 Avançar
+                              </button>
+                           </div>
+                        )}
+
+                     </div>
+                  </div>
+
+                  <br />
+
+                  <div className={styles.articlesSection}>
+                     {admin.map((articlAdmin) => {
+                        return (
+                           <>
+                              <div key={articlAdmin.id} className={styles.articleBox}>
+                                 <div className={styles.article}>
+                                    <div className={styles.boxArticle}>
+                                       <div className={styles.titleArticle}>{articlAdmin?.title}</div>
+                                       <div className={styles.listArticles}>
+                                          <div className={styles.bannerArticle}><img src={"http://localhost:3333/files/" + articlAdmin?.banner} alt="banner do artigo" /></div>
+                                          <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articlAdmin?.description }}></div>
+                                          <div className={styles.datesAndPublish}>
+                                             <span>Categoria: {articlAdmin?.categoryName}</span>
+                                             <hr />
+                                             <span>Data do artigo: {moment(articlAdmin?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                                             <hr />
+                                             <span>Esta publicado? {articlAdmin?.published && renderOk() || renderNo()}</span>
+                                          </div>
+                                       </div>
+                                       <div className={styles.tagsAndAutorBox}>
+                                          <span>AUTOR:</span>
+                                          <p className={styles.author}>{articlAdmin?.name}</p>
+                                          <span>TAGS:</span>
+                                          <p>{articlAdmin?.tagName1} - {articlAdmin?.tagName2} - {articlAdmin?.tagName3} - {articlAdmin?.tagName4} - {articlAdmin?.tagName5}</p>
+                                       </div>
+                                    </div>
                                  </div>
-                                 <div className={styles.deleteArticle}>
-                                    <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
-                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
-                                    </Link>
-                                 </div>
-                                 <div className={styles.publishArticle}>
-                                    <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
-                                       <MdPublish className={styles.publish} color='var(--red)' size={30} />
-                                    </Link>
-                                 </div>
-                                 <div className={styles.despublishArticle}>
-                                    <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articl.id}`}>
-                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
-                                    </Link>
+                                 <div className={styles.containerUpdate}>
+                                    <div className={styles.articleUpdate}>
+                                       <Link className={styles.articleUpdate} href={`/articleUpdate?article_id=${articlAdmin.id}`}>
+                                          <FiEdit className={styles.edit} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.deleteArticle}>
+                                       <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articlAdmin.id}`}>
+                                          <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.publishArticle}>
+                                       <Link className={styles.publishArti} href={`/articlePublish?article_id=${articlAdmin.id}`}>
+                                          <MdPublish className={styles.publish} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
+                                    <div className={styles.despublishArticle}>
+                                       <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articlAdmin.id}`}>
+                                          <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
+                                       </Link>
+                                    </div>
                                  </div>
                               </div>
+                           </>
+                        )
+                     })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                     <div className={styles.totalArticles}>
+                        <span>Total de artigos: {totalAdmin}</span>
+                     </div>
+
+                     <div className={styles.containerArticlesPages}>
+                        {currentPageAdmin > 1 && (
+                           <div className={styles.previus}>
+                              <button onClick={() => setCurrentPageAdmin(currentPageAdmin - 1)}>
+                                 Voltar
+                              </button>
                            </div>
-                        </>
-                     )
-                  })}
-               </div>
+                        )}
 
-               <div className={styles.containerPagination}>
-                  <div className={styles.totalArticles}>
-                     <span>Total de artigos: {total}</span>
+                        {pagesAdmin.map((pageAdmin) => (
+                           <span
+                              className={styles.page}
+                              key={pageAdmin}
+                              onClick={() => setCurrentPageAdmin(pageAdmin)}
+                           >
+                              {pageAdmin}
+                           </span>
+                        ))}
+
+                        {currentPageAdmin < admin.length && (
+                           <div className={styles.next}>
+                              <button onClick={() => setCurrentPageAdmin(currentPageAdmin + 1)}>
+                                 Avançar
+                              </button>
+                           </div>
+                        )}
+
+                     </div>
                   </div>
 
-                  <div className={styles.containerArticlesPages}>
-                     {currentPage > 1 && (
-                        <div className={styles.previus}>
-                           <button onClick={() => setCurrentPage(currentPage - 1)}>
-                              Voltar
-                           </button>
-                        </div>
-                     )}
-
-                     {pages.map((page) => (
-                        <span
-                           className={styles.page}
-                           key={page}
-                           onClick={() => setCurrentPage(page)}
-                        >
-                           {page}
-                        </span>
-                     ))}
-
-                     {currentPage < articles.length && (
-                        <div className={styles.next}>
-                           <button onClick={() => setCurrentPage(currentPage + 1)}>
-                              Avançar
-                           </button>
-                        </div>
-                     )}
-
-                  </div>
-               </div>
+               </section>)}
 
             </section>
             <FooterPainel />
@@ -337,5 +530,5 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
    return {
       props: {}
    }
-   
+
 })

@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent, useRef } from 'react'
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../../pages/signup/styles.module.scss';
+import styles from '../../pages/signupAdmin/styles.module.scss';
 import logoImg from '../../../public/LogoBuilderBlack.png';
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
@@ -126,7 +126,7 @@ export default function SignupAdmin() {
         <title>ADMINISTRADOR - Faça seu cadastro agora!</title>
       </Head>
 
-      <section className={styles.containerCenter}>
+      <section className={styles.containerCenterAdmin}>
         <Image src={logoImg} alt="Logo Blog Builder Seu Negocio Online" />
 
         <div className={styles.login}>
