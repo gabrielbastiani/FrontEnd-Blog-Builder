@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Head from "next/head"
 import styles from './style.module.scss';
 import { useRouter } from 'next/router'
@@ -7,33 +7,16 @@ import { Button } from '../../components/ui/Button/index';
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { setupAPIClient } from '../../services/api'
 import Link from '../../../node_modules/next/link';
-import { toast } from 'react-toastify'
-import { api } from '../../services/apiClient';
+import { toast } from 'react-toastify';
 
 
 export default function ArticleDelete() {
 
     const router = useRouter();
 
-    const [roleUser, setRoleUser] = useState('');
-
-    const userRole = "ADMIN";
-
-    useEffect(() => {
-        async function loadUser() {
-            const response = await api.get('/me');
-            setRoleUser(response.data.role);
-        }
-        loadUser()
-    }, []);
-
     async function handleArticleDelete() {
 
         try {
-            if (roleUser != userRole) {
-                toast.error('Você não tem permisão para isso')
-                return
-            }
 
             const apiClient = setupAPIClient();
         

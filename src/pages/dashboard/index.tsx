@@ -28,6 +28,9 @@ export default function Dashboard() {
    const [currentPage, setCurrentPage] = useState(1);
    const [currentUser, setCurrentUser] = useState('');
 
+   const [initialFilter, setInitialFilter] = useState();
+   const [search, setSearch] = useState([]);
+
    const [admin, setAdmin] = useState([]);
    const [totalAdmin, setTotalAdmin] = useState(0);
    const [limitAdmin, setLimitAdmin] = useState(4);
@@ -37,14 +40,8 @@ export default function Dashboard() {
    const [currentAdmin, setCurrentAdmin] = useState('');
    const roleADMIN = "ADMIN";
 
-   /* const [publish, setPublish] = useState([]);
-   const [totalPublish, setTotalPublish] = useState(0);
-   const [limitPublish, setLimitPublish] = useState(4);
-   const [pagesPublish, setPagesPublish] = useState([]);
-   const [currentPagePublish, setCurrentPagePublish] = useState(1); */
-
-   const [initialFilter, setInitialFilter] = useState();
-   const [search, setSearch] = useState([]);
+   const [initialFilterAdmin, setInitialFilterAdmin] = useState();
+   const [searchAdmin, setSearchAdmin] = useState([]);
 
 
    useEffect(() => {
@@ -53,9 +50,9 @@ export default function Dashboard() {
             const response = await api.get('/me');
             setCurrentAdmin(response.data.role);
 
-            const { dataAdmin } = await api.get(`/article/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
-            /* setTotal(data?.articles?.length || 0); */
-            setTotalAdmin(dataAdmin?.totalAdmin);
+            const { data } = await api.get(`/article/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+
+            setTotalAdmin(data?.totalAdmin);
             const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
 
             const arrayPagesAdmin = [];
@@ -64,7 +61,7 @@ export default function Dashboard() {
             }
 
             setPagesAdmin(arrayPagesAdmin);
-            setAdmin(dataAdmin?.admin || []);
+            setAdmin(data?.admin || []);
 
          } catch (error) {
 
@@ -90,7 +87,7 @@ export default function Dashboard() {
             setCurrentUser(response.data.name);
 
             const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}&name=${name}`);
-            /* setTotal(data?.articles?.length || 0); */
+
             setTotal(data?.total);
             const totalPages = Math.ceil(total / limit);
 
@@ -118,35 +115,16 @@ export default function Dashboard() {
       setCurrentPage(1);
    }, []);
 
-   /* useEffect(() => {
-      async function publishArticle() {
-         try {
-            const { data } = await api.get(`/article/published/blog?page=${currentPagePublish}&limit=${limitPublish}`);
-            setTotalPublish(data?.total);
-            const totalPagesPublish = Math.ceil(totalPublish / limitPublish);
-
-            const arrayPagesPublish = [];
-
-            for (let i = 1; i <= totalPagesPublish; i++) {
-               arrayPagesPublish.push(i);
-
-               setPagesPublish(arrayPagesPublish);
-               setPublish(data?.publish || []);
-
-            }
-
-         } catch (error) {
-
-            console.error(error);
-            alert('Error call api list article');
-
-         }
-      }
-
-      publishArticle();
-   }, [currentPagePublish, limitPublish, totalPublish]); */
-
    async function handleRefreshArticle() {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/article/filter')
+      setArticles(response.data);
+
+      router.reload()
+   }
+
+   async function handleRefreshArticleAdmin() {
       const apiClient = setupAPIClient();
 
       const response = await apiClient.get('/article/filter')
@@ -166,6 +144,17 @@ export default function Dashboard() {
       setArticles(filterArticles);
    }
 
+   const handleChangeAdmin = ({ target }) => {
+      if (!target.value) {
+         setSearchAdmin(initialFilterAdmin);
+
+         return;
+      }
+
+      const filterArticlesAdmin = admin.filter((filtAdmin) => filtAdmin.description.toLowerCase().includes(target.value));
+      setAdmin(filterArticlesAdmin);
+   }
+
    async function handleRefreshFilter() {
       const apiClient = setupAPIClient();
 
@@ -174,11 +163,27 @@ export default function Dashboard() {
 
    }
 
+   async function handleRefreshFilterAdmin() {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.get('/article/filter')
+      setAdmin(response.data);
+
+   }
+
    const renderOk = () => {
       return <p className={styles.sim}>SIM</p>
    }
 
    const renderNo = () => {
+      return <p className={styles.nao}>NÃO</p>
+   }
+
+   const renderOkAdmin = () => {
+      return <p className={styles.sim}>SIM</p>
+   }
+
+   const renderNoAdmin = () => {
       return <p className={styles.nao}>NÃO</p>
    }
 
@@ -203,13 +208,15 @@ export default function Dashboard() {
 
                <br />
 
-               <select onChange={limits}>
-                  <option value="4">4</option>
-                  <option value="8">8</option>
-                  <option value="12">12</option>
-                  <option value="20">20</option>
-                  <option value="999999">Todos os artigos</option>
-               </select>
+               {currentAdmin != roleADMIN && (
+                  <select onChange={limits}>
+                     <option value="4">4</option>
+                     <option value="8">8</option>
+                     <option value="12">12</option>
+                     <option value="20">20</option>
+                     <option value="999999">Todos os artigos</option>
+                  </select>
+               )}
 
                {currentAdmin === roleADMIN && (
                   <select onChange={limitsAdmin}>
@@ -222,28 +229,58 @@ export default function Dashboard() {
                )}
                <br />
 
-               <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
-                  <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
-               </button>
+               {currentAdmin != roleADMIN && (
+                  <button className={styles.buttonRefresh} onClick={handleRefreshArticle}>
+                     <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
+                  </button>
+               )}
+
+               {currentAdmin === roleADMIN && (
+                  <button className={styles.buttonRefresh} onClick={handleRefreshArticleAdmin}>
+                     <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Artigos
+                  </button>
+               )}
 
                <section className={styles.boxSearch}>
-                  <Input
-                     placeholder='Busca por artigo'
-                     type="search"
-                     onChange={handleChange}
-                  />
+                  {currentAdmin != roleADMIN && (
+                     <Input
+                        placeholder='Busca por artigo'
+                        type="search"
+                        onChange={handleChange}
+                     />
+                  )}
 
-                  <button
-                     onClick={handleRefreshFilter}>Limpar filtro
-                  </button>
+                  {currentAdmin === roleADMIN && (
+                     <Input
+                        placeholder='Busca por artigo'
+                        type="search"
+                        onChange={handleChangeAdmin}
+                     />
+                  )}
+
+                  {currentAdmin != roleADMIN && (
+                     <button
+                        onClick={handleRefreshFilter}>Limpar filtro
+                     </button>
+                  )}
+
+                  {currentAdmin === roleADMIN && (
+                     <button
+                        onClick={handleRefreshFilterAdmin}>Limpar filtro
+                     </button>
+                  )}
                </section>
 
                <br />
 
-               {articles.length === 0 && (
-                  <span className={styles.emptyList}>
-                     Nenhum artigo cadastrado...
-                  </span>
+               {currentAdmin != roleADMIN && (
+                  <div>
+                     {articles.length === 0 && (
+                        <span className={styles.emptyList}>
+                           Nenhum artigo cadastrado...
+                        </span>
+                     )}
+                  </div>
                )}
 
                {currentAdmin === roleADMIN && (
@@ -259,7 +296,8 @@ export default function Dashboard() {
                <br />
                <br />
 
-               {/*<div className={styles.containerPagination}>
+               {currentAdmin != roleADMIN && (<section>
+                  <div className={styles.containerPagination}>
                      <div className={styles.totalArticles} key={total}>
                         <span>Total de artigos: {total}</span>
                      </div>
@@ -384,7 +422,8 @@ export default function Dashboard() {
                         )}
 
                      </div>
-                  </div> */}
+                  </div>
+               </section>)}
 
                {currentAdmin === roleADMIN && (<section>
 
@@ -441,7 +480,7 @@ export default function Dashboard() {
                                              <hr />
                                              <span>Data do artigo: {moment(articlAdmin?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                                              <hr />
-                                             <span>Esta publicado? {articlAdmin?.published && renderOk() || renderNo()}</span>
+                                             <span>Esta publicado? {articlAdmin?.published && renderOkAdmin() || renderNoAdmin()}</span>
                                           </div>
                                        </div>
                                        <div className={styles.tagsAndAutorBox}>
