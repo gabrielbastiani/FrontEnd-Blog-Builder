@@ -31,17 +31,22 @@ export default function Category() {
   const [initialFilter, setInitialFilter] = useState();
   const [search, setSearch] = useState([]);
 
-  const [roleUser, setRoleUser] = useState('');
+  const [currentAdmin, setCurrentAdmin] = useState('');
+  const roleADMIN = "ADMIN";
 
-  const userRole = "ADMIN";
 
   useEffect(() => {
-    async function loadUser(){
-      const response = await api.get('/me');
-      setRoleUser(response.data.role);
+    async function loadUser() {
+      try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+      } catch (err) {
+        console.error(err);
+        alert('Error call api user');
+      }
     }
-    loadUser()
-  }, []);
+    loadUser();
+  }, [])
 
   useEffect(() => {
     async function loadCategorys() {
@@ -82,11 +87,6 @@ export default function Category() {
       toast.error('Digite algum nome para sua categoria!')
 
       return;
-    }
-
-    if(roleUser != userRole){
-      toast.error('Você não tem permisão para isso')
-      return
     }
 
     const apiClient = setupAPIClient();

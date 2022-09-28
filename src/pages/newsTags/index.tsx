@@ -63,6 +63,7 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags1() {
       try {
+
         const { data } = await api.get(`/tag1/page?pageTag1=${currentPageTag1}&limitTag1=${limitTag1}`);
         setTotalTag1(data?.totalTag1);
         const totalPagesTag1 = Math.ceil(totalTag1 / limitTag1);
