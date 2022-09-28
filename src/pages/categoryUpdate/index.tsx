@@ -9,7 +9,6 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { toast } from 'react-toastify'
 import { Button } from '../../components/ui/Button/index'
 import { Input } from '../../components/ui/Input/index'
-import { api } from '../../services/apiClient'
 
 
 export default function Category() {
@@ -18,28 +17,11 @@ export default function Category() {
 
     const [categoryName, setCategoryName] = useState('');
 
-    const [roleUser, setRoleUser] = useState('');
-
-    const userRole = "ADMIN";
-
-    useEffect(() => {
-        async function loadUser() {
-            const response = await api.get('/me');
-            setRoleUser(response.data.role);
-        }
-        loadUser()
-    }, []);
-
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
         try {
-            const data = new FormData()
-            if (roleUser != userRole) {
-                toast.error('Você não tem permisão para isso')
-                return
-            }
 
             if (categoryName === '') {
 

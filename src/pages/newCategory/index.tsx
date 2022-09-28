@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect, useCallback } from 'react'
+import React, { useState, FormEvent, useEffect, useCallback, useContext } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -14,44 +14,88 @@ import moment from 'moment';
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
 import { useRouter } from 'next/router'
+import { AuthContext } from '../../contexts/AuthContext'
 
 
 export default function Category() {
 
-  const router = useRouter()
+  const { user } = useContext(AuthContext);
 
-  const [categoryName, setCategoryName] = useState('')
+  const [categoryName, setCategoryName] = useState('');
+
+  const [allcategorys, setAllCategorys] = useState([]);
 
   const [categs, setCategs] = useState([]);
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(4);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [initialFilter, setInitialFilter] = useState();
   const [search, setSearch] = useState([]);
+
+  const [categsAdmin, setCategsAdmin] = useState([]);
+  const [totalAdmin, setTotalAdmin] = useState(0);
+  const [limitAdmin, setLimitAdmin] = useState(4);
+  const [pagesAdmin, setPagesAdmin] = useState([]);
+  const [currentPageAdmin, setCurrentPageAdmin] = useState(1);
+  const [initialFilterAdmin, setInitialFilterAdmin] = useState();
+  const [searchAdmin, setSearchAdmin] = useState([]);
 
   const [currentAdmin, setCurrentAdmin] = useState('');
   const roleADMIN = "ADMIN";
 
 
   useEffect(() => {
-    async function loadUser() {
+    async function loadAllCategorys() {
+      const all = await api.get('/category');
+      setAllCategorys(all.data);
+    }
+    loadAllCategorys();
+  }, [])
+
+  useEffect(() => {
+    async function loadCategoryAdmin() {
       try {
         const response = await api.get('/me');
         setCurrentAdmin(response.data.role);
-      } catch (err) {
-        console.error(err);
-        alert('Error call api user');
+
+        const { data } = await api.get(`/category/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+        setTotalAdmin(data?.totalAdmin);
+        const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
+
+        const arrayPagesAdmin = [];
+        for (let i = 1; i <= totalPagesAdmin; i++) {
+          arrayPagesAdmin.push(i);
+        }
+
+        setPagesAdmin(arrayPagesAdmin);
+        setCategsAdmin(data?.categsAdmin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list category ADMIN');
+
       }
     }
-    loadUser();
-  }, [])
+
+    loadCategoryAdmin();
+  }, [currentPageAdmin, limitAdmin, totalAdmin]);
+
+  const limitsAdmin = useCallback((e) => {
+    setLimitAdmin(e.target.value);
+    setCurrentPageAdmin(1);
+  }, []);
+
 
   useEffect(() => {
     async function loadCategorys() {
       try {
-        const { data } = await api.get(`/category/all?page=${currentPage}&limit=${limit}`);
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
+
+        const { data } = await api.get(`/category/all?page=${currentPage}&limit=${limit}&name=${name}`);
         setTotal(data?.total);
         const totalPages = Math.ceil(total / limit);
 
@@ -79,43 +123,77 @@ export default function Category() {
     setCurrentPage(1);
   }, []);
 
-  async function handleRegister(event: FormEvent) {
-    event.preventDefault();
+  async function handleRefreshCategory() {
+    const response = await api.get('/me');
+    setCurrentAdmin(response.data.role);
+    const name = response.data.name;
 
-    if (categoryName === '') {
+    const { data } = await api.get(`/category/all?page=${currentPage}&limit=${limit}&name=${name}`);
+    setTotal(data?.total);
+    const totalPages = Math.ceil(total / limit);
 
-      toast.error('Digite algum nome para sua categoria!')
-
-      return;
+    const arrayPages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      arrayPages.push(i);
     }
 
-    const apiClient = setupAPIClient();
-    await apiClient.post('/category', {
-      categoryName: categoryName
-    })
-
-    toast.success('Categoria cadastrada com sucesso!')
-    setCategoryName('');
-
-    handleRefreshCategory()
+    setPages(arrayPages);
+    setCategs(data?.categs || []);
 
   }
 
-  async function handleRefreshCategory() {
-    const apiClient = setupAPIClient();
+  async function handleRefreshCategoryAdmin() {
+    const response = await api.get('/me');
+    setCurrentAdmin(response.data.role);
 
-    const response = await apiClient.get('/category')
-    setCategs(response.data);
+    const { data } = await api.get(`/category/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+    setTotalAdmin(data?.totalAdmin);
+    const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
 
-    router.reload()
+    const arrayPagesAdmin = [];
+    for (let i = 1; i <= totalPagesAdmin; i++) {
+      arrayPagesAdmin.push(i);
+    }
+
+    setPagesAdmin(arrayPagesAdmin);
+    setCategsAdmin(data?.categsAdmin || []);
 
   }
 
   async function handleRefreshFilter() {
-    const apiClient = setupAPIClient();
+    const response = await api.get('/me');
+    setCurrentAdmin(response.data.role);
+    const name = response.data.name;
 
-    const response = await apiClient.get('/category')
-    setCategs(response.data);
+    const { data } = await api.get(`/category/all?page=${currentPage}&limit=${limit}&name=${name}`);
+    setTotal(data?.total);
+    const totalPages = Math.ceil(total / limit);
+
+    const arrayPages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      arrayPages.push(i);
+    }
+
+    setPages(arrayPages);
+    setCategs(data?.categs || []);
+
+  }
+
+  async function handleRefreshFilterAdmin() {
+    const response = await api.get('/me');
+    setCurrentAdmin(response.data.role);
+
+    const { data } = await api.get(`/category/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+    setTotalAdmin(data?.totalAdmin);
+    const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
+
+    const arrayPagesAdmin = [];
+    for (let i = 1; i <= totalPagesAdmin; i++) {
+      arrayPagesAdmin.push(i);
+    }
+
+    setPagesAdmin(arrayPagesAdmin);
+    setCategsAdmin(data?.categsAdmin || []);
 
   }
 
@@ -128,6 +206,39 @@ export default function Category() {
 
     const filterArticles = categs.filter((filt) => filt.categoryName.toLowerCase().includes(target.value));
     setCategs(filterArticles);
+  }
+
+  const handleChangeAdmin = ({ target }) => {
+    if (!target.value) {
+      setSearchAdmin(initialFilterAdmin);
+
+      return;
+    }
+
+    const filterArticlesAdmin = categsAdmin.filter((filtAdmin) => filtAdmin.categoryName.toLowerCase().includes(target.value));
+    setCategsAdmin(filterArticlesAdmin);
+  }
+
+  async function handleRegister(event: FormEvent) {
+    event.preventDefault();
+
+    if (categoryName === '') {
+      toast.error('Digite algum nome para sua categoria!')
+      return;
+    }
+
+    const apiClient = setupAPIClient();
+    await apiClient.post('/category', {
+      categoryName: categoryName,
+      name: user.name
+    })
+
+    toast.success('Categoria cadastrada com sucesso!')
+    setCategoryName('');
+
+    handleRefreshCategory()
+    handleRefreshCategoryAdmin()
+
   }
 
 
@@ -164,29 +275,57 @@ export default function Category() {
 
           </form>
 
-          <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
-            <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
-          </button>
+          {currentAdmin != roleADMIN && (
+            <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
+              <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
+            </button>
+          )}
+
+          {currentAdmin === roleADMIN && (
+            <button className={styles.buttonRefresh} onClick={handleRefreshCategoryAdmin}>
+              <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de Categorias
+            </button>
+          )}
 
           <h3>Categorias Cadastradas</h3>
 
           <br />
 
-          <section className={styles.sectionBoxSearch}>
-            <div className={styles.sectionBoxContainer}>
-              <Input
-                placeholder='Busca por artigo'
-                type="search"
-                onChange={handleChange}
-              />
+          {currentAdmin != roleADMIN && (
+            <section className={styles.sectionBoxSearch}>
+              <div className={styles.sectionBoxContainer}>
+                <Input
+                  placeholder='Buscar uma categoria'
+                  type="search"
+                  onChange={handleChange}
+                />
 
-              <Button
-                onClick={handleRefreshFilter}>Limpar filtro
-              </Button>
+                <Button
+                  onClick={handleRefreshFilter}>Limpar filtro
+                </Button>
 
-            </div>
+              </div>
 
-          </section>
+            </section>
+          )}
+
+          {currentAdmin === roleADMIN && (
+            <section className={styles.sectionBoxSearch}>
+              <div className={styles.sectionBoxContainer}>
+                <Input
+                  placeholder='Buscar uma categoria'
+                  type="search"
+                  onChange={handleChangeAdmin}
+                />
+
+                <Button
+                  onClick={handleRefreshFilterAdmin}>Limpar filtro
+                </Button>
+
+              </div>
+
+            </section>
+          )}
 
           <br />
           <br />
@@ -195,84 +334,188 @@ export default function Category() {
 
           <br />
 
-          <select onChange={limits}>
-            <option value="4">4</option>
-            <option value="8">8</option>
-            <option value="12">12</option>
-          </select>
+          {currentAdmin != roleADMIN && (<section>
+            <select onChange={limits}>
+              <option value="4">4</option>
+              <option value="8">8</option>
+              <option value="12">12</option>
+            </select>
 
-          < br />
+            < br />
 
-          {categs.length > 0 && (
-            <h4>Clique sobre uma categoria para atualiza-la.</h4>
-          )}
+            {categs.length > 0 && (
+              <div>
+                <h3>Abaixo suas categorias que cadastrou.</h3>
+                <br />
+                <h4>Clique sobre uma categoria para atualiza-la.</h4>
+              </div>
+            )}
 
-          {categs.length === 0 && (
-            <span className={styles.emptyList}>
-              Nenhuma categoria cadastrada...
-            </span>
-          )}
+            {categs.length === 0 && (
+              <span className={styles.emptyList}>
+                Nenhuma categoria cadastrada...
+              </span>
+            )}
 
-          <div className={styles.categorysSectionMain}>
-            <div className={styles.categorysSection}>
-              {categs.map((categ) => {
-                return (
-                  <>
-                    <div className={styles.categoryBox}>
-                      <div className={styles.category} key={categ.id}>
-                        <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categ.id}`}>
-                          <div className={styles.listCategories}>
-                            <div className={styles.nameCategory}>{categ?.categoryName}</div>
-                            <div className={styles.dates}>
-                              <span>Data de criação: {moment(categ?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+            <div className={styles.categorysSectionMain}>
+              <div className={styles.categorysSection}>
+                {categs.map((categ) => {
+                  return (
+                    <>
+                      <div className={styles.categoryBox}>
+                        <div className={styles.category} key={categ.id}>
+                          <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categ.id}`}>
+                            <div className={styles.listCategories}>
+                              <div className={styles.nameCategory}>{categ?.categoryName}</div>
+                              <div className={styles.dates}>
+                                <span>Data de criação: {moment(categ?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
                       </div>
+                    </>
+                  )
+                })}
+              </div>
+
+              <br />
+
+              <div className={styles.containerPagination}>
+                <div className={styles.totalCategorys}>
+                  <span>Total das suas categorias cadastradas: {total}</span>
+                </div>
+
+                <div className={styles.containerCategorysPages}>
+                  {currentPage > 1 && (
+                    <div className={styles.previus}>
+                      <button onClick={() => setCurrentPage(currentPage - 1)}>
+                        Voltar
+                      </button>
+                    </div>
+                  )}
+
+                  {pages.map((page) => (
+                    <span
+                      className={styles.page}
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </span>
+                  ))}
+
+                  {currentPage < categs.length && (
+                    <div className={styles.next}>
+                      <button onClick={() => setCurrentPage(currentPage + 1)}>
+                        Avançar
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+
+            </div>
+          </section>)}
+
+          {currentAdmin != roleADMIN && (
+          <section className={styles.allCategorysSection}>
+            <h3>Abaixo, todas as categorias disponiveis para uso em seus artigos.</h3>
+            <br />
+            <div className={styles.allCategorys}>
+              {allcategorys.map((all) => {
+                return(
+                  <>
+                    <div key={all.id} className={styles.allCategorysBox}>
+                      <span>{all?.categoryName}</span>
                     </div>
                   </>
                 )
               })}
             </div>
+          </section>)}
 
-            <br />
+          {currentAdmin === roleADMIN && (<section>
+            <select onChange={limitsAdmin}>
+              <option value="4">4</option>
+              <option value="8">8</option>
+              <option value="12">12</option>
+            </select>
 
-            <div className={styles.containerPagination}>
-              <div className={styles.totalCategorys}>
-                <span>Total de categorias: {total}</span>
+            < br />
+
+            {categsAdmin.length > 0 && (
+              <h4>Clique sobre uma categoria para atualiza-la.</h4>
+            )}
+
+            {categsAdmin.length === 0 && (
+              <span className={styles.emptyList}>
+                Nenhuma categoria cadastrada...
+              </span>
+            )}
+
+            <div className={styles.categorysSectionMain}>
+              <div className={styles.categorysSection}>
+                {categsAdmin.map((categAdmin) => {
+                  return (
+                    <>
+                      <div className={styles.categoryBox}>
+                        <div className={styles.category} key={categAdmin.id}>
+                          <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categAdmin.id}`}>
+                            <div className={styles.listCategories}>
+                              <div className={styles.nameCategory}>{categAdmin?.categoryName}</div>
+                              <div className={styles.dates}>
+                                <span>Data de criação: {moment(categAdmin?.created_at).format('DD/MM/YYYY HH:mm')}</span>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )
+                })}
               </div>
 
-              <div className={styles.containerCategorysPages}>
-                {currentPage > 1 && (
-                  <div className={styles.previus}>
-                    <button onClick={() => setCurrentPage(currentPage - 1)}>
-                      Voltar
-                    </button>
-                  </div>
-                )}
+              <br />
 
-                {pages.map((page) => (
-                  <span
-                    className={styles.page}
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </span>
-                ))}
+              <div className={styles.containerPagination}>
+                <div className={styles.totalCategorys}>
+                  <span>Total de categorias: {totalAdmin}</span>
+                </div>
 
-                {currentPage < categs.length && (
-                  <div className={styles.next}>
-                    <button onClick={() => setCurrentPage(currentPage + 1)}>
-                      Avançar
-                    </button>
-                  </div>
-                )}
+                <div className={styles.containerCategorysPages}>
+                  {currentPageAdmin > 1 && (
+                    <div className={styles.previus}>
+                      <button onClick={() => setCurrentPageAdmin(currentPageAdmin - 1)}>
+                        Voltar
+                      </button>
+                    </div>
+                  )}
 
+                  {pagesAdmin.map((pageAdmin) => (
+                    <span
+                      className={styles.page}
+                      key={pageAdmin}
+                      onClick={() => setCurrentPageAdmin(pageAdmin)}
+                    >
+                      {pageAdmin}
+                    </span>
+                  ))}
+
+                  {currentPageAdmin < categsAdmin.length && (
+                    <div className={styles.next}>
+                      <button onClick={() => setCurrentPageAdmin(currentPageAdmin + 1)}>
+                        Avançar
+                      </button>
+                    </div>
+                  )}
+
+                </div>
               </div>
+
             </div>
-
-          </div>
+          </section>)}
         </section>
       </main>
       <FooterPainel />
