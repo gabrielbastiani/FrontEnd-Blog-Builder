@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect, useCallback } from 'react'
+import React, { useState, FormEvent, useEffect, useCallback, useContext } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -11,9 +11,12 @@ import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import { AuthContext } from '../../contexts/AuthContext'
 
 
 export default function NewsTags() {
+
+  const { user } = useContext(AuthContext);
 
   const router = useRouter()
 
@@ -23,12 +26,25 @@ export default function NewsTags() {
   const [tagName4, setTagName4] = useState('')
   const [tagName5, setTagName5] = useState('')
 
+  const [tagName1Admin, setTagName1Admin] = useState('')
+  const [tagName2Admin, setTagName2Admin] = useState('')
+  const [tagName3Admin, setTagName3Admin] = useState('')
+  const [tagName4Admin, setTagName4Admin] = useState('')
+  const [tagName5Admin, setTagName5Admin] = useState('')
+
   //-- PAGE TAG 1
+
   const [tags1, setTags1] = useState([]);
   const [totalTag1, setTotalTag1] = useState(0);
   const [limitTag1, setLimitTag1] = useState(3);
   const [pagesTag1, setPagesTag1] = useState([]);
   const [currentPageTag1, setCurrentPageTag1] = useState(1);
+
+  const [tags1Admin, setTags1Admin] = useState([]);
+  const [totalTag1Admin, setTotalTag1Admin] = useState(0);
+  const [limitTag1Admin, setLimitTag1Admin] = useState(3);
+  const [pagesTag1Admin, setPagesTag1Admin] = useState([]);
+  const [currentPageTag1Admin, setCurrentPageTag1Admin] = useState(1);
 
   //-- PAGE TAG 2
   const [tags2, setTags2] = useState([]);
@@ -37,12 +53,24 @@ export default function NewsTags() {
   const [pagesTag2, setPagesTag2] = useState([]);
   const [currentPageTag2, setCurrentPageTag2] = useState(1);
 
+  const [tags2Admin, setTags2Admin] = useState([]);
+  const [totalTag2Admin, setTotalTag2Admin] = useState(0);
+  const [limitTag2Admin, setLimitTag2Admin] = useState(3);
+  const [pagesTag2Admin, setPagesTag2Admin] = useState([]);
+  const [currentPageTag2Admin, setCurrentPageTag2Admin] = useState(1);
+
   //-- PAGE TAG 3
   const [tags3, setTags3] = useState([]);
   const [totalTag3, setTotalTag3] = useState(0);
   const [limitTag3, setLimitTag3] = useState(3);
   const [pagesTag3, setPagesTag3] = useState([]);
   const [currentPageTag3, setCurrentPageTag3] = useState(1);
+
+  const [tags3Admin, setTags3Admin] = useState([]);
+  const [totalTag3Admin, setTotalTag3Admin] = useState(0);
+  const [limitTag3Admin, setLimitTag3Admin] = useState(3);
+  const [pagesTag3Admin, setPagesTag3Admin] = useState([]);
+  const [currentPageTag3Admin, setCurrentPageTag3Admin] = useState(1);
 
   //-- PAGE TAG 4
   const [tags4, setTags4] = useState([]);
@@ -51,6 +79,12 @@ export default function NewsTags() {
   const [pagesTag4, setPagesTag4] = useState([]);
   const [currentPageTag4, setCurrentPageTag4] = useState(1);
 
+  const [tags4Admin, setTags4Admin] = useState([]);
+  const [totalTag4Admin, setTotalTag4Admin] = useState(0);
+  const [limitTag4Admin, setLimitTag4Admin] = useState(3);
+  const [pagesTag4Admin, setPagesTag4Admin] = useState([]);
+  const [currentPageTag4Admin, setCurrentPageTag4Admin] = useState(1);
+
   //-- PAGE TAG 5
   const [tags5, setTags5] = useState([]);
   const [totalTag5, setTotalTag5] = useState(0);
@@ -58,13 +92,25 @@ export default function NewsTags() {
   const [pagesTag5, setPagesTag5] = useState([]);
   const [currentPageTag5, setCurrentPageTag5] = useState(1);
 
+  const [tags5Admin, setTags5Admin] = useState([]);
+  const [totalTag5Admin, setTotalTag5Admin] = useState(0);
+  const [limitTag5Admin, setLimitTag5Admin] = useState(3);
+  const [pagesTag5Admin, setPagesTag5Admin] = useState([]);
+  const [currentPageTag5Admin, setCurrentPageTag5Admin] = useState(1);
+
+  const [currentAdmin, setCurrentAdmin] = useState('');
+  const roleADMIN = "ADMIN";
+
 
 
   useEffect(() => {
     async function loadTags1() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
 
-        const { data } = await api.get(`/tag1/page?pageTag1=${currentPageTag1}&limitTag1=${limitTag1}`);
+        const { data } = await api.get(`/tag1/page?pageTag1=${currentPageTag1}&limitTag1=${limitTag1}&name=${name}`);
         setTotalTag1(data?.totalTag1);
         const totalPagesTag1 = Math.ceil(totalTag1 / limitTag1);
 
@@ -93,9 +139,45 @@ export default function NewsTags() {
   }, []);
 
   useEffect(() => {
+    async function loadTags1Admin() {
+      try {
+
+        const { data } = await api.get(`/tag1/pageAdmin?pageTag1Admin=${currentPageTag1Admin}&limitTag1Admin=${limitTag1Admin}`);
+        setTotalTag1Admin(data?.totalTag1Admin);
+        const totalPagesTag1Admin = Math.ceil(totalTag1Admin / limitTag1Admin);
+
+        const arrayPagesTag1Admin = [];
+        for (let i = 1; i <= totalPagesTag1Admin; i++) {
+          arrayPagesTag1Admin.push(i);
+        }
+
+        setPagesTag1Admin(arrayPagesTag1Admin);
+        setTags1Admin(data?.tags1Admin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list tag 1 Admin');
+
+      }
+    }
+
+    loadTags1Admin();
+  }, [currentPageTag1Admin, limitTag1Admin, totalTag1Admin]);
+
+  const limitsTag1Admin = useCallback((e) => {
+    setLimitTag1Admin(e.target.value);
+    setCurrentPageTag1Admin(1);
+  }, []);
+
+  useEffect(() => {
     async function loadTags2() {
       try {
-        const { data } = await api.get(`/tag2/page?pageTag2=${currentPageTag2}&limitTag2=${limitTag2}`);
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
+
+        const { data } = await api.get(`/tag2/page?pageTag2=${currentPageTag2}&limitTag2=${limitTag2}&name=${name}`);
         setTotalTag2(data?.totalTag2);
         const totalPagesTag2 = Math.ceil(totalTag2 / limitTag2);
 
@@ -124,9 +206,44 @@ export default function NewsTags() {
   }, []);
 
   useEffect(() => {
+    async function loadTags2Admin() {
+      try {
+        const { data } = await api.get(`/tag2/pageAdmin?pageTag2Admin=${currentPageTag2Admin}&limitTag2Admin=${limitTag2Admin}`);
+        setTotalTag2Admin(data?.totalTag2Admin);
+        const totalPagesTag2Admin = Math.ceil(totalTag2Admin / limitTag2Admin);
+
+        const arrayPagesTag2Admin = [];
+        for (let i = 1; i <= totalPagesTag2Admin; i++) {
+          arrayPagesTag2Admin.push(i);
+        }
+
+        setPagesTag2Admin(arrayPagesTag2Admin);
+        setTags2Admin(data?.tags2Admin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list tag 2 Admin');
+
+      }
+    }
+
+    loadTags2Admin();
+  }, [currentPageTag2Admin, limitTag2Admin, totalTag2Admin]);
+
+  const limitsTag2Admin = useCallback((e) => {
+    setLimitTag2Admin(e.target.value);
+    setCurrentPageTag2Admin(1);
+  }, []);
+
+  useEffect(() => {
     async function loadTags3() {
       try {
-        const { data } = await api.get(`/tag3/page?pageTag3=${currentPageTag3}&limitTag3=${limitTag3}`);
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
+
+        const { data } = await api.get(`/tag3/page?pageTag3=${currentPageTag3}&limitTag3=${limitTag3}&name=${name}`);
         setTotalTag3(data?.totalTag3);
         const totalPagesTag3 = Math.ceil(totalTag3 / limitTag3);
 
@@ -155,9 +272,44 @@ export default function NewsTags() {
   }, []);
 
   useEffect(() => {
+    async function loadTags3Admin() {
+      try {
+        const { data } = await api.get(`/tag3/pageAdmin?pageTag3Admin=${currentPageTag3Admin}&limitTag3Admin=${limitTag3Admin}`);
+        setTotalTag3Admin(data?.totalTag3Admin);
+        const totalPagesTag3Admin = Math.ceil(totalTag3Admin / limitTag3Admin);
+
+        const arrayPagesTag3Admin = [];
+        for (let i = 1; i <= totalPagesTag3Admin; i++) {
+          arrayPagesTag3Admin.push(i);
+        }
+
+        setPagesTag3Admin(arrayPagesTag3Admin);
+        setTags3Admin(data?.tags3Admin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list tag 3 Admin');
+
+      }
+    }
+
+    loadTags3Admin();
+  }, [currentPageTag3Admin, limitTag3Admin, totalTag3Admin]);
+
+  const limitsTag3Admin = useCallback((e) => {
+    setLimitTag3Admin(e.target.value);
+    setCurrentPageTag3Admin(1);
+  }, []);
+
+  useEffect(() => {
     async function loadTags4() {
       try {
-        const { data } = await api.get(`/tag4/page?pageTag4=${currentPageTag4}&limitTag4=${limitTag4}`);
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
+
+        const { data } = await api.get(`/tag4/page?pageTag4=${currentPageTag4}&limitTag4=${limitTag4}&name=${name}`);
         setTotalTag4(data?.totalTag4);
         const totalPagesTag4 = Math.ceil(totalTag4 / limitTag4);
 
@@ -186,9 +338,44 @@ export default function NewsTags() {
   }, []);
 
   useEffect(() => {
+    async function loadTags4Admin() {
+      try {
+        const { data } = await api.get(`/tag4/pageAdmin?pageTag4Admin=${currentPageTag4Admin}&limitTag4Admin=${limitTag4Admin}`);
+        setTotalTag4Admin(data?.totalTag4Admin);
+        const totalPagesTag4Admin = Math.ceil(totalTag4Admin / limitTag4Admin);
+
+        const arrayPagesTag4Admin = [];
+        for (let i = 1; i <= totalPagesTag4Admin; i++) {
+          arrayPagesTag4Admin.push(i);
+        }
+
+        setPagesTag4Admin(arrayPagesTag4Admin);
+        setTags4Admin(data?.tags4Admin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list tag 4 Admin');
+
+      }
+    }
+
+    loadTags4Admin();
+  }, [currentPageTag4Admin, limitTag4Admin, totalTag4Admin]);
+
+  const limitsTag4Admin = useCallback((e) => {
+    setLimitTag4Admin(e.target.value);
+    setCurrentPageTag4Admin(1);
+  }, []);
+
+  useEffect(() => {
     async function loadTags5() {
       try {
-        const { data } = await api.get(`/tag5/page?pageTag5=${currentPageTag5}&limitTag5=${limitTag5}`);
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+        const name = response.data.name;
+
+        const { data } = await api.get(`/tag5/page?pageTag5=${currentPageTag5}&limitTag5=${limitTag5}&name=${name}`);
         setTotalTag5(data?.totalTag5);
         const totalPagesTag5 = Math.ceil(totalTag5 / limitTag5);
 
@@ -216,6 +403,56 @@ export default function NewsTags() {
     setCurrentPageTag5(1);
   }, []);
 
+  useEffect(() => {
+    async function loadTags5Admin() {
+      try {
+        const { data } = await api.get(`/tag5/pageAdmin?pageTag5Admin=${currentPageTag5Admin}&limitTag5Admin=${limitTag5Admin}`);
+        setTotalTag5Admin(data?.totalTag5Admin);
+        const totalPagesTag5Admin = Math.ceil(totalTag5Admin / limitTag5Admin);
+
+        const arrayPagesTag5Admin = [];
+        for (let i = 1; i <= totalPagesTag5Admin; i++) {
+          arrayPagesTag5Admin.push(i);
+        }
+
+        setPagesTag5Admin(arrayPagesTag5Admin);
+        setTags5Admin(data?.tags5Admin || []);
+
+      } catch (error) {
+
+        console.error(error);
+        alert('Error call api list tag 5 Admin');
+
+      }
+    }
+
+    loadTags5Admin();
+  }, [currentPageTag5Admin, limitTag5Admin, totalTag5Admin]);
+
+  const limitsTag5Admin = useCallback((e) => {
+    setLimitTag5Admin(e.target.value);
+    setCurrentPageTag5Admin(1);
+  }, []);
+
+
+
+  async function handleRefreshCategory() {
+    const apiClient = setupAPIClient();
+
+    const response1 = await apiClient.get('/tag1')
+    const response2 = await apiClient.get('/tag2')
+    const response3 = await apiClient.get('/tag3')
+    const response4 = await apiClient.get('/tag4')
+    const response5 = await apiClient.get('/tag5')
+
+    setTags1(response1.data)
+    setTags2(response2.data)
+    setTags3(response3.data)
+    setTags4(response4.data)
+    setTags5(response5.data)
+
+  }
+
 
 
   async function handleRegisterTag(event: FormEvent) {
@@ -228,7 +465,8 @@ export default function NewsTags() {
         toast.warning('1º TAG cadastrado em branco!')
       } else {
         await apiClient.post('/tag1', {
-          tagName1: tagName1
+          tagName1: tagName1,
+          name: user.name
         })
         toast.success('1º TAG cadastrada com sucesso!')
       }
@@ -237,7 +475,8 @@ export default function NewsTags() {
         toast.warning('2º TAG cadastrado em branco!')
       } else {
         await apiClient.post('/tag2', {
-          tagName2: tagName2
+          tagName2: tagName2,
+          name: user.name
         })
         toast.success('2º TAG cadastrada com sucesso!')
       }
@@ -246,7 +485,8 @@ export default function NewsTags() {
         toast.warning('3º TAG cadastrado em branco!')
       } else {
         await apiClient.post('/tag3', {
-          tagName3: tagName3
+          tagName3: tagName3,
+          name: user.name
         })
         toast.success('3º TAG cadastrada com sucesso!')
       }
@@ -255,7 +495,8 @@ export default function NewsTags() {
         toast.warning('4º TAG cadastrado em branco!')
       } else {
         await apiClient.post('/tag4', {
-          tagName4: tagName4
+          tagName4: tagName4,
+          name: user.name
         })
         toast.success('4º TAG cadastrada com sucesso!')
       }
@@ -264,7 +505,8 @@ export default function NewsTags() {
         toast.warning('5º TAG cadastrado em branco!')
       } else {
         await apiClient.post('/tag5', {
-          tagName5: tagName5
+          tagName5: tagName5,
+          name: user.name
         })
         toast.success('5º TAG cadastrada com sucesso!')
       }
@@ -286,24 +528,6 @@ export default function NewsTags() {
 
     }
   }
-
-  async function handleRefreshCategory() {
-    const apiClient = setupAPIClient();
-
-    const response1 = await apiClient.get('/tag1')
-    const response2 = await apiClient.get('/tag2')
-    const response3 = await apiClient.get('/tag3')
-    const response4 = await apiClient.get('/tag4')
-    const response5 = await apiClient.get('/tag5')
-
-    setTags1(response1.data)
-    setTags2(response2.data)
-    setTags3(response3.data)
-    setTags4(response4.data)
-    setTags5(response5.data)
-
-    router.reload()
-}
 
 
   return (
@@ -387,12 +611,14 @@ export default function NewsTags() {
 
                 <h5>Total do 1º grupo de TAGs por página</h5>
 
-                <select onChange={limitsTag1}>
-                  <option value="3">3</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                  <option value="999999">Todas</option>
-                </select>
+                {currentAdmin != roleADMIN && (
+                  <select onChange={limitsTag1}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+                )}
 
               </div>
 

@@ -13,7 +13,6 @@ import { toast } from 'react-toastify'
 import moment from 'moment';
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
-import { useRouter } from 'next/router'
 import { AuthContext } from '../../contexts/AuthContext'
 
 
@@ -419,23 +418,6 @@ export default function Category() {
             </div>
           </section>)}
 
-          {currentAdmin != roleADMIN && (
-          <section className={styles.allCategorysSection}>
-            <h3>Abaixo, todas as categorias disponiveis para uso em seus artigos.</h3>
-            <br />
-            <div className={styles.allCategorys}>
-              {allcategorys.map((all) => {
-                return(
-                  <>
-                    <div key={all.id} className={styles.allCategorysBox}>
-                      <span>{all?.categoryName}</span>
-                    </div>
-                  </>
-                )
-              })}
-            </div>
-          </section>)}
-
           {currentAdmin === roleADMIN && (<section>
             <select onChange={limitsAdmin}>
               <option value="4">4</option>
@@ -516,6 +498,23 @@ export default function Category() {
 
             </div>
           </section>)}
+
+          <section className={styles.allCategorysSection}>
+            <h3>Abaixo, todas as categorias disponiveis para uso em seus artigos.</h3>
+            <br />
+            <div className={styles.allCategorys}>
+              {allcategorys.map((all) => {
+                return (
+                  <>
+                    <div key={all.id} className={styles.allCategorysBox}>
+                      <span>{all?.categoryName}</span>
+                    </div>
+                  </>
+                )
+              })}
+            </div>
+          </section>
+
         </section>
       </main>
       <FooterPainel />
