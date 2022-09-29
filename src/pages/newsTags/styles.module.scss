@@ -210,6 +210,35 @@
   }
 }
 
+.allCategorys {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 20px;
+}
+
+.allCategorysBox {
+  border: 1px solid var(--orange);
+  border-radius: 5px;
+  flex-direction: column;
+  padding: 7px 0;
+  background-color: var(--black);
+  display: flex;
+  align-content: center;
+  align-items: center;
+  color: var(--black);
+  height: auto;
+
+  span{
+    width: 180px;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+
 @media (max-width: 775px) {
   .sectionBoxTags {
     grid-template-columns: 33% 33% 33%;

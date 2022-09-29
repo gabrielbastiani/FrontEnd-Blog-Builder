@@ -10,15 +10,13 @@ import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
 import { AuthContext } from '../../contexts/AuthContext'
+import Router from '../../../node_modules/next/router'
 
 
 export default function NewsTags() {
 
   const { user } = useContext(AuthContext);
-
-  const router = useRouter()
 
   const [tagName1, setTagName1] = useState('')
   const [tagName2, setTagName2] = useState('')
@@ -26,14 +24,7 @@ export default function NewsTags() {
   const [tagName4, setTagName4] = useState('')
   const [tagName5, setTagName5] = useState('')
 
-  const [tagName1Admin, setTagName1Admin] = useState('')
-  const [tagName2Admin, setTagName2Admin] = useState('')
-  const [tagName3Admin, setTagName3Admin] = useState('')
-  const [tagName4Admin, setTagName4Admin] = useState('')
-  const [tagName5Admin, setTagName5Admin] = useState('')
-
   //-- PAGE TAG 1
-
   const [tags1, setTags1] = useState([]);
   const [totalTag1, setTotalTag1] = useState(0);
   const [limitTag1, setLimitTag1] = useState(3);
@@ -101,7 +92,31 @@ export default function NewsTags() {
   const [currentAdmin, setCurrentAdmin] = useState('');
   const roleADMIN = "ADMIN";
 
+  const [allTags1, setAllTags1] = useState([]);
+  const [allTags2, setAllTags2] = useState([]);
+  const [allTags3, setAllTags3] = useState([]);
+  const [allTags4, setAllTags4] = useState([]);
+  const [allTags5, setAllTags5] = useState([]);
 
+
+
+
+  useEffect(() => {
+    async function loadTags() {
+      const all1 = await api.get('/tag1');
+      const all2 = await api.get('/tag2');
+      const all3 = await api.get('/tag3');
+      const all4 = await api.get('/tag4');
+      const all5 = await api.get('/tag5');
+
+      setAllTags1(all1.data);
+      setAllTags2(all2.data);
+      setAllTags3(all3.data);
+      setAllTags4(all4.data);
+      setAllTags5(all5.data);
+    }
+    loadTags();
+  }, [])
 
   useEffect(() => {
     async function loadTags1() {
@@ -141,6 +156,8 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags1Admin() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
 
         const { data } = await api.get(`/tag1/pageAdmin?pageTag1Admin=${currentPageTag1Admin}&limitTag1Admin=${limitTag1Admin}`);
         setTotalTag1Admin(data?.totalTag1Admin);
@@ -208,6 +225,9 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags2Admin() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+
         const { data } = await api.get(`/tag2/pageAdmin?pageTag2Admin=${currentPageTag2Admin}&limitTag2Admin=${limitTag2Admin}`);
         setTotalTag2Admin(data?.totalTag2Admin);
         const totalPagesTag2Admin = Math.ceil(totalTag2Admin / limitTag2Admin);
@@ -274,6 +294,9 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags3Admin() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+
         const { data } = await api.get(`/tag3/pageAdmin?pageTag3Admin=${currentPageTag3Admin}&limitTag3Admin=${limitTag3Admin}`);
         setTotalTag3Admin(data?.totalTag3Admin);
         const totalPagesTag3Admin = Math.ceil(totalTag3Admin / limitTag3Admin);
@@ -340,6 +363,9 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags4Admin() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+
         const { data } = await api.get(`/tag4/pageAdmin?pageTag4Admin=${currentPageTag4Admin}&limitTag4Admin=${limitTag4Admin}`);
         setTotalTag4Admin(data?.totalTag4Admin);
         const totalPagesTag4Admin = Math.ceil(totalTag4Admin / limitTag4Admin);
@@ -406,6 +432,9 @@ export default function NewsTags() {
   useEffect(() => {
     async function loadTags5Admin() {
       try {
+        const response = await api.get('/me');
+        setCurrentAdmin(response.data.role);
+
         const { data } = await api.get(`/tag5/pageAdmin?pageTag5Admin=${currentPageTag5Admin}&limitTag5Admin=${limitTag5Admin}`);
         setTotalTag5Admin(data?.totalTag5Admin);
         const totalPagesTag5Admin = Math.ceil(totalTag5Admin / limitTag5Admin);
@@ -434,26 +463,11 @@ export default function NewsTags() {
     setCurrentPageTag5Admin(1);
   }, []);
 
-
-
   async function handleRefreshCategory() {
-    const apiClient = setupAPIClient();
-
-    const response1 = await apiClient.get('/tag1')
-    const response2 = await apiClient.get('/tag2')
-    const response3 = await apiClient.get('/tag3')
-    const response4 = await apiClient.get('/tag4')
-    const response5 = await apiClient.get('/tag5')
-
-    setTags1(response1.data)
-    setTags2(response2.data)
-    setTags3(response3.data)
-    setTags4(response4.data)
-    setTags5(response5.data)
+    
+    Router.reload();
 
   }
-
-
 
   async function handleRegisterTag(event: FormEvent) {
     event.preventDefault();
@@ -603,362 +617,799 @@ export default function NewsTags() {
             <FiRefreshCcw className={styles.refresh} size={22} />Atualizar Lista de TAGs
           </button>
 
-          <div className={styles.sectionBoxTags}>
 
-            <div className={styles.tagsBox}>
 
-              <div className={styles.selectBox}>
 
-                <h5>Total do 1º grupo de TAGs por página</h5>
 
-                {currentAdmin != roleADMIN && (
+          {currentAdmin != roleADMIN && (
+            <div className={styles.sectionBoxTags}>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 1º grupo de TAGs por página</h5>
+
                   <select onChange={limitsTag1}>
                     <option value="3">3</option>
                     <option value="7">7</option>
                     <option value="10">10</option>
                     <option value="999999">Todas</option>
                   </select>
+
+                </div>
+
+                {tags1.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
                 )}
 
-              </div>
+                {tags1.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 1 cadastrada...
+                  </span>
+                )}
 
-              {tags1.length > 0 && (
-                <h4>Clique sobre uma TAG para atualiza-la.</h4>
-              )}
-
-              {tags1.length === 0 && (
-                <span className={styles.emptyList}>
-                  Nenhuma TAG do grupo 1 cadastrada...
-                </span>
-              )}
-
-              <div className={styles.tagsSectionMain}>
-                <div className={styles.tagsSection}>
-                  {tags1.map((tag1s) => {
-                    return (
-                      <>
-                        <div className={styles.tagBox}>
-                          <div className={styles.tag} key={tag1s.id}>
-                            <Link className={styles.nameTag} href={`/tag1Update?tag1_id=${tag1s.id}`}>
-                              <div className={styles.listTags}>
-                                <div className={styles.nameTag}>{tag1s?.tagName1}</div>
-                              </div>
-                            </Link>
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags1.map((tag1s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={tag1s.id}>
+                              <Link className={styles.nameTag} href={`/tag1Update?tag1_id=${tag1s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{tag1s?.tagName1}</div>
+                                </div>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )
-                  })}
-                </div>
-
-                <div className={styles.containerPagination}>
-                  <div className={styles.totalTags}>
-                    <span>Total de TAGs no 1º grupo: {totalTag1}</span>
+                        </>
+                      )
+                    })}
                   </div>
 
-                  <div className={styles.containerTagsPages}>
-                    {currentPageTag1 > 1 && (
-                      <div className={styles.previus}>
-                        <button onClick={() => setCurrentPageTag1(currentPageTag1 - 1)}>
-                          Voltar
-                        </button>
-                      </div>
-                    )}
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 1º grupo: {totalTag1}</span>
+                    </div>
 
-                    {currentPageTag1 < tags1.length && (
-                      <div className={styles.next}>
-                        <button onClick={() => setCurrentPageTag1(currentPageTag1 + 1)}>
-                          Avançar
-                        </button>
-                      </div>
-                    )}
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag1 > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag1(currentPageTag1 - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag1 < tags1.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag1(currentPageTag1 + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 2º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag2}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags2.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags2.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 2 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags2.map((tag2s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={tag2s.id}>
+                              <Link className={styles.nameTag} href={`/tag2Update?tag2_id=${tag2s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{tag2s?.tagName2}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 2º grupo: {totalTag2}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag2 > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag2(currentPageTag2 - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag2 < tags2.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag2(currentPageTag2 + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 3º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag3}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags3.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags3.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 3 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags3.map((tag3s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={tag3s.id}>
+                              <Link className={styles.nameTag} href={`/tag3Update?tag3_id=${tag3s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{tag3s?.tagName3}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 3º grupo: {totalTag3}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag3 > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag3(currentPageTag3 - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag3 < tags3.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag3(currentPageTag3 + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 4º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag4}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags4.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags4.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 4 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags4.map((tag4s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={tag4s.id}>
+                              <Link className={styles.nameTag} href={`/tag4Update?tag4_id=${tag4s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{tag4s?.tagName4}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 4º grupo: {totalTag4}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag4 > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag4(currentPageTag4 - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag4 < tags4.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag4(currentPageTag4 + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 5º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag5}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags5.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags5.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 5 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags5.map((tag5s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={tag5s.id}>
+                              <Link className={styles.nameTag} href={`/tag5Update?tag5_id=${tag5s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{tag5s?.tagName5}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 5º grupo: {totalTag5}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag5 > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag5(currentPageTag5 - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag5 < tags5.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag5(currentPageTag5 + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          )}
 
-            <div className={styles.tagsBox}>
 
-              <div className={styles.selectBox}>
+          
 
-                <h5>Total do 2º grupo de TAGs por página</h5>
 
-                <select onChange={limitsTag2}>
-                  <option value="3">3</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                  <option value="999999">Todas</option>
-                </select>
 
-              </div>
 
-              {tags2.length > 0 && (
-                <h4>Clique sobre uma TAG para atualiza-la.</h4>
-              )}
+          {currentAdmin === roleADMIN && (
+            <div className={styles.sectionBoxTags}>
 
-              {tags2.length === 0 && (
-                <span className={styles.emptyList}>
-                  Nenhuma TAG do grupo 2 cadastrada...
-                </span>
-              )}
+              <div className={styles.tagsBox}>
 
-              <div className={styles.tagsSectionMain}>
-                <div className={styles.tagsSection}>
-                  {tags2.map((tag2s) => {
-                    return (
-                      <>
-                        <div className={styles.tagBox}>
-                          <div className={styles.tag} key={tag2s.id}>
-                            <Link className={styles.nameTag} href={`/tag2Update?tag2_id=${tag2s.id}`}>
-                              <div className={styles.listTags}>
-                                <div className={styles.nameTag}>{tag2s?.tagName2}</div>
-                              </div>
-                            </Link>
-                          </div>
-                        </div>
-                      </>
-                    )
-                  })}
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 1º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag1Admin}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
                 </div>
 
-                <div className={styles.containerPagination}>
-                  <div className={styles.totalTags}>
-                    <span>Total de TAGs no 2º grupo: {totalTag2}</span>
+                {tags1Admin.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags1Admin.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 1 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags1Admin.map((adminTag1s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={adminTag1s.id}>
+                              <Link className={styles.nameTag} href={`/tag1Update?tag1_id=${adminTag1s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{adminTag1s?.tagName1}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
                   </div>
 
-                  <div className={styles.containerTagsPages}>
-                    {currentPageTag2 > 1 && (
-                      <div className={styles.previus}>
-                        <button onClick={() => setCurrentPageTag2(currentPageTag2 - 1)}>
-                          Voltar
-                        </button>
-                      </div>
-                    )}
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 1º grupo: {totalTag1Admin}</span>
+                    </div>
 
-                    {currentPageTag2 < tags2.length && (
-                      <div className={styles.next}>
-                        <button onClick={() => setCurrentPageTag2(currentPageTag2 + 1)}>
-                          Avançar
-                        </button>
-                      </div>
-                    )}
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag1Admin > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag1Admin(currentPageTag1Admin - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag1Admin < tags1Admin.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag1Admin(currentPageTag1Admin + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 2º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag2Admin}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags2Admin.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags2Admin.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 2 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags2Admin.map((adminTag2s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={adminTag2s.id}>
+                              <Link className={styles.nameTag} href={`/tag2Update?tag2_id=${adminTag2s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{adminTag2s?.tagName2}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 2º grupo: {totalTag2Admin}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag2Admin > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag2Admin(currentPageTag2Admin - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag2Admin < tags2Admin.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag2Admin(currentPageTag2Admin + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 3º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag3Admin}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags3Admin.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags3Admin.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 3 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags3Admin.map((adminTag3s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={adminTag3s.id}>
+                              <Link className={styles.nameTag} href={`/tag3Update?tag3_id=${adminTag3s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{adminTag3s?.tagName3}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 3º grupo: {totalTag3Admin}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag3Admin > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag3Admin(currentPageTag3Admin - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag3Admin < tags3Admin.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag3Admin(currentPageTag3Admin + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 4º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag4Admin}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags4Admin.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags4Admin.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 4 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags4Admin.map((adminTag4s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={adminTag4s.id}>
+                              <Link className={styles.nameTag} href={`/tag4Update?tag4_id=${adminTag4s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{adminTag4s?.tagName4}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 4º grupo: {totalTag4Admin}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag4Admin > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag4Admin(currentPageTag4Admin - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag4Admin < tags4Admin.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag4Admin(currentPageTag4Admin + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.tagsBox}>
+
+                <div className={styles.selectBox}>
+
+                  <h5>Total do 5º grupo de TAGs por página</h5>
+
+                  <select onChange={limitsTag5Admin}>
+                    <option value="3">3</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                    <option value="999999">Todas</option>
+                  </select>
+
+                </div>
+
+                {tags5Admin.length > 0 && (
+                  <h4>Clique sobre uma TAG para atualiza-la.</h4>
+                )}
+
+                {tags5Admin.length === 0 && (
+                  <span className={styles.emptyList}>
+                    Nenhuma TAG do grupo 5 cadastrada...
+                  </span>
+                )}
+
+                <div className={styles.tagsSectionMain}>
+                  <div className={styles.tagsSection}>
+                    {tags5Admin.map((adminTag5s) => {
+                      return (
+                        <>
+                          <div className={styles.tagBox}>
+                            <div className={styles.tag} key={adminTag5s.id}>
+                              <Link className={styles.nameTag} href={`/tag5Update?tag5_id=${adminTag5s.id}`}>
+                                <div className={styles.listTags}>
+                                  <div className={styles.nameTag}>{adminTag5s?.tagName5}</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    })}
+                  </div>
+
+                  <div className={styles.containerPagination}>
+                    <div className={styles.totalTags}>
+                      <span>Total de TAGs no 5º grupo: {totalTag5Admin}</span>
+                    </div>
+
+                    <div className={styles.containerTagsPages}>
+                      {currentPageTag5Admin > 1 && (
+                        <div className={styles.previus}>
+                          <button onClick={() => setCurrentPageTag5Admin(currentPageTag5Admin - 1)}>
+                            Voltar
+                          </button>
+                        </div>
+                      )}
+
+                      {currentPageTag5Admin < tags5Admin.length && (
+                        <div className={styles.next}>
+                          <button onClick={() => setCurrentPageTag5Admin(currentPageTag5Admin + 1)}>
+                            Avançar
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          )}
 
-            <div className={styles.tagsBox}>
-
-              <div className={styles.selectBox}>
-
-                <h5>Total do 3º grupo de TAGs por página</h5>
-
-                <select onChange={limitsTag3}>
-                  <option value="3">3</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                  <option value="999999">Todas</option>
-                </select>
-
-              </div>
-
-              {tags3.length > 0 && (
-                <h4>Clique sobre uma TAG para atualiza-la.</h4>
-              )}
-
-              {tags3.length === 0 && (
-                <span className={styles.emptyList}>
-                  Nenhuma TAG do grupo 3 cadastrada...
-                </span>
-              )}
-
-              <div className={styles.tagsSectionMain}>
-                <div className={styles.tagsSection}>
-                  {tags3.map((tag3s) => {
-                    return (
-                      <>
-                        <div className={styles.tagBox}>
-                          <div className={styles.tag} key={tag3s.id}>
-                            <Link className={styles.nameTag} href={`/tag3Update?tag3_id=${tag3s.id}`}>
-                              <div className={styles.listTags}>
-                                <div className={styles.nameTag}>{tag3s?.tagName3}</div>
-                              </div>
-                            </Link>
-                          </div>
-                        </div>
-                      </>
-                    )
-                  })}
-                </div>
-
-                <div className={styles.containerPagination}>
-                  <div className={styles.totalTags}>
-                    <span>Total de TAGs no 3º grupo: {totalTag3}</span>
-                  </div>
-
-                  <div className={styles.containerTagsPages}>
-                    {currentPageTag3 > 1 && (
-                      <div className={styles.previus}>
-                        <button onClick={() => setCurrentPageTag3(currentPageTag3 - 1)}>
-                          Voltar
-                        </button>
-                      </div>
-                    )}
-
-                    {currentPageTag3 < tags3.length && (
-                      <div className={styles.next}>
-                        <button onClick={() => setCurrentPageTag3(currentPageTag3 + 1)}>
-                          Avançar
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+          <section className={styles.allCategorysSection}>
+            <h3>Abaixo, todas as TAG's disponiveis para uso em seus artigos.</h3>
+            <br />
+            <div className={styles.allCategorys}>
+              {allTags1.map((all1) => {
+                return (
+                  <>
+                    <div key={all1.id} className={styles.allCategorysBox}>
+                      <span>{all1?.tagName1}</span>
+                    </div>
+                  </>
+                )
+              })}
             </div>
 
-            <div className={styles.tagsBox}>
+            <br />
 
-              <div className={styles.selectBox}>
-
-                <h5>Total do 4º grupo de TAGs por página</h5>
-
-                <select onChange={limitsTag4}>
-                  <option value="3">3</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                  <option value="999999">Todas</option>
-                </select>
-
-              </div>
-
-              {tags4.length > 0 && (
-                <h4>Clique sobre uma TAG para atualiza-la.</h4>
-              )}
-
-              {tags4.length === 0 && (
-                <span className={styles.emptyList}>
-                  Nenhuma TAG do grupo 4 cadastrada...
-                </span>
-              )}
-
-              <div className={styles.tagsSectionMain}>
-                <div className={styles.tagsSection}>
-                  {tags4.map((tag4s) => {
-                    return (
-                      <>
-                        <div className={styles.tagBox}>
-                          <div className={styles.tag} key={tag4s.id}>
-                            <Link className={styles.nameTag} href={`/tag4Update?tag4_id=${tag4s.id}`}>
-                              <div className={styles.listTags}>
-                                <div className={styles.nameTag}>{tag4s?.tagName4}</div>
-                              </div>
-                            </Link>
-                          </div>
-                        </div>
-                      </>
-                    )
-                  })}
-                </div>
-
-                <div className={styles.containerPagination}>
-                  <div className={styles.totalTags}>
-                    <span>Total de TAGs no 4º grupo: {totalTag4}</span>
-                  </div>
-
-                  <div className={styles.containerTagsPages}>
-                    {currentPageTag4 > 1 && (
-                      <div className={styles.previus}>
-                        <button onClick={() => setCurrentPageTag4(currentPageTag4 - 1)}>
-                          Voltar
-                        </button>
-                      </div>
-                    )}
-
-                    {currentPageTag4 < tags4.length && (
-                      <div className={styles.next}>
-                        <button onClick={() => setCurrentPageTag4(currentPageTag4 + 1)}>
-                          Avançar
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+            <div className={styles.allCategorys}>
+              {allTags2.map((all2) => {
+                return (
+                  <>
+                    <div key={all2.id} className={styles.allCategorysBox}>
+                      <span>{all2?.tagName2}</span>
+                    </div>
+                  </>
+                )
+              })}
             </div>
 
+            <br />
 
-
-            <div className={styles.tagsBox}>
-
-              <div className={styles.selectBox}>
-
-                <h5>Total do 5º grupo de TAGs por página</h5>
-
-                <select onChange={limitsTag5}>
-                  <option value="3">3</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                  <option value="999999">Todas</option>
-                </select>
-
-              </div>
-
-              {tags5.length > 0 && (
-                <h4>Clique sobre uma TAG para atualiza-la.</h4>
-              )}
-
-              {tags5.length === 0 && (
-                <span className={styles.emptyList}>
-                  Nenhuma TAG do grupo 5 cadastrada...
-                </span>
-              )}
-
-              <div className={styles.tagsSectionMain}>
-                <div className={styles.tagsSection}>
-                  {tags5.map((tag5s) => {
-                    return (
-                      <>
-                        <div className={styles.tagBox}>
-                          <div className={styles.tag} key={tag5s.id}>
-                            <Link className={styles.nameTag} href={`/tag5Update?tag5_id=${tag5s.id}`}>
-                              <div className={styles.listTags}>
-                                <div className={styles.nameTag}>{tag5s?.tagName5}</div>
-                              </div>
-                            </Link>
-                          </div>
-                        </div>
-                      </>
-                    )
-                  })}
-                </div>
-
-                <div className={styles.containerPagination}>
-                  <div className={styles.totalTags}>
-                    <span>Total de TAGs no 5º grupo: {totalTag5}</span>
-                  </div>
-
-                  <div className={styles.containerTagsPages}>
-                    {currentPageTag5 > 1 && (
-                      <div className={styles.previus}>
-                        <button onClick={() => setCurrentPageTag5(currentPageTag5 - 1)}>
-                          Voltar
-                        </button>
-                      </div>
-                    )}
-
-                    {currentPageTag5 < tags5.length && (
-                      <div className={styles.next}>
-                        <button onClick={() => setCurrentPageTag5(currentPageTag5 + 1)}>
-                          Avançar
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+            <div className={styles.allCategorys}>
+              {allTags3.map((all3) => {
+                return (
+                  <>
+                    <div key={all3.id} className={styles.allCategorysBox}>
+                      <span>{all3?.tagName3}</span>
+                    </div>
+                  </>
+                )
+              })}
             </div>
-          </div>
+
+            <br />
+
+            <div className={styles.allCategorys}>
+              {allTags4.map((all4) => {
+                return (
+                  <>
+                    <div key={all4.id} className={styles.allCategorysBox}>
+                      <span>{all4?.tagName4}</span>
+                    </div>
+                  </>
+                )
+              })}
+            </div>
+
+            <br />
+
+            <div className={styles.allCategorys}>
+              {allTags5.map((all5) => {
+                return (
+                  <>
+                    <div key={all5.id} className={styles.allCategorysBox}>
+                      <span>{all5?.tagName5}</span>
+                    </div>
+                  </>
+                )
+              })}
+            </div>
+          </section>
+
+
         </section>
       </main>
       <FooterPainel />
