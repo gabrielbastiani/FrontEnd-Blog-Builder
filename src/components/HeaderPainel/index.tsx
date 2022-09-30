@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 import Link from 'next/link'
 import { GiHamburgerMenu } from 'react-icons/gi'
@@ -6,6 +6,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { FiLogOut } from 'react-icons/fi'
 
 import { AuthContext } from '../../contexts/AuthContext'
+import { api } from '../../services/apiClient'
 
 export function HeaderPainel() {
 
@@ -19,6 +20,19 @@ export function HeaderPainel() {
    const showOrHide = () => {
       setShowMenu(!showMenu)
    }
+
+   const [currentAdmin, setCurrentAdmin] = useState('');
+   const roleADMIN = "ADMIN";
+
+
+
+   useEffect(() => {
+      async function loadUser(){
+         const response = await api.get('/me');
+         setCurrentAdmin(response.data.role);
+      }
+      loadUser()
+   }, [])
 
 
    return (
@@ -41,6 +55,7 @@ export function HeaderPainel() {
                
             </div>
 
+            {currentAdmin != roleADMIN && (
             <nav className={styles.menuNav}>
                <Link href="/dashboard">
                   <a>Painel</a>
@@ -58,7 +73,32 @@ export function HeaderPainel() {
                   <a>Artigo</a>
                </Link>
 
-               <Link href="/comments">
+               <button onClick={signOut}>
+                  <FiLogOut color="#FFF" size={24} />
+               </button>
+
+            </nav>
+            )}
+
+            {currentAdmin === roleADMIN && (
+            <nav className={styles.menuNav}>
+               <Link href="/dashboard">
+                  <a>Painel</a>
+               </Link>
+
+               <Link href="/newCategory">
+                  <a>Categorias</a>
+               </Link>
+
+               <Link href="/newsTags">
+                  <a>Tags</a>
+               </Link>
+
+               <Link href="/newArticle">
+                  <a>Artigo</a>
+               </Link>
+
+               <Link href={'https://disqus.com/admin/moderate/pending'}>
                   <a>Comentarios</a>
                </Link>
 
@@ -75,6 +115,7 @@ export function HeaderPainel() {
                </button>
 
             </nav>
+            )}
 
             <button className={styles.buttonSignOutMobile} onClick={signOut}>
                <FiLogOut color="#FFF" size={24} />

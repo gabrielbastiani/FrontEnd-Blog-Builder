@@ -100,10 +100,6 @@ export default function NewsTags() {
   const [allTags4, setAllTags4] = useState([]);
   const [allTags5, setAllTags5] = useState([]);
 
-  const [allTags, setAllTags] = useState([]);
-
-  const [initialFilterAdmin, setInitialFilterAdmin] = useState();
-  const [searchAdmin, setSearchAdmin] = useState([]);
 
 
   useEffect(() => {
@@ -121,14 +117,6 @@ export default function NewsTags() {
       setAllTags5(all5.data);
     }
     loadTags();
-  }, [])
-
-  useEffect(() => {
-    async function filtarTags() {
-      const response = await api.get('/tags/all');
-      setAllTags(response.data.tag1);
-    }
-    filtarTags();
   }, [])
 
   useEffect(() => {
@@ -556,21 +544,6 @@ export default function NewsTags() {
     }
   }
 
-  async function handleRefreshFilter() {
-    const { data } = await api.get('/tags/all');
-    setAllTags(data)
-  }
-
-  const handleChangeAdmin = ({ target }) => {
-    if (!target.value) {
-      setSearchAdmin(initialFilterAdmin);
-
-      return;
-    }
-
-    const filterArticlesAdmin = allTags.filter((filtAdmin) => filtAdmin.tag1.toLowerCase().includes(target.value));
-    setAllTags(filterArticlesAdmin);
-  }
 
 
   return (
@@ -644,21 +617,6 @@ export default function NewsTags() {
           {currentAdmin === roleADMIN && (
             <h3>Abaixo TAG's cadastradas.</h3>
           )}
-
-
-          <section className={styles.sectionBoxSearch}>
-            <div className={styles.sectionBoxContainer}>
-              <Input
-                placeholder='Buscar uma TAG'
-                type="search"
-                onChange={handleChangeAdmin}
-              />
-
-              <Button
-                onClick={handleRefreshFilter}>Limpar filtro
-              </Button>
-            </div>
-          </section>
 
           <br />
 

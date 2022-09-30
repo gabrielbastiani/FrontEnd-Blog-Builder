@@ -16,17 +16,34 @@ import Link from '../../../node_modules/next/link'
 import { api } from '../../services/apiClient'
 
 
+
 export default function DetailUser() {
 
   const { user } = useContext(AuthContext);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-
   const [avatarUrl, setAvatarUrl] = useState('');
   const [photo, setPhoto] = useState(null);
 
   const [loading, setLoading] = useState(false);
+
+  const [currentAdmin, setCurrentAdmin] = useState('');
+  const roleADMIN = "ADMIN";
+
+  const [allUser, setAllUser] = useState([]);
+
+
+  useEffect(() => {
+    async function loadUsers() {
+      const response = await api.get('/me');
+      setCurrentAdmin(response.data.role);
+
+      const userAll = await api.get('/users');
+      setAllUser(userAll.data);
+    }
+    loadUsers();
+  }, [])
 
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
@@ -100,6 +117,7 @@ export default function DetailUser() {
           </div>
 
           <h1>Alterar dados do usuario</h1>
+
           <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
           <form className={styles.form} onSubmit={handleRegister}>
             <label className={styles.labelAvatar}>
@@ -147,6 +165,27 @@ export default function DetailUser() {
 
         </section>
 
+        {currentAdmin === roleADMIN && (
+        <section className={styles.sectionUser}>
+
+          <h1>Listagem de usuarios do Blog</h1>
+
+                {allUser.map((userAllItem) => {
+                  return(
+                    <>
+                      <div className={styles.listUsers}>
+                        <Link href={'/dashboard'}>
+                          <span>{userAllItem?.name}</span>
+                        </Link>
+                          <span>{userAllItem?.email}</span>
+                          <span>{userAllItem?.createdAt}</span>
+                      </div>
+                    </>
+                  )
+                })}
+        </section>
+        )}
+        
       </main>
 
       <FooterPainel />

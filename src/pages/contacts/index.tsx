@@ -32,9 +32,11 @@ export default function Contacts() {
    const [search, setSearch] = useState([]);
 
 
+
    useEffect(() => {
       async function loadContactForm() {
          try {
+
             const { data } = await api.get(`/contactform/page?pageContact=${currentPageContact}&limitContact=${limitContact}`);
             setTotalContact(data?.totalContact);
             const totalPages = Math.ceil(totalContact / limitContact);
