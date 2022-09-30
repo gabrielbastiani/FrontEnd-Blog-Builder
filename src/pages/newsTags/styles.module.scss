@@ -237,6 +237,29 @@
   }
 }
 
+@media (max-width: 1020px){
+  .allCategorys {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
+@media (max-width: 800px){
+  .allCategorys {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media (max-width: 620px){
+  .allCategorys {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 420px){
+  .allCategorys {
+    grid-template-columns: auto;
+  }
+}
 
 
 @media (max-width: 775px) {

@@ -12,6 +12,8 @@ import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { AuthContext } from '../../contexts/AuthContext'
 import Router from '../../../node_modules/next/router'
+import { Input } from '../../components/ui/Input/index'
+import { Button } from '../../components/ui/Button/index'
 
 
 export default function NewsTags() {
@@ -98,7 +100,10 @@ export default function NewsTags() {
   const [allTags4, setAllTags4] = useState([]);
   const [allTags5, setAllTags5] = useState([]);
 
+  const [allTags, setAllTags] = useState([]);
 
+  const [initialFilterAdmin, setInitialFilterAdmin] = useState();
+  const [searchAdmin, setSearchAdmin] = useState([]);
 
 
   useEffect(() => {
@@ -116,6 +121,14 @@ export default function NewsTags() {
       setAllTags5(all5.data);
     }
     loadTags();
+  }, [])
+
+  useEffect(() => {
+    async function filtarTags() {
+      const response = await api.get('/tags/all');
+      setAllTags(response.data.tag1);
+    }
+    filtarTags();
   }, [])
 
   useEffect(() => {
@@ -464,7 +477,7 @@ export default function NewsTags() {
   }, []);
 
   async function handleRefreshCategory() {
-    
+
     Router.reload();
 
   }
@@ -543,6 +556,22 @@ export default function NewsTags() {
     }
   }
 
+  async function handleRefreshFilter() {
+    const { data } = await api.get('/tags/all');
+    setAllTags(data)
+  }
+
+  const handleChangeAdmin = ({ target }) => {
+    if (!target.value) {
+      setSearchAdmin(initialFilterAdmin);
+
+      return;
+    }
+
+    const filterArticlesAdmin = allTags.filter((filtAdmin) => filtAdmin.tag1.toLowerCase().includes(target.value));
+    setAllTags(filterArticlesAdmin);
+  }
+
 
   return (
     <>
@@ -608,9 +637,29 @@ export default function NewsTags() {
 
           </form>
 
-          <h3>TAGs cadastradas</h3>
+          {currentAdmin != roleADMIN && (
+            <h3>Abaixo suas TAG's que cadastrou.</h3>
+          )}
 
-          <br />
+          {currentAdmin === roleADMIN && (
+            <h3>Abaixo TAG's cadastradas.</h3>
+          )}
+
+
+          <section className={styles.sectionBoxSearch}>
+            <div className={styles.sectionBoxContainer}>
+              <Input
+                placeholder='Buscar uma TAG'
+                type="search"
+                onChange={handleChangeAdmin}
+              />
+
+              <Button
+                onClick={handleRefreshFilter}>Limpar filtro
+              </Button>
+            </div>
+          </section>
+
           <br />
 
           <button className={styles.buttonRefresh} onClick={handleRefreshCategory}>
@@ -977,7 +1026,7 @@ export default function NewsTags() {
           )}
 
 
-          
+
 
 
 
@@ -1350,11 +1399,7 @@ export default function NewsTags() {
                   </>
                 )
               })}
-            </div>
 
-            <br />
-
-            <div className={styles.allCategorys}>
               {allTags2.map((all2) => {
                 return (
                   <>
@@ -1364,11 +1409,7 @@ export default function NewsTags() {
                   </>
                 )
               })}
-            </div>
 
-            <br />
-
-            <div className={styles.allCategorys}>
               {allTags3.map((all3) => {
                 return (
                   <>
@@ -1378,11 +1419,7 @@ export default function NewsTags() {
                   </>
                 )
               })}
-            </div>
 
-            <br />
-
-            <div className={styles.allCategorys}>
               {allTags4.map((all4) => {
                 return (
                   <>
@@ -1392,11 +1429,7 @@ export default function NewsTags() {
                   </>
                 )
               })}
-            </div>
 
-            <br />
-
-            <div className={styles.allCategorys}>
               {allTags5.map((all5) => {
                 return (
                   <>
@@ -1408,9 +1441,11 @@ export default function NewsTags() {
               })}
             </div>
           </section>
-
-
         </section>
+        <br />
+        <br />
+        <br />
+        <br />
       </main>
       <FooterPainel />
     </>
