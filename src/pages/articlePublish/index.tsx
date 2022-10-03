@@ -30,7 +30,7 @@ export default function ArticlePublish() {
         try {
             const apiClient = setupAPIClient();
             const article_id = router.query.article_id
-            await apiClient.put(`/article/published?article_id=${article_id}`)
+            await apiClient.put(`/article/cron?article_id=${article_id}`)
             toast.success('Artigo publicado com sucesso no blog.')
 
             Router.push('/dashboard')
