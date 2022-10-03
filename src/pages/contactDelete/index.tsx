@@ -31,7 +31,7 @@ export default function ContactDelete() {
 
         try {
             if (roleUser != userRole) {
-                toast.error('Você não tem permisão para isso')
+                toast.error('Você não tem permissão para isso')
                 return
             }
 

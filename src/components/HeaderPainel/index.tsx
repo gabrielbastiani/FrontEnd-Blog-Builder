@@ -86,6 +86,10 @@ export function HeaderPainel() {
                   <a>Painel</a>
                </Link>
 
+               <Link href="/usersAll">
+                  <a>Usúarios</a>
+               </Link>
+
                <Link href="/newCategory">
                   <a>Categorias</a>
                </Link>

@@ -7,34 +7,10 @@
   height: 100vh;
   flex-direction: column;
   margin: auto;
-  padding: 50px;
 }
 
 .container h2 {
   margin: 1rem 0;
-}
-
-.sectionDates {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: gray;
-    
-    select {
-    margin-right: 10px;
-  }
-}
-
-.boxDates{
-  display: flex;
-}
-
-.buttonProgram{
-  align-content: center;
-}
-
-.clock{
-  background-color: var(--orange);
 }
 
 .buttonUpdate {
@@ -74,6 +50,15 @@
   }
 }
 
+.containerContent{
+  background-color: var(--black);
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  border-radius: 3%;
+  padding: 15px;
+}
 
 @media screen and (max-width: 700px) {
   .container {
@@ -87,12 +72,9 @@
   }
 }
 
-.containerContent {
-  background-color: var(--black);
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  color: var(--white);
-  border-radius: 3%;
-  padding: 50px;
+@media screen and (max-width: 515px){
+  .containerContent{
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

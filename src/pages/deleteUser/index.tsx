@@ -11,23 +11,23 @@ import { toast } from 'react-toastify'
 
 
 
-export default function NewsDelete() {
+export default function DeleteUser() {
 
     const router = useRouter();
 
-    async function handleContactDelete() {
+    async function handleDeleteUser() {
 
         try {
 
             const apiClient = setupAPIClient();
         
-            const newslatter_id = router.query.newslatter_id
+            const user_id = router.query.user_id
 
-            await apiClient.delete(`/newslatter/remove?newslatter_id=${newslatter_id}`)
+            await apiClient.delete(`/users/remove?user_id=${user_id}`)
 
-            toast.success('Contato deletado com sucesso.')
+            toast.success('Usuario deletado com sucesso.')
 
-            Router.push('/newslatters')
+            Router.push('/usersAll')
 
         } catch (err) {
 
@@ -42,23 +42,23 @@ export default function NewsDelete() {
         <>
 
             <Head>
-                <title>Deletar E-mail - Builder Seu Negócio Online</title>
+                <title>Deletar usúario - Builder Seu Negócio Online</title>
             </Head>
 
             <main className={styles.container}>
 
                 <section className={styles.containerContent}>
 
-                    <h2>Deseja mesmo deletar esse contato de e-mail?</h2>
+                    <h2>Deseja mesmo deletar esse usúario do blog?</h2>
 
                     <Button
                         className={styles.buttonUpdate}
-                        onClick={() => handleContactDelete()}
+                        onClick={() => handleDeleteUser()}
                     >
                         Deletar
                     </Button>
 
-                    <Link href={'/newslatters'}>
+                    <Link href={'/dashboard'}>
                         <Button
                             className={styles.buttonUpdate}
                         >

@@ -62,12 +62,15 @@ export default function Newslatters() {
    }, []);
 
    async function handleRefreshNewslatters() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/newslatter/all')
-      setNewslatter(response.data);
-
-      router.reload()
+      const { data } = await api.get(`/newslatter/page?pageNews=${currentPageNews}&limitNews=${limitNews}`);
+      setTotalNews(data?.totalNews);
+      const totalPagesNews = Math.ceil(totalNews / limitNews);
+      const arrayPagesNews = [];
+      for (let i = 1; i <= totalPagesNews; i++) {
+         arrayPagesNews.push(i);
+      }
+      setPagesNews(arrayPagesNews);
+      setNewslatter(data?.newslatter || []);
    }
 
    const handleChange = ({ target }) => {
@@ -82,17 +85,21 @@ export default function Newslatters() {
    }
 
    async function handleRefreshFilter() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/newslatter/all')
-      setNewslatter(response.data);
-
+      const { data } = await api.get(`/newslatter/page?pageNews=${currentPageNews}&limitNews=${limitNews}`);
+      setTotalNews(data?.totalNews);
+      const totalPagesNews = Math.ceil(totalNews / limitNews);
+      const arrayPagesNews = [];
+      for (let i = 1; i <= totalPagesNews; i++) {
+         arrayPagesNews.push(i);
+      }
+      setPagesNews(arrayPagesNews);
+      setNewslatter(data?.newslatter || []);
    }
 
    async function handleExportNewslatter() {
       const apiClient = setupAPIClient();
 
-      const response = await apiClient.get('/newslatter/export');
+      await apiClient.get('/newslatter/export');
 
       toast.success('Lista de contatos exportada com sucesso!')
 
@@ -200,7 +207,7 @@ export default function Newslatters() {
 
             <section className={styles.containerPagination}>
                <div className={styles.totalCategorys}>
-                  <span>Total de categorias: {totalNews}</span>
+                  <span>Total de newslatters: {totalNews}</span>
                </div>
 
                <div className={styles.containerCategorysPages}>

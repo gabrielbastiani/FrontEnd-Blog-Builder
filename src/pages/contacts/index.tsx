@@ -66,13 +66,15 @@ export default function Contacts() {
    }, []);
 
    async function handleRefreshNewslatters() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/contactform/all')
-      setContact(response.data);
-
-      router.reload()
-
+      const { data } = await api.get(`/contactform/page?pageContact=${currentPageContact}&limitContact=${limitContact}`);
+      setTotalContact(data?.totalContact);
+      const totalPages = Math.ceil(totalContact / limitContact);
+      const arrayPagesContact = [];
+      for (let i = 1; i <= totalPages; i++) {
+         arrayPagesContact.push(i);
+      }
+      setPagesContact(arrayPagesContact);
+      setContact(data?.contact || []);
    }
 
    const handleChange = ({ target }) => {
@@ -87,17 +89,21 @@ export default function Contacts() {
    }
 
    async function handleRefreshFilter() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/contactform/all')
-      setContact(response.data);
-
+      const { data } = await api.get(`/contactform/page?pageContact=${currentPageContact}&limitContact=${limitContact}`);
+      setTotalContact(data?.totalContact);
+      const totalPages = Math.ceil(totalContact / limitContact);
+      const arrayPagesContact = [];
+      for (let i = 1; i <= totalPages; i++) {
+         arrayPagesContact.push(i);
+      }
+      setPagesContact(arrayPagesContact);
+      setContact(data?.contact || []);
    }
 
    async function handleExportContacts() {
       const apiClient = setupAPIClient();
 
-      const response = await apiClient.get('/contactform/export');
+      await apiClient.get('/contactform/export');
 
       toast.success('Lista de mensagens exportada com sucesso!')
 
@@ -216,7 +222,7 @@ export default function Contacts() {
 
             <section className={styles.containerPagination}>
                <div className={styles.totalCategorys}>
-                  <span>Total de categorias: {totalContact}</span>
+                  <span>Total de contatos: {totalContact}</span>
                </div>
 
                <div className={styles.containerCategorysPages}>

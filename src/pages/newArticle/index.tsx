@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react'
+import React, { useState, ChangeEvent, FormEvent, useContext, useEffect, useCallback } from 'react'
 import Head from "next/head"
 import { HeaderPainel } from '../../components/HeaderPainel/index'
 import styles from './styles.module.scss'
@@ -15,6 +15,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { api } from '../../services/apiClient';
 
 
+
 type ItemProps = {
    id: string;
    categoryName: string;
@@ -23,7 +24,6 @@ type ItemProps = {
 interface CategoryProps {
    categoryList: ItemProps[];
 }
-
 
 export default function Article({ categoryList }: CategoryProps) {
 
@@ -175,6 +175,8 @@ export default function Article({ categoryList }: CategoryProps) {
    }
 
 
+
+
    return (
       <>
          <Head>
@@ -184,6 +186,7 @@ export default function Article({ categoryList }: CategoryProps) {
             <HeaderPainel />
 
             <main className={styles.container}>
+
 
                <Link href={'/dashboard'}>
                   <BsFillArrowLeftSquareFill className={styles.return} size={30} />
