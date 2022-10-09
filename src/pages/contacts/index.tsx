@@ -10,6 +10,7 @@ import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { RiMailSendLine } from 'react-icons/ri'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
+import { BiMailSend } from 'react-icons/bi'
 import Link from '../../../node_modules/next/link';
 import moment from 'moment';
 import { useRouter } from 'next/router'
@@ -105,7 +106,16 @@ export default function Contacts() {
 
       await apiClient.get('/contactform/export');
 
-      toast.success('Lista de mensagens exportada com sucesso!')
+      toast.success('Lista de mensagens gerada com sucesso!')
+
+   }
+
+   async function handleExportContactsEmail() {
+      const apiClient = setupAPIClient();
+
+      await apiClient.get('/contactform/sendlist');
+
+      toast.success('Lista de mensagens exportada para seu EMAIL com sucesso!')
 
    }
 
@@ -165,7 +175,10 @@ export default function Contacts() {
 
             <section className={styles.refresh}>
                <button className={styles.buttonRefresh} onClick={handleExportContacts}>
-                  <FaFileExport size={22} />Exportar Lista de Contatos
+                  <FaFileExport size={22} />Gerar Lista de Contatos
+               </button>
+               <button className={styles.buttonRefresh} onClick={handleExportContacts}>
+                  <BiMailSend size={27} />Enviar Lista de Contatos para seu E-mail
                </button>
             </section>
 

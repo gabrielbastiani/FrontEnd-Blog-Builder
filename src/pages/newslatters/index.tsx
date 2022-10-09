@@ -11,6 +11,7 @@ import Link from '../../../node_modules/next/link';
 import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
+import { BiMailSend } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
 import { toast } from 'react-toastify';
@@ -101,7 +102,16 @@ export default function Newslatters() {
 
       await apiClient.get('/newslatter/export');
 
-      toast.success('Lista de contatos exportada com sucesso!')
+      toast.success('Lista de contatos gerada com sucesso!')
+
+   }
+
+   async function handleExportNewslatterEmail() {
+      const apiClient = setupAPIClient();
+
+      await apiClient.get('/newslatters/sendlist');
+
+      toast.success('Lista de contatos exportada para seu EMAIL com sucesso!')
 
    }
 
@@ -161,7 +171,10 @@ export default function Newslatters() {
 
             <section className={styles.refresh}>
                <button className={styles.buttonRefresh} onClick={handleExportNewslatter}>
-                  <FaFileExport size={22} />Exportar Lista de E-mails
+                  <FaFileExport size={22} />Gerar Lista de E-mails
+               </button>
+               <button className={styles.buttonRefresh} onClick={handleExportNewslatter}>
+                  <BiMailSend size={27} />Enviar Lista para se E-mails
                </button>
             </section>
 

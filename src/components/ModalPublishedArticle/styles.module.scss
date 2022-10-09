@@ -1,0 +1,58 @@
+.containerContent {
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    border-radius: 3%;
+
+    h2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+}
+
+.containerButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+
+    Button {
+        width: 40%;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+}
+
+.boxClock{
+    text-align: center;
+}
+
+.sectionDates {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: gray;
+
+    select {
+        margin-right: 10px;
+    }
+}
+
+.boxDates {
+    display: flex;
+    justify-content: center;
+
+    Input{
+        margin-right: 15px;
+    }
+}
+
+.buttonProgram {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.clock {
+    background-color: var(--orange);
+}

@@ -15,7 +15,23 @@ import { AiOutlineDeleteColumn } from 'react-icons/ai'
 import { api } from '../../services/apiClient';
 import { Input } from '../../components/ui/Input/index';
 import { useRouter } from 'next/router'
+import Modal from 'react-modal';
+import { ModalDeleteArticle } from '../../components/ModalDeleteArticle/index';
+import { ModalPublishedArticle } from '../../components/ModalPublishedArticle/index';
+import { ModalDespublishedArticle } from '../../components/ModalDespublishedArticle/index';
 
+
+export type DeleteArticleProps = {
+   id: string;
+}
+
+export type PublishedArticleProps = {
+   id: string;
+}
+
+export type DespuplishedArticleProps = {
+   id: string;
+}
 
 export default function Dashboard() {
 
@@ -42,6 +58,16 @@ export default function Dashboard() {
 
    const [initialFilterAdmin, setInitialFilterAdmin] = useState();
    const [searchAdmin, setSearchAdmin] = useState([]);
+
+   const [modalItem, setModalItem] = useState<DeleteArticleProps[]>();
+   const [modalVisible, setModalVisible] = useState(false);
+
+   const [modalItemPublished, setModalItemPublished] = useState<PublishedArticleProps[]>();
+   const [modalVisiblePublished, setModalVisiblePublished] = useState(false);
+
+   const [modalItemDespuplished, setModalItemDespuplished] = useState<DespuplishedArticleProps[]>();
+   const [modalVisibleDespuplished, setModalVisibleDespuplished] = useState(false);
+
 
 
    useEffect(() => {
@@ -187,6 +213,55 @@ export default function Dashboard() {
       return <p className={styles.nao}>NÃO</p>
    }
 
+
+   function handleCloseModalDelete() {
+      setModalVisible(false);
+   }
+
+   async function handleOpenModalDelete(id: string) {
+      const apiClient = setupAPIClient();
+      const responseDelete = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItem(responseDelete.data);
+      setModalVisible(true);
+   }
+
+   function handleCloseModalPublished() {
+      setModalVisiblePublished(false);
+   }
+
+   async function handleOpenModalPublished(id: string) {
+      const apiClient = setupAPIClient();
+      const responsePublished = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItemPublished(responsePublished.data);
+      setModalVisiblePublished(true);
+   }
+
+   function handleCloseModalDespuplished() {
+      setModalVisibleDespuplished(false);
+   }
+
+   async function handleOpenModalDespuplished(id: string) {
+      const apiClient = setupAPIClient();
+      const responsePublished = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItemDespuplished(responsePublished.data);
+      setModalVisibleDespuplished(true);
+   }
+
+
+
+   Modal.setAppElement('#__next');
 
    return (
       <>
@@ -368,19 +443,13 @@ export default function Dashboard() {
                                        </Link>
                                     </div>
                                     <div className={styles.deleteArticle}>
-                                       <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articl.id}`}>
-                                          <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
-                                       </Link>
+                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} onClick={() => handleOpenModalDelete(articl.id)} />
                                     </div>
                                     <div className={styles.publishArticle}>
-                                       <Link className={styles.publishArti} href={`/articlePublish?article_id=${articl.id}`}>
-                                          <MdPublish className={styles.publish} color='var(--red)' size={30} />
-                                       </Link>
+                                       <MdPublish className={styles.publish} color='var(--red)' size={30} onClick={() => handleOpenModalPublished(articl.id)}/>
                                     </div>
                                     <div className={styles.despublishArticle}>
-                                       <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articl.id}`}>
-                                          <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
-                                       </Link>
+                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} onClick={() => handleOpenModalDespuplished(articl.id)}/>
                                     </div>
                                  </div>
                               </div>
@@ -498,19 +567,13 @@ export default function Dashboard() {
                                        </Link>
                                     </div>
                                     <div className={styles.deleteArticle}>
-                                       <Link className={styles.deleteArticle} href={`/articleDelete?article_id=${articlAdmin.id}`}>
-                                          <FaTrashAlt className={styles.trash} color='var(--red)' size={30} />
-                                       </Link>
+                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} onClick={() => handleOpenModalDelete(articlAdmin.id)} />
                                     </div>
-                                    <div className={styles.publishArticle}>
-                                       <Link className={styles.publishArti} href={`/articlePublish?article_id=${articlAdmin.id}`}>
-                                          <MdPublish className={styles.publish} color='var(--red)' size={30} />
-                                       </Link>
+                                    <div className={styles.publishArticle}>                         
+                                       <MdPublish className={styles.publish} color='var(--red)' size={30} onClick={() => handleOpenModalPublished(articlAdmin.id)}/>
                                     </div>
                                     <div className={styles.despublishArticle}>
-                                       <Link className={styles.despublishArti} href={`/articleDespublish?article_id=${articlAdmin.id}`}>
-                                          <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} />
-                                       </Link>
+                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} onClick={() => handleOpenModalDespuplished(articlAdmin.id)}/>
                                     </div>
                                  </div>
                               </div>
@@ -559,6 +622,31 @@ export default function Dashboard() {
             </section>
             <FooterPainel />
          </main>
+
+         {modalVisible && (
+            <ModalDeleteArticle
+               isOpen={modalVisible}
+               onRequestClose={handleCloseModalDelete}
+               article={modalItem}
+            />
+         )}
+
+         {modalVisiblePublished && (
+            <ModalPublishedArticle
+               isOpen={modalVisiblePublished}
+               onRequestClose={handleCloseModalPublished}
+               article={modalItemPublished}
+            />
+         )}
+
+         {modalVisibleDespuplished && (
+            <ModalDespublishedArticle
+               isOpen={modalVisibleDespuplished}
+               onRequestClose={handleCloseModalDespuplished}
+               article={modalItemDespuplished}
+            />
+         )}
+
       </>
    )
 }

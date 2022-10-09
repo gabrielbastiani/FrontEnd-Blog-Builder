@@ -10,6 +10,7 @@ import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { RiMailSendLine } from 'react-icons/ri'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { FiRefreshCcw } from 'react-icons/fi'
+import { BiMailSend } from 'react-icons/bi'
 import Link from '../../../node_modules/next/link';
 import moment from 'moment';
 import { useRouter } from 'next/router'
@@ -105,7 +106,16 @@ export default function Contacts() {
 
     await apiClient.get('/users/export');
 
-    toast.success('Lista de usúarios exportado com sucesso!')
+    toast.success('Lista de usúarios gerada com sucesso!')
+
+  }
+
+  async function handleExportUsersEmail() {
+    const apiClient = setupAPIClient();
+
+    await apiClient.get('/users/sendlistuser');
+
+    toast.success('Lista de usúarios exportado para seu EMAIL com sucesso!')
 
   }
 
@@ -165,11 +175,12 @@ export default function Contacts() {
 
         <section className={styles.refresh}>
           <button className={styles.buttonRefresh} onClick={handleExportUsers}>
-            <FaFileExport size={22} />Exportar Lista de Usúarios
+            <FaFileExport size={22} />Gerar Lista de Usúarios
+          </button>
+          <button className={styles.buttonRefresh} onClick={handleExportUsersEmail}>
+            <BiMailSend size={27} />Enviar Lista de Usúarios para seu E-mail
           </button>
         </section>
-
-        <br />
 
         <section className={styles.sectionContact}>
 
@@ -207,6 +218,10 @@ export default function Contacts() {
                     <label>E-mail do usúario</label>
                     <div className={styles.emailContact}>
                       <span className={styles.email}>{use.email}</span>
+                    </div>
+                    <label>Permissão do usúario</label>
+                    <div className={styles.emailContact}>
+                      <span className={styles.email}>{use.role}</span>
                     </div>
                     <label>Foto do usúario</label>
                     <div className={styles.userImg}>
