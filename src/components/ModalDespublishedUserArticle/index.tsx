@@ -2,20 +2,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from './styles.module.scss';
 import { FiX } from 'react-icons/fi';
-import { DespuplishedArticleProps } from '../../pages/dashboard/index';
+import { DespuplishedArticleUserProps } from '../../pages/dashboard/index';
 import { Button } from '../ui/Button/index';
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify';
 
 
-interface ModalDespublishedArticle {
+interface ModalDespublishedUserArticle {
     isOpen: boolean;
     onRequestClose: () => void;
-    onRefreshListAdmin: () => void;
-    article: DespuplishedArticleProps[];
+    onRefreshList: () => void;
+    article: DespuplishedArticleUserProps[];
 }
 
-export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshListAdmin, article }: ModalDespublishedArticle) {
+export function ModalDespublishedUserArticle({ isOpen, onRequestClose, onRefreshList, article }: ModalDespublishedUserArticle) {
 
     const customStyles = {
         content: {
@@ -39,7 +39,7 @@ export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshList
 
             toast.success('Artigo despublicado com sucesso no blog.')
 
-            onRefreshListAdmin();
+            onRefreshList();
             onRequestClose();
 
         } catch (err) {

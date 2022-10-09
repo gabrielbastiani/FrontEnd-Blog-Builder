@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from './styles.module.scss';
 import { FiX } from 'react-icons/fi';
-import { PublishedArticleProps } from '../../pages/dashboard/index';
+import { PublishedArticleUserProps } from '../../pages/dashboard/index';
 import { Button } from '../ui/Button/index';
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify';
@@ -10,14 +10,14 @@ import moment from 'moment';
 import { Input } from '../ui/Input/index';
 
 
-interface ModalPublishedArticle {
+interface ModalPublishedUserArticle {
     isOpen: boolean;
     onRequestClose: () => void;
-    onRefreshListAdmin: () => void;
-    article: PublishedArticleProps[];
+    onRefreshList: () => void;
+    article: PublishedArticleUserProps[];
 }
 
-export function ModalPublishedArticle({ isOpen, onRequestClose, onRefreshListAdmin, article }: ModalPublishedArticle) {
+export function ModalPublishedUserArticle({ isOpen, onRequestClose, onRefreshList, article }: ModalPublishedUserArticle) {
 
     const customStyles = {
         content: {
@@ -81,7 +81,7 @@ export function ModalPublishedArticle({ isOpen, onRequestClose, onRefreshListAdm
             const article_id = article[0].id;
             await apiClient.put(`/article/published?article_id=${article_id}`)
             toast.success('Artigo publicado com sucesso no blog.')
-            onRefreshListAdmin();
+            onRefreshList();
             onRequestClose();
         } catch (err) {
             toast.error('Ops erro ao publicar no blog')

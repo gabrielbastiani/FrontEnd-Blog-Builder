@@ -15,7 +15,13 @@ import { BiMailSend } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
 import { toast } from 'react-toastify';
+import Modal from 'react-modal';
+import { ModalDeleteNewslatter } from '../../components/ModalDeleteNewslatter/index';
 
+
+export type DeleteNewslatterProps = {
+   id: string;
+}
 
 export default function Newslatters() {
 
@@ -29,6 +35,9 @@ export default function Newslatters() {
 
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
+
+   const [modalItem, setModalItem] = useState<DeleteNewslatterProps[]>();
+   const [modalVisible, setModalVisible] = useState(false);
 
 
    useEffect(() => {
@@ -115,6 +124,23 @@ export default function Newslatters() {
 
    }
 
+   function handleCloseModal() {
+      setModalVisible(false);
+   }
+
+   async function handleOpenModal(id: string) {
+      const apiClient = setupAPIClient();
+      const responseData = await apiClient.get('/newslatter', {
+         params: {
+            newslatter_id: id,
+         }
+      });
+      setModalItem(responseData.data);
+      setModalVisible(true);
+   }
+
+   Modal.setAppElement('#__next');
+
 
 
    return (
@@ -173,7 +199,7 @@ export default function Newslatters() {
                <button className={styles.buttonRefresh} onClick={handleExportNewslatter}>
                   <FaFileExport size={22} />Gerar Lista de E-mails
                </button>
-               <button className={styles.buttonRefresh} onClick={handleExportNewslatter}>
+               <button className={styles.buttonRefresh} onClick={handleExportNewslatterEmail}>
                   <BiMailSend size={27} />Enviar Lista para se E-mails
                </button>
             </section>
@@ -194,9 +220,7 @@ export default function Newslatters() {
                            <div key={news.id} className={styles.contactForm}>
                               <div className={styles.iconsContainer}>
                                  <div className={styles.trashLink}>
-                                    <Link href={`/newsDelete?newslatter_id=${news.id}`}>
-                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={25} />
-                                    </Link>
+                                    <FaTrashAlt className={styles.trash} color='var(--red)' size={25} onClick={() => handleOpenModal(news.id)} />
                                  </div>
                               </div>
                               <div className={styles.dataContact}>
@@ -254,6 +278,16 @@ export default function Newslatters() {
             </section>
 
          </main>
+
+         {modalVisible && (
+            <ModalDeleteNewslatter
+               isOpen={modalVisible}
+               onRequestClose={handleCloseModal}
+               onRefreshList={handleRefreshNewslatters}
+               newslatter={modalItem}
+            />
+         )}
+
          <FooterPainel />
       </>
    )

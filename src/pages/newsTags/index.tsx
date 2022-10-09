@@ -12,9 +12,34 @@ import { FooterPainel } from '../../components/FooterPainel/index'
 import { toast } from 'react-toastify'
 import { AuthContext } from '../../contexts/AuthContext'
 import Router from '../../../node_modules/next/router'
-import { Input } from '../../components/ui/Input/index'
-import { Button } from '../../components/ui/Button/index'
+import Modal from 'react-modal';
+import { ModalUpdateTag1 } from '../../components/ModalUpdateTag1/index'
+import { ModalUpdateTag2 } from '../../components/ModalUpdateTag2/index'
+import { ModalUpdateTag3 } from '../../components/ModalUpdateTag3/index'
+import { ModalUpdateTag4 } from '../../components/ModalUpdateTag4/index'
+import { ModalUpdateTag5 } from '../../components/ModalUpdateTag5/index'
 
+
+
+export type UpdateTag1Props = {
+  id: string;
+}
+
+export type UpdateTag2Props = {
+  id: string;
+}
+
+export type UpdateTag3Props = {
+  id: string;
+}
+
+export type UpdateTag4Props = {
+  id: string;
+}
+
+export type UpdateTag5Props = {
+  id: string;
+}
 
 export default function NewsTags() {
 
@@ -25,6 +50,21 @@ export default function NewsTags() {
   const [tagName3, setTagName3] = useState('')
   const [tagName4, setTagName4] = useState('')
   const [tagName5, setTagName5] = useState('')
+
+  const [modalItemUpdateTag1, setModalItemUpdateTag1] = useState<UpdateTag1Props[]>();
+  const [modalVisibleUpdateTag1, setModalVisibleUpdateTag1] = useState(false);
+
+  const [modalItemUpdateTag2, setModalItemUpdateTag2] = useState<UpdateTag2Props[]>();
+  const [modalVisibleUpdateTag2, setModalVisibleUpdateTag2] = useState(false);
+
+  const [modalItemUpdateTag3, setModalItemUpdateTag3] = useState<UpdateTag3Props[]>();
+  const [modalVisibleUpdateTag3, setModalVisibleUpdateTag3] = useState(false);
+
+  const [modalItemUpdateTag4, setModalItemUpdateTag4] = useState<UpdateTag4Props[]>();
+  const [modalVisibleUpdateTag4, setModalVisibleUpdateTag4] = useState(false);
+
+  const [modalItemUpdateTag5, setModalItemUpdateTag5] = useState<UpdateTag5Props[]>();
+  const [modalVisibleUpdateTag5, setModalVisibleUpdateTag5] = useState(false);
 
   //-- PAGE TAG 1
   const [tags1, setTags1] = useState([]);
@@ -544,6 +584,83 @@ export default function NewsTags() {
     }
   }
 
+  function handleCloseModalTag1() {
+    setModalVisibleUpdateTag1(false);
+  }
+
+  async function handleOpenModalUpdateTag1(id: string) {
+    const apiClient = setupAPIClient();
+    const responseUpdateTag1 = await apiClient.get('/tag1/all', {
+      params: {
+        tag1_id: id,
+      }
+    });
+    setModalItemUpdateTag1(responseUpdateTag1.data);
+    setModalVisibleUpdateTag1(true);
+  }
+
+  function handleCloseModalTag2() {
+    setModalVisibleUpdateTag2(false);
+  }
+
+  async function handleOpenModalUpdateTag2(id: string) {
+    const apiClient = setupAPIClient();
+    const responseUpdateTag2 = await apiClient.get('/tag2/all', {
+      params: {
+        tag2_id: id,
+      }
+    });
+    setModalItemUpdateTag2(responseUpdateTag2.data);
+    setModalVisibleUpdateTag2(true);
+  }
+
+  function handleCloseModalTag3() {
+    setModalVisibleUpdateTag3(false);
+  }
+
+  async function handleOpenModalUpdateTag3(id: string) {
+    const apiClient = setupAPIClient();
+    const responseUpdateTag3 = await apiClient.get('/tag3/all', {
+      params: {
+        tag3_id: id,
+      }
+    });
+    setModalItemUpdateTag3(responseUpdateTag3.data);
+    setModalVisibleUpdateTag3(true);
+  }
+
+  function handleCloseModalTag4() {
+    setModalVisibleUpdateTag4(false);
+  }
+
+  async function handleOpenModalUpdateTag4(id: string) {
+    const apiClient = setupAPIClient();
+    const responseUpdateTag4 = await apiClient.get('/tag4/all', {
+      params: {
+        tag4_id: id,
+      }
+    });
+    setModalItemUpdateTag4(responseUpdateTag4.data);
+    setModalVisibleUpdateTag4(true);
+  }
+
+  function handleCloseModalTag5() {
+    setModalVisibleUpdateTag5(false);
+  }
+
+  async function handleOpenModalUpdateTag5(id: string) {
+    const apiClient = setupAPIClient();
+    const responseUpdateTag5 = await apiClient.get('/tag5/all', {
+      params: {
+        tag5_id: id,
+      }
+    });
+    setModalItemUpdateTag5(responseUpdateTag5.data);
+    setModalVisibleUpdateTag5(true);
+  }
+
+  Modal.setAppElement('#__next');
+
 
 
   return (
@@ -663,11 +780,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={tag1s.id}>
-                              <Link className={styles.nameTag} href={`/tag1Update?tag1_id=${tag1s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag1(tag1s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{tag1s?.tagName1}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -733,11 +850,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={tag2s.id}>
-                              <Link className={styles.nameTag} href={`/tag2Update?tag2_id=${tag2s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag2(tag2s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{tag2s?.tagName2}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -803,11 +920,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={tag3s.id}>
-                              <Link className={styles.nameTag} href={`/tag3Update?tag3_id=${tag3s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag3(tag3s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{tag3s?.tagName3}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -873,11 +990,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={tag4s.id}>
-                              <Link className={styles.nameTag} href={`/tag4Update?tag4_id=${tag4s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag4(tag4s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{tag4s?.tagName4}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -943,11 +1060,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={tag5s.id}>
-                              <Link className={styles.nameTag} href={`/tag5Update?tag5_id=${tag5s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag5(tag5s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{tag5s?.tagName5}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1024,11 +1141,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={adminTag1s.id}>
-                              <Link className={styles.nameTag} href={`/tag1Update?tag1_id=${adminTag1s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag1(adminTag1s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{adminTag1s?.tagName1}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1094,11 +1211,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={adminTag2s.id}>
-                              <Link className={styles.nameTag} href={`/tag2Update?tag2_id=${adminTag2s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag2(adminTag2s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{adminTag2s?.tagName2}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1164,11 +1281,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={adminTag3s.id}>
-                              <Link className={styles.nameTag} href={`/tag3Update?tag3_id=${adminTag3s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag3(adminTag3s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{adminTag3s?.tagName3}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1234,11 +1351,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={adminTag4s.id}>
-                              <Link className={styles.nameTag} href={`/tag4Update?tag4_id=${adminTag4s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag4(adminTag4s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{adminTag4s?.tagName4}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1304,11 +1421,11 @@ export default function NewsTags() {
                         <>
                           <div className={styles.tagBox}>
                             <div className={styles.tag} key={adminTag5s.id}>
-                              <Link className={styles.nameTag} href={`/tag5Update?tag5_id=${adminTag5s.id}`}>
+                              <div className={styles.nameTag} onClick={() => handleOpenModalUpdateTag5(adminTag5s.id)}>
                                 <div className={styles.listTags}>
                                   <div className={styles.nameTag}>{adminTag5s?.tagName5}</div>
                                 </div>
-                              </Link>
+                              </div>
                             </div>
                           </div>
                         </>
@@ -1405,6 +1522,47 @@ export default function NewsTags() {
         <br />
         <br />
       </main>
+
+      {modalVisibleUpdateTag1 && (
+        <ModalUpdateTag1
+          isOpen={modalVisibleUpdateTag1}
+          onRequestClose={handleCloseModalTag1}
+          tag1={modalItemUpdateTag1}
+        />
+      )}
+
+      {modalVisibleUpdateTag2 && (
+        <ModalUpdateTag2
+          isOpen={modalVisibleUpdateTag2}
+          onRequestClose={handleCloseModalTag2}
+          tag2={modalItemUpdateTag2}
+        />
+      )}
+
+      {modalVisibleUpdateTag3 && (
+        <ModalUpdateTag3
+          isOpen={modalVisibleUpdateTag3}
+          onRequestClose={handleCloseModalTag3}
+          tag3={modalItemUpdateTag3}
+        />
+      )}
+
+      {modalVisibleUpdateTag4 && (
+        <ModalUpdateTag4
+          isOpen={modalVisibleUpdateTag4}
+          onRequestClose={handleCloseModalTag4}
+          tag4={modalItemUpdateTag4}
+        />
+      )}
+
+      {modalVisibleUpdateTag5 && (
+        <ModalUpdateTag5
+          isOpen={modalVisibleUpdateTag5}
+          onRequestClose={handleCloseModalTag5}
+          tag5={modalItemUpdateTag5}
+        />
+      )}
+
       <FooterPainel />
     </>
   )

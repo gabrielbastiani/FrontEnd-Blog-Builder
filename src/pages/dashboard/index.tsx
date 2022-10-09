@@ -17,11 +17,19 @@ import { Input } from '../../components/ui/Input/index';
 import { useRouter } from 'next/router'
 import Modal from 'react-modal';
 import { ModalDeleteArticle } from '../../components/ModalDeleteArticle/index';
+import { ModalDeleteUserArticle } from '../../components/ModalDeleteUserArticle/index';
 import { ModalPublishedArticle } from '../../components/ModalPublishedArticle/index';
+import { ModalPublishedUserArticle } from '../../components/ModalPublishedUserArticle/index';
 import { ModalDespublishedArticle } from '../../components/ModalDespublishedArticle/index';
+import { ModalDespublishedUserArticle } from '../../components/ModalDespublishedUserArticle/index';
+
 
 
 export type DeleteArticleProps = {
+   id: string;
+}
+
+export type DeleteArticleUserProps = {
    id: string;
 }
 
@@ -29,7 +37,15 @@ export type PublishedArticleProps = {
    id: string;
 }
 
+export type PublishedArticleUserProps = {
+   id: string;
+}
+
 export type DespuplishedArticleProps = {
+   id: string;
+}
+
+export type DespuplishedArticleUserProps = {
    id: string;
 }
 
@@ -62,11 +78,20 @@ export default function Dashboard() {
    const [modalItem, setModalItem] = useState<DeleteArticleProps[]>();
    const [modalVisible, setModalVisible] = useState(false);
 
+   const [modalItemUser, setModalItemUser] = useState<DeleteArticleUserProps[]>();
+   const [modalVisibleUser, setModalVisibleUser] = useState(false);
+
    const [modalItemPublished, setModalItemPublished] = useState<PublishedArticleProps[]>();
    const [modalVisiblePublished, setModalVisiblePublished] = useState(false);
 
+   const [modalItemPublishedUser, setModalItemPublishedUser] = useState<PublishedArticleUserProps[]>();
+   const [modalVisiblePublishedUser, setModalVisiblePublishedUser] = useState(false);
+
    const [modalItemDespuplished, setModalItemDespuplished] = useState<DespuplishedArticleProps[]>();
    const [modalVisibleDespuplished, setModalVisibleDespuplished] = useState(false);
+
+   const [modalItemDespuplishedUser, setModalItemDespuplishedUser] = useState<DespuplishedArticleUserProps[]>();
+   const [modalVisibleDespuplishedUser, setModalVisibleDespuplishedUser] = useState(false);
 
 
 
@@ -142,21 +167,42 @@ export default function Dashboard() {
    }, []);
 
    async function handleRefreshArticle() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/article/filter')
-      setArticles(response.data);
-
-      router.reload()
+      try {
+         const name = currentUser
+         const response = await api.get('/me');
+         setCurrentUser(response.data.name);
+         const { data } = await api.get(`/article/all?page=${currentPage}&limit=${limit}&name=${name}`);
+         setTotal(data?.total);
+         const totalPages = Math.ceil(total / limit);
+         const arrayPages = [];
+         for (let i = 1; i <= totalPages; i++) {
+            arrayPages.push(i);
+         }
+         setPages(arrayPages);
+         setArticles(data?.articles || []);
+      } catch (error) {
+         console.error(error);
+         alert('Error call api list article');
+      }
    }
 
    async function handleRefreshArticleAdmin() {
-      const apiClient = setupAPIClient();
-
-      const response = await apiClient.get('/article/filter')
-      setArticles(response.data);
-
-      router.reload()
+      try {
+         const response = await api.get('/me');
+         setCurrentAdmin(response.data.role);
+         const { data } = await api.get(`/article/admin?pageAdmin=${currentPageAdmin}&limitAdmin=${limitAdmin}`);
+         setTotalAdmin(data?.totalAdmin);
+         const totalPagesAdmin = Math.ceil(totalAdmin / limitAdmin);
+         const arrayPagesAdmin = [];
+         for (let i = 1; i <= totalPagesAdmin; i++) {
+            arrayPagesAdmin.push(i);
+         }
+         setPagesAdmin(arrayPagesAdmin);
+         setAdmin(data?.admin || []);
+      } catch (error) {
+         console.error(error);
+         alert('Error call api list ALL article');
+      }
    }
 
    const handleChange = ({ target }) => {
@@ -229,6 +275,21 @@ export default function Dashboard() {
       setModalVisible(true);
    }
 
+   function handleCloseModalDeleteUser() {
+      setModalVisibleUser(false);
+   }
+
+   async function handleOpenModalDeleteUser(id: string) {
+      const apiClient = setupAPIClient();
+      const responseDeleteUser = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItemUser(responseDeleteUser.data);
+      setModalVisibleUser(true);
+   }
+
    function handleCloseModalPublished() {
       setModalVisiblePublished(false);
    }
@@ -244,24 +305,54 @@ export default function Dashboard() {
       setModalVisiblePublished(true);
    }
 
+   function handleCloseModalPublishedUser() {
+      setModalVisiblePublishedUser(false);
+   }
+
+   async function handleOpenModalPublishedUser(id: string) {
+      const apiClient = setupAPIClient();
+      const responsePublishedUser = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItemPublishedUser(responsePublishedUser.data);
+      setModalVisiblePublishedUser(true);
+   }
+
    function handleCloseModalDespuplished() {
       setModalVisibleDespuplished(false);
    }
 
    async function handleOpenModalDespuplished(id: string) {
       const apiClient = setupAPIClient();
-      const responsePublished = await apiClient.get('/article', {
+      const responseDespublised = await apiClient.get('/article', {
          params: {
             article_id: id,
          }
       });
-      setModalItemDespuplished(responsePublished.data);
+      setModalItemDespuplished(responseDespublised.data);
       setModalVisibleDespuplished(true);
    }
 
+   function handleCloseModalDespuplishedUser() {
+      setModalVisibleDespuplishedUser(false);
+   }
 
+   async function handleOpenModalDespuplishedUser(id: string) {
+      const apiClient = setupAPIClient();
+      const responseDespublisedUser = await apiClient.get('/article', {
+         params: {
+            article_id: id,
+         }
+      });
+      setModalItemDespuplishedUser(responseDespublisedUser.data);
+      setModalVisibleDespuplishedUser(true);
+   }
 
    Modal.setAppElement('#__next');
+
+   
 
    return (
       <>
@@ -443,13 +534,13 @@ export default function Dashboard() {
                                        </Link>
                                     </div>
                                     <div className={styles.deleteArticle}>
-                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} onClick={() => handleOpenModalDelete(articl.id)} />
+                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={30} onClick={() => handleOpenModalDeleteUser(articl.id)} />
                                     </div>
                                     <div className={styles.publishArticle}>
-                                       <MdPublish className={styles.publish} color='var(--red)' size={30} onClick={() => handleOpenModalPublished(articl.id)}/>
+                                       <MdPublish className={styles.publish} color='var(--red)' size={30} onClick={() => handleOpenModalPublishedUser(articl.id)} />
                                     </div>
                                     <div className={styles.despublishArticle}>
-                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} onClick={() => handleOpenModalDespuplished(articl.id)}/>
+                                       <AiOutlineDeleteColumn className={styles.despublish} color='var(--red)' size={30} onClick={() => handleOpenModalDespuplishedUser(articl.id)} />
                                     </div>
                                  </div>
                               </div>
@@ -627,7 +718,17 @@ export default function Dashboard() {
             <ModalDeleteArticle
                isOpen={modalVisible}
                onRequestClose={handleCloseModalDelete}
+               onRefreshListAdmin={handleRefreshArticleAdmin}
                article={modalItem}
+            />
+         )}
+
+         {modalVisibleUser && (
+            <ModalDeleteUserArticle
+               isOpen={modalVisibleUser}
+               onRequestClose={handleCloseModalDeleteUser}
+               onRefreshList={handleRefreshArticle}
+               article={modalItemUser}
             />
          )}
 
@@ -635,7 +736,17 @@ export default function Dashboard() {
             <ModalPublishedArticle
                isOpen={modalVisiblePublished}
                onRequestClose={handleCloseModalPublished}
+               onRefreshListAdmin={handleRefreshArticleAdmin}
                article={modalItemPublished}
+            />
+         )}
+
+         {modalVisiblePublishedUser && (
+            <ModalPublishedUserArticle
+               isOpen={modalVisiblePublishedUser}
+               onRequestClose={handleCloseModalPublishedUser}
+               onRefreshList={handleRefreshArticle}
+               article={modalItemPublishedUser}
             />
          )}
 
@@ -643,7 +754,17 @@ export default function Dashboard() {
             <ModalDespublishedArticle
                isOpen={modalVisibleDespuplished}
                onRequestClose={handleCloseModalDespuplished}
+               onRefreshListAdmin={handleRefreshArticleAdmin}
                article={modalItemDespuplished}
+            />
+         )}
+
+         {modalVisibleDespuplishedUser && (
+            <ModalDespublishedUserArticle
+               isOpen={modalVisibleDespuplishedUser}
+               onRequestClose={handleCloseModalDespuplishedUser}
+               onRefreshList={handleRefreshArticle}
+               article={modalItemDespuplishedUser}
             />
          )}
 

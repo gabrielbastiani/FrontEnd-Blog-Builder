@@ -14,7 +14,17 @@ import moment from 'moment';
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
 import { AuthContext } from '../../contexts/AuthContext'
+import Modal from 'react-modal';
+import { ModalUpdateCategory } from '../../components/ModalUpdateCategory/index';
+import { ModalUpdateUserCategory } from '../../components/ModalUpdateUserCategory/index'
 
+export type UpdateCategoryProps = {
+  id: string;
+}
+
+export type UpdateCategoryUserProps = {
+  id: string;
+}
 
 export default function Category() {
 
@@ -42,6 +52,13 @@ export default function Category() {
 
   const [currentAdmin, setCurrentAdmin] = useState('');
   const roleADMIN = "ADMIN";
+
+  const [modalItem, setModalItem] = useState<UpdateCategoryProps[]>();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [modalItemUser, setModalItemUser] = useState<UpdateCategoryUserProps[]>();
+  const [modalVisibleUser, setModalVisibleUser] = useState(false);
+
 
 
   useEffect(() => {
@@ -240,6 +257,38 @@ export default function Category() {
 
   }
 
+  function handleCloseModal() {
+    setModalVisible(false);
+  }
+
+  async function handleOpenModal(id: string) {
+    const apiClient = setupAPIClient();
+    const categoryData = await apiClient.get('/category/total', {
+      params: {
+        category_id: id,
+      }
+    });
+    setModalItem(categoryData.data);
+    setModalVisible(true);
+  }
+
+  function handleCloseModalUser() {
+    setModalVisibleUser(false);
+  }
+
+  async function handleOpenModalUser(id: string) {
+    const apiClient = setupAPIClient();
+    const categoryDataUser = await apiClient.get('/category/total', {
+      params: {
+        category_id: id,
+      }
+    });
+    setModalItemUser(categoryDataUser.data);
+    setModalVisibleUser(true);
+  }
+
+  Modal.setAppElement('#__next');
+
 
 
   return (
@@ -363,14 +412,14 @@ export default function Category() {
                     <>
                       <div className={styles.categoryBox}>
                         <div className={styles.category} key={categ.id}>
-                          <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categ.id}`}>
+                          <div className={styles.nameCategory} onClick={() => handleOpenModalUser(categ.id)}>
                             <div className={styles.listCategories}>
                               <div className={styles.nameCategory}>{categ?.categoryName}</div>
                               <div className={styles.dates}>
                                 <span>Data de criação: {moment(categ?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         </div>
                       </div>
                     </>
@@ -444,14 +493,14 @@ export default function Category() {
                     <>
                       <div className={styles.categoryBox}>
                         <div className={styles.category} key={categAdmin.id}>
-                          <Link className={styles.nameCategory} href={`/categoryUpdate?category_id=${categAdmin.id}`}>
+                          <div className={styles.nameCategory} onClick={() => handleOpenModal(categAdmin.id)}>
                             <div className={styles.listCategories}>
                               <div className={styles.nameCategory}>{categAdmin?.categoryName}</div>
                               <div className={styles.dates}>
                                 <span>Data de criação: {moment(categAdmin?.created_at).format('DD/MM/YYYY HH:mm')}</span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         </div>
                       </div>
                     </>
@@ -517,6 +566,25 @@ export default function Category() {
 
         </section>
       </main>
+
+      {modalVisible && (
+        <ModalUpdateCategory
+          isOpen={modalVisible}
+          onRequestClose={handleCloseModal}
+          onRefreshList={handleRefreshFilterAdmin}
+          category={modalItem}
+        />
+      )}
+
+      {modalVisibleUser && (
+        <ModalUpdateUserCategory
+          isOpen={modalVisibleUser}
+          onRequestClose={handleCloseModalUser}
+          onRefreshList={handleRefreshFilter}
+          category={modalItemUser}
+        />
+      )}
+
       <FooterPainel />
     </>
   )

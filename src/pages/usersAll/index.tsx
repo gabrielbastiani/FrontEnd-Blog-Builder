@@ -16,8 +16,13 @@ import moment from 'moment';
 import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
 import { toast } from 'react-toastify'
+import Modal from 'react-modal';
+import { ModalDeleteUser } from '../../components/ModalDeleteUser/index';
 
 
+export type DeleteUserProps = {
+  id: string;
+}
 
 export default function Contacts() {
 
@@ -31,6 +36,9 @@ export default function Contacts() {
 
   const [initialFilter, setInitialFilter] = useState();
   const [search, setSearch] = useState([]);
+
+  const [modalItem, setModalItem] = useState<DeleteUserProps[]>();
+  const [modalVisible, setModalVisible] = useState(false);
 
 
 
@@ -119,6 +127,23 @@ export default function Contacts() {
 
   }
 
+  function handleCloseModal() {
+    setModalVisible(false);
+ }
+
+ async function handleOpenModal(id: string) {
+    const apiClient = setupAPIClient();
+    const responseDate = await apiClient.get('/users/all', {
+       params: {
+          user_id: id,
+       }
+    });
+    setModalItem(responseDate.data);
+    setModalVisible(true);
+ }
+
+ Modal.setAppElement('#__next');
+
 
 
   return (
@@ -198,9 +223,7 @@ export default function Contacts() {
                   <div key={use.id} className={styles.contactForm}>
                     <div className={styles.iconsContainer}>
                       <div className={styles.trashLink}>
-                        <Link href={`/deleteUser?user_id=${use.id}`}>
-                          <FaTrashAlt className={styles.trash} color='var(--red)' size={25} />
-                        </Link>
+                        <FaTrashAlt className={styles.trash} color='var(--red)' size={25} onClick={() => handleOpenModal(use.id)}/>
                       </div>
                       <div className={styles.sendemailIcon}>
                         <Link href={`mailto:${use.email}?subject=${use.name} Sou administrador do blog Builder Seu Negócio Online`}>
@@ -271,6 +294,15 @@ export default function Contacts() {
         </section>
 
       </main>
+
+      {modalVisible && (
+          <ModalDeleteUser
+            isOpen={modalVisible}
+            onRequestClose={handleCloseModal}
+            user={modalItem}
+          />
+        )}
+
       <FooterPainel />
     </>
   )

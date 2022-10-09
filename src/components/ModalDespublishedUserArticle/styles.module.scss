@@ -1,0 +1,24 @@
+.containerContent {
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    border-radius: 3%;
+
+    h2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+}
+
+.containerButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+
+    Button {
+        width: 40%;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+}

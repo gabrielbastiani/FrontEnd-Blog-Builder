@@ -1,21 +1,19 @@
-import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from './styles.module.scss';
 import { FiX } from 'react-icons/fi';
-import { DespuplishedArticleProps } from '../../pages/dashboard/index';
+import { DeleteUserProps } from '../../pages/usersAll/index';
 import { Button } from '../ui/Button/index';
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify';
 
 
-interface ModalDespublishedArticle {
+interface ModalDeleteUser {
     isOpen: boolean;
     onRequestClose: () => void;
-    onRefreshListAdmin: () => void;
-    article: DespuplishedArticleProps[];
+    user: DeleteUserProps[];
 }
 
-export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshListAdmin, article }: ModalDespublishedArticle) {
+export function ModalDeleteUser({ isOpen, onRequestClose, user }: ModalDeleteUser) {
 
     const customStyles = {
         content: {
@@ -30,21 +28,19 @@ export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshList
     };
 
 
-    async function handleArticleDespublish() {
+    async function handleDeleteUser() {
         try {
             const apiClient = setupAPIClient();
-            const article_id = article[0].id;
+            const user_id = user[0].id
+            await apiClient.delete(`/users/remove?user_id=${user_id}`)
 
-            await apiClient.put(`/article/despublish?article_id=${article_id}`)
+            toast.success('Usúario deletado com sucesso.')
 
-            toast.success('Artigo despublicado com sucesso no blog.')
-
-            onRefreshListAdmin();
-            onRequestClose();
+            onRequestClose()
 
         } catch (err) {
 
-            toast.error('Ops erro ao despublicar artigo do blog')
+            toast.error('Ops erro ao deletar')
 
         }
 
@@ -67,18 +63,19 @@ export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshList
                 <FiX size={45} color="#f34748" />
             </button>
 
-            <section className={styles.containerContent}>
+            <div className={styles.containerContent}>
 
-                <h2>Deseja mesmo despublicar esse artigo no blog?</h2>
+                <h2>Deseja mesmo deletar esse usúario?</h2>
 
                 <div className={styles.containerButton}>
-                <Button
-                    onClick={() => handleArticleDespublish()}
-                >
-                    Despublicar
-                </Button>
+                    <Button
+                        onClick={() => handleDeleteUser()}
+                    >
+                        Deletar
+                    </Button>
                 </div>
-            </section>
+
+            </div>
 
         </Modal>
     )

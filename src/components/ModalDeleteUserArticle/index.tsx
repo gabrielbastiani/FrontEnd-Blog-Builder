@@ -1,21 +1,20 @@
-import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from './styles.module.scss';
 import { FiX } from 'react-icons/fi';
-import { DespuplishedArticleProps } from '../../pages/dashboard/index';
+import { DeleteArticleUserProps } from '../../pages/dashboard/index';
 import { Button } from '../ui/Button/index';
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify';
 
 
-interface ModalDespublishedArticle {
+interface ModalDeleteUserArticle {
     isOpen: boolean;
     onRequestClose: () => void;
-    onRefreshListAdmin: () => void;
-    article: DespuplishedArticleProps[];
+    onRefreshList: () => void;
+    article: DeleteArticleUserProps[];
 }
 
-export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshListAdmin, article }: ModalDespublishedArticle) {
+export function ModalDeleteUserArticle({ isOpen, onRequestClose, onRefreshList, article }: ModalDeleteUserArticle) {
 
     const customStyles = {
         content: {
@@ -30,21 +29,20 @@ export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshList
     };
 
 
-    async function handleArticleDespublish() {
+    async function handleArticleDelete() {
         try {
             const apiClient = setupAPIClient();
-            const article_id = article[0].id;
+            const article_id = article[0].id
+            await apiClient.delete(`/article/remove?article_id=${article_id}`)
 
-            await apiClient.put(`/article/despublish?article_id=${article_id}`)
+            toast.success('Artigo deletado com sucesso.')
 
-            toast.success('Artigo despublicado com sucesso no blog.')
-
-            onRefreshListAdmin();
-            onRequestClose();
+            onRefreshList()
+            onRequestClose()
 
         } catch (err) {
 
-            toast.error('Ops erro ao despublicar artigo do blog')
+            toast.error('Ops erro ao deletar')
 
         }
 
@@ -67,18 +65,19 @@ export function ModalDespublishedArticle({ isOpen, onRequestClose, onRefreshList
                 <FiX size={45} color="#f34748" />
             </button>
 
-            <section className={styles.containerContent}>
+            <div className={styles.containerContent}>
 
-                <h2>Deseja mesmo despublicar esse artigo no blog?</h2>
+                <h2>Deseja mesmo deletar esse artigo?</h2>
 
                 <div className={styles.containerButton}>
-                <Button
-                    onClick={() => handleArticleDespublish()}
-                >
-                    Despublicar
-                </Button>
+                    <Button
+                        onClick={() => handleArticleDelete()}
+                    >
+                        Deletar
+                    </Button>
                 </div>
-            </section>
+
+            </div>
 
         </Modal>
     )

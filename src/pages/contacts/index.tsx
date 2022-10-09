@@ -13,15 +13,18 @@ import { FiRefreshCcw } from 'react-icons/fi'
 import { BiMailSend } from 'react-icons/bi'
 import Link from '../../../node_modules/next/link';
 import moment from 'moment';
-import { useRouter } from 'next/router'
 import { Input } from '../../components/ui/Input/index';
 import { toast } from 'react-toastify'
+import Modal from 'react-modal';
+import { ModalDeleteContactForm } from '../../components/ModalDeleteContactForm/index';
 
 
+
+export type DeleteContactFormProps = {
+   id: string;
+}
 
 export default function Contacts() {
-
-   const router = useRouter()
 
    const [contact, setContact] = useState([]);
    const [totalContact, setTotalContact] = useState(0);
@@ -32,6 +35,8 @@ export default function Contacts() {
    const [initialFilter, setInitialFilter] = useState();
    const [search, setSearch] = useState([]);
 
+   const [modalItem, setModalItem] = useState<DeleteContactFormProps[]>();
+   const [modalVisible, setModalVisible] = useState(false);
 
 
    useEffect(() => {
@@ -119,6 +124,23 @@ export default function Contacts() {
 
    }
 
+   function handleCloseModal() {
+      setModalVisible(false);
+   }
+
+   async function handleOpenModal(id: string) {
+      const apiClient = setupAPIClient();
+      const resposeData = await apiClient.get('/contactform', {
+         params: {
+            contactform_id: id,
+         }
+      });
+      setModalItem(resposeData.data);
+      setModalVisible(true);
+   }
+
+   Modal.setAppElement('#__next');
+
 
 
    return (
@@ -177,7 +199,7 @@ export default function Contacts() {
                <button className={styles.buttonRefresh} onClick={handleExportContacts}>
                   <FaFileExport size={22} />Gerar Lista de Contatos
                </button>
-               <button className={styles.buttonRefresh} onClick={handleExportContacts}>
+               <button className={styles.buttonRefresh} onClick={handleExportContactsEmail}>
                   <BiMailSend size={27} />Enviar Lista de Contatos para seu E-mail
                </button>
             </section>
@@ -200,9 +222,7 @@ export default function Contacts() {
                            <div key={contato.id} className={styles.contactForm}>
                               <div className={styles.iconsContainer}>
                                  <div className={styles.trashLink}>
-                                    <Link href={`/contactDelete?contactform_id=${contato.id}`}>
-                                       <FaTrashAlt className={styles.trash} color='var(--red)' size={25} />
-                                    </Link>
+                                    <FaTrashAlt className={styles.trash} color='var(--red)' size={25} onClick={() => handleOpenModal(contato.id)}/>
                                  </div>
                                  <div className={styles.sendemailIcon}>
                                     <Link href={`mailto:${contato.emailContact}?subject=${contato.nameContact} falo do blog Builder Seu Negócio Online`}>
@@ -269,6 +289,15 @@ export default function Contacts() {
             </section>
 
          </main>
+
+         {modalVisible && (
+            <ModalDeleteContactForm
+               isOpen={modalVisible}
+               onRequestClose={handleCloseModal}
+               contactform={modalItem}
+            />
+         )}
+
          <FooterPainel />
       </>
    )

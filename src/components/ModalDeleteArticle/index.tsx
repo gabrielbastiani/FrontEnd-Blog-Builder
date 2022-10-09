@@ -10,10 +10,11 @@ import { toast } from 'react-toastify';
 interface ModalDeleteArticle {
     isOpen: boolean;
     onRequestClose: () => void;
+    onRefreshListAdmin: () => void;
     article: DeleteArticleProps[];
 }
 
-export function ModalDeleteArticle({ isOpen, onRequestClose, article }: ModalDeleteArticle) {
+export function ModalDeleteArticle({ isOpen, onRequestClose, onRefreshListAdmin, article }: ModalDeleteArticle) {
 
     const customStyles = {
         content: {
@@ -36,6 +37,7 @@ export function ModalDeleteArticle({ isOpen, onRequestClose, article }: ModalDel
 
             toast.success('Artigo deletado com sucesso.')
 
+            onRefreshListAdmin()
             onRequestClose()
 
         } catch (err) {
