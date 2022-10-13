@@ -9,6 +9,7 @@ import { AiOutlineFolderOpen, AiOutlineArrowRight, AiOutlineTags } from 'react-i
 import { BiEdit } from 'react-icons/bi'
 import { Button } from '../../components/ui/Button/index';
 import Link from "../../../node_modules/next/link";
+import Image from "../../../node_modules/next/image";
 
 
 export function ArticlesTag2() {
@@ -100,7 +101,7 @@ export function ArticlesTag2() {
                               </div>
                               <Link href={`/articlePage?article_id=${articl.id}`}>
                                  <div className={styles.bannerArticle}>
-                                    <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
+                                    <Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
                                  </div>
                               </Link>
                               <div className={styles.tags}>

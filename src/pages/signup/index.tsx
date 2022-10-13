@@ -18,21 +18,16 @@ export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [loading, setLoading] = useState(false);
-
   const [avatarUrl, setAvatarUrl] = useState('');
   const [imageAvatar, setImageAvatar] = useState(null);
-
   const [userValid, setUserValid] = useState(false);
-
   const captcha = useRef(null);
+
 
   function isEmail(emailName: string) {
     return /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(emailName)
   }
-
-
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
 
@@ -142,6 +137,7 @@ export default function SignUp() {
               <input type="file" accept="image/png, image/jpeg" onChange={handleFile} />
 
               {avatarUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   className={styles.preview}
                   src={avatarUrl}

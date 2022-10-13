@@ -728,11 +728,11 @@ export default function NewsTags() {
           </form>
 
           {currentAdmin != roleADMIN && (
-            <h3>Abaixo suas TAG's que cadastrou.</h3>
+            <h3>Abaixo suas TAGs que cadastrou.</h3>
           )}
 
           {currentAdmin === roleADMIN && (
-            <h3>Abaixo TAG's cadastradas.</h3>
+            <h3>Abaixo TAGs cadastradas.</h3>
           )}
 
           <br />
@@ -1462,7 +1462,7 @@ export default function NewsTags() {
           )}
 
           <section className={styles.allCategorysSection}>
-            <h3>Abaixo, todas as TAG's disponiveis para uso em seus artigos.</h3>
+            <h3>Abaixo, todas as TAGs disponiveis para uso em seus artigos.</h3>
             <br />
             <div className={styles.allCategorys}>
               {allTags1.map((all1) => {

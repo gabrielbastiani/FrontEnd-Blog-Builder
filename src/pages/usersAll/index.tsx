@@ -9,7 +9,7 @@ import styles from '../usersAll/styles.module.scss'
 import { FaTrashAlt, FaFileExport } from 'react-icons/fa'
 import { RiMailSendLine } from 'react-icons/ri'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
-import { FiRefreshCcw } from 'react-icons/fi'
+import { FiRefreshCcw, FiEdit } from 'react-icons/fi'
 import { BiMailSend } from 'react-icons/bi'
 import Link from '../../../node_modules/next/link';
 import moment from 'moment';
@@ -18,6 +18,7 @@ import { Input } from '../../components/ui/Input/index';
 import { toast } from 'react-toastify'
 import Modal from 'react-modal';
 import { ModalDeleteUser } from '../../components/ModalDeleteUser/index';
+import Image from '../../../node_modules/next/image';
 
 
 export type DeleteUserProps = {
@@ -223,6 +224,11 @@ export default function Contacts() {
                   <div key={use.id} className={styles.contactForm}>
                     <div className={styles.iconsContainer}>
                       <div className={styles.trashLink}>
+                        <Link href={`/updateUser?user_id=${use.id}`}>
+                          <FiEdit className={styles.trash} color='var(--red)' size={25} />
+                        </Link>
+                      </div>
+                      <div className={styles.trashLink}>
                         <FaTrashAlt className={styles.trash} color='var(--red)' size={25} onClick={() => handleOpenModal(use.id)}/>
                       </div>
                       <div className={styles.sendemailIcon}>
@@ -248,7 +254,7 @@ export default function Contacts() {
                     </div>
                     <label>Foto do usúario</label>
                     <div className={styles.userImg}>
-                      <img src={"http://localhost:3333/files/" + use?.photo} alt="foto usuario" />
+                      <Image src={"http://localhost:3333/files/" + use?.photo} width={130} height={130} alt="foto usuario" />
                     </div>
                   </div>
                 </>

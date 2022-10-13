@@ -13,6 +13,7 @@ import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import { useRouter } from '../../../node_modules/next/router'
 import { HeaderPainel } from '../../components/HeaderPainel/index';
 import { FooterPainel } from '../../components/FooterPainel/index';
+import Image from '../../../node_modules/next/image';
 
 
 export default function UpdateUser() {
@@ -21,7 +22,7 @@ export default function UpdateUser() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('');
+    const [photoUrl, setPhotoUrl] = useState("/defaultImage");
     const [imagePhoto, setImagePhoto] = useState(null);
     const [role, setRole] = useState('');
 
@@ -84,7 +85,7 @@ export default function UpdateUser() {
 
             toast.success('Usúario atualizado com sucesso')
 
-            Router.push('/detailUser')
+            Router.push('/usersAll')
 
         } catch (err) {
             toast.error('Ops erro ao atualizar (é preciso inserir a foto do usúario novamente), se atualizou apenas a permissão do usúario, ignore essa mensagem!')
@@ -116,8 +117,6 @@ export default function UpdateUser() {
     }
 
 
-
-
     return (
         <>
             <Head>
@@ -129,14 +128,14 @@ export default function UpdateUser() {
             <main className={styles.containerCenter}>
                 <section className={styles.login}>
                     <div className={styles.returnBox}>
-                        <Link href={'/detailUser'}>
+                        <Link href={'/usersAll'}>
                             <BsFillArrowLeftSquareFill className={styles.return} size={30} />
                         </Link>
                     </div>
 
                     <h1>Alterar dados do usuario</h1>
 
-                    <img className={styles.userImg} src={photoUrl} alt="foto usuario" />
+                    <Image className={styles.userImg} src={photoUrl} width={550} height={450} alt="foto usuario" />
                     <form className={styles.form} onSubmit={handleRegister}>
                         <label className={styles.labelAvatar}>
 
@@ -147,6 +146,7 @@ export default function UpdateUser() {
                             <input type="file" accept="image/png, image/jpeg" onChange={handleFile} alt="foto usuario" />
 
                             {photoUrl && (
+                                // eslint-disable-next-line @next/next/no-img-element
                                 <img
                                     className={styles.userImgPreview}
                                     src={photoUrl}

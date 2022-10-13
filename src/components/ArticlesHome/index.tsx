@@ -7,6 +7,7 @@ import { BsCalendarCheck } from 'react-icons/bs'
 import { AiOutlineFolderOpen, AiOutlineArrowRight, AiOutlineTags } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { Button } from '../ui/Button/index';
+import Image from 'next/image'
 
 
 export function ArticleHome() {
@@ -78,7 +79,7 @@ export function ArticleHome() {
                               </div>
                               <Link href={`/articlePage?article_id=${articl.id}`}>
                                  <div className={styles.bannerArticle}>
-                                    <img src={"http://localhost:3333/files/" + articl?.banner} alt="banner do artigo" />
+                                    <Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
                                  </div>
                               </Link>
                               <div className={styles.tags}>

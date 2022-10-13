@@ -4,6 +4,7 @@ import { HeaderBlog } from '../../components/HeaderBlog/index'
 import styles from './styles.module.scss'
 import { BsWhatsapp } from 'react-icons/bs'
 import Link from '../../../node_modules/next/link'
+import Image from '../../../node_modules/next/image'
 
 export default function Sobre() {
 
@@ -19,7 +20,7 @@ export default function Sobre() {
             <section className={styles.userSection}>
                <div className={styles.userBox}>
 
-               <img src="gabriel.png" width={220} height={200} />
+               <Image src="gabriel.png" width={220} height={200} alt="gabriel de bastiani" />
 
                   <h1>Gabriel Campos de Bastiani</h1>
 

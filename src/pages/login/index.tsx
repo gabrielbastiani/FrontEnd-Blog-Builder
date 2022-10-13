@@ -19,11 +19,8 @@ export default function Login(){
 
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState(false);
-
    const [loading, setLoading] = useState(false);
-
    const [userValid, setUserValid] = useState(false);
-
    const captcha = useRef(null);
 
 
@@ -72,7 +69,7 @@ export default function Login(){
          <title>Blog Builder Seu Negócio Online - Login</title>
       </Head>
       <div className={styles.containerCenter}>
-         <Image src={logoLoginImg} alt="Logo Builder Seu Negocio Online" />
+         <Image src={logoLoginImg} width={440} height={150} alt="Logo Builder Seu Negocio Online" />
 
          <div className={styles.login}>
             <form onSubmit={handleLogin}>

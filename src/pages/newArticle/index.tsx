@@ -218,6 +218,7 @@ export default function Article({ categoryList }: CategoryProps) {
                      <input type="file" accept="image/png, image/jpeg" onChange={handleFile} />
 
                      {bannerUrl && (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                            className={styles.preview}
                            src={bannerUrl}
