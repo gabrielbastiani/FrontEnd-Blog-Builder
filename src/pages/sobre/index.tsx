@@ -20,7 +20,7 @@ export default function Sobre() {
             <section className={styles.userSection}>
                <div className={styles.userBox}>
 
-               <Image src="gabriel.png" width={220} height={200} alt="gabriel de bastiani" />
+               <Image src="/gabriel.png" width={220} height={200} alt="gabriel de bastiani" />
 
                   <h1>Gabriel Campos de Bastiani</h1>
 
