@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import Link from "../../../node_modules/next/link";
 import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
+import Image from "../../../node_modules/next/image";
 
 
 export default function CategoryPage() {
@@ -113,7 +114,7 @@ export default function CategoryPage() {
 
                                  <Link href={`/articlePage?article_id=${article.id}`}>
                                     <div className={styles.bannerArticle}>
-                                       <img src={"http://localhost:3333/files/" + article?.banner} alt="banner do artigo" />
+                                       <Image src={"http://localhost:3333/files/" + article?.banner} width={740} height={418} alt="banner do artigo" />
                                     </div>
                                  </Link>
 

@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import Link from '../../../node_modules/next/link'
 import { api } from '../../services/apiClient'
+import Image from '../../../node_modules/next/image'
 
 
 
@@ -119,7 +120,7 @@ export default function DetailUser() {
             <p>Você é um usúario <b>administrador!</b></p>
           )}
 
-          <img className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} alt="foto usuario" />
+          <Image className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} width={600} height={418} alt="foto usuario" />
           <form className={styles.form} onSubmit={handleRegister}>
             <label className={styles.labelAvatar}>
 
@@ -128,6 +129,7 @@ export default function DetailUser() {
               </span>
               <input type="file" accept="image/png, image/jpeg" onChange={handleFile} alt="foto usuario" />
               {avatarUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   className={styles.userImgPreview}
                   src={avatarUrl}

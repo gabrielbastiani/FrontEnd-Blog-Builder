@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
 
-  img {
+  Image {
     cursor: pointer;
   }
 
@@ -23,11 +23,11 @@
   }
 
   .userImg {
-    
-    img{
-      border-radius: 50%;
+
+    .img{
       max-width: 40px;
       max-height: 50px;
+      border-radius: 50%
     }
     
   }
@@ -104,7 +104,7 @@
   .headerContent {
     flex-direction: column;
 
-    img {
+    Image {
       padding-bottom: 0.5rem;
     }
 

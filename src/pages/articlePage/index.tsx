@@ -14,6 +14,7 @@ import { BiEdit, BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import Link from "../../../node_modules/next/link";
 import Disqus from "disqus-react"
 import { Newslatter } from "../../components/Newslatter/index";
+import Image from "../../../node_modules/next/image";
 
 
 
@@ -44,11 +45,6 @@ export default function ArticlePage() {
    const [postPreviousTitle, setPostPreviousTitle] = useState('');
    const [postNext, setPostNext] = useState([]);
    const [postNextTitle, setPostNextTitle] = useState('');
-
-   /* const [nameComment, setNameComment] = useState('');
-   const [content, setContent] = useState('');
-   const [comment, setComment] = useState([])
-   const [commentSelected, setCommentSelected] = useState(0) */
 
 
    useEffect(() => {
@@ -117,42 +113,14 @@ export default function ArticlePage() {
             setPostNext(dataPage?.data.postNext.id);
             setPostNextTitle(dataPage?.data.postNext.title)
 
-
          } catch (error) {
             console.error(error);
-            alert('Error call api previus and next article');
+            alert('Existe apenas um artigo publicado no blog no momento!');
          }
       }
 
       loadArticlePage();
    }, [router.query.article_id]);
-
-   /*    async function handleRegisterComment(event: FormEvent) {
-         event.preventDefault();
-         try {
-            const data = new FormData();
-   
-            if (nameComment === '') {
-               toast.error('Digite seu nome antes de enviar seu comentario!')
-               return;
-            }
-   
-            const dataComment = await api.post('/comment', {
-               nameComment,
-               content
-            });
-   
-            toast.success('Comentario enviado com sucesso!')
-   
-            setNameComment('');
-            setContent('');
-   
-         } catch (err) {
-            console.log(err);
-            toast.error("Ops erro ao cadastrar seu comentario!")
-         }
-   
-      } */
 
    const article_id = router.query.article_id
 
@@ -205,7 +173,7 @@ export default function ArticlePage() {
 
                      <Link href={`/articlePage?article_id=${article_id}`}>
                         <div className={styles.bannerArticle}>
-                           <img src={"http://localhost:3333/files/" + banner} alt="banner do artigo" />
+                           <Image src={"http://localhost:3333/files/" + banner} width={740} height={418} alt="banner do artigo" />
                         </div>
                      </Link>
 
@@ -271,7 +239,7 @@ export default function ArticlePage() {
                                        <Link href={`/articlePage?article_id=${posts.id}`}>
                                           <div className={styles.article}>
                                              <h4>{posts?.title}</h4>
-                                             <img src={"http://localhost:3333/files/" + posts?.banner} alt="banner do artigo" />
+                                             <Image src={"http://localhost:3333/files/" + posts?.banner} width={740} height={418} alt="banner do artigo" />
                                           </div>
                                        </Link>
                                     </div>

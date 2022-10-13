@@ -8,6 +8,7 @@ import { FaMapMarker, FaGithubSquare } from 'react-icons/fa'
 import { AiFillInstagram, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai'
 import moment from 'moment';
 import { ContactForm } from '../ContactForm/index';
+import Image from '../../../node_modules/next/image';
 
 export function FooterBlog() {
 
@@ -62,7 +63,7 @@ export function FooterBlog() {
                <br />
                <br />
                <Link href="/">
-                  <img src="LogoBuilderWhite.png" width={190} height={70} />
+                  <Image src="/LogoBuilderWhite.png" width={190} height={70} alt="logomarca" />
                </Link>
                <br />
                <br />
