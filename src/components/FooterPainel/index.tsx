@@ -11,7 +11,7 @@ export function FooterPainel() {
          <div className={styles.contentFooter}>
 
             <Link href="/">
-               <Image src="/LogoBuilderWhite.png" width={170} height={50} alt="logomarca" />
+               <Image className={styles.logo} src="/LogoBuilderWhite.png" width={170} height={50} alt="logomarca" />
             </Link>
          
             <h5>Copyright {anoAtual} © Todos os direitos reservados. Desenvolvido por Gabriel Campos de Bastiani.</h5>
