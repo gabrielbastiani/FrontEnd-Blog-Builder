@@ -103,6 +103,7 @@
 
   .headerContent {
     flex-direction: column;
+    height: 10rem;
 
     span {
       padding-bottom: 0.7rem;
@@ -153,6 +154,10 @@
     margin: 15px;
   }
 
+  .headerContent {
+    height: 15rem;
+  }
+
   .menuNav{
     display: none;
   }
@@ -163,6 +168,7 @@
 
   .menuNavMobile {
     display: block !important;
+    height: 0;
 
     nav {
       display: flex;
