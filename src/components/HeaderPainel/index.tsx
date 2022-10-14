@@ -36,7 +36,7 @@ export function HeaderPainel() {
       <header className={styles.headerContainer}>
          <div className={styles.headerContent}>
             <Link href="/">
-               <Image src="/LogoBuilderWhite.png" width={170} height={50} alt="logomarca" />
+               <Image className={styles.imgLogo} src="/LogoBuilderWhite.png" width={170} height={50} alt="logomarca" />
             </Link>
 
             <div className={styles.dataUser}>

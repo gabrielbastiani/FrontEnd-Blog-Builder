@@ -107,18 +107,18 @@ export function ContactForm() {
                     />
 
                     <ReCAPTCHA
+                        className={styles.recaptcha}
                         ref={captcha}
                         sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
                         onChange={onChange}
                     />
 
-                    {!userValid &&
-                        <Button
-                            type="submit"
-                        >
-                            Enviar
-                        </Button>
-                    }
+                    <Button
+                        type="submit"
+                    >
+                        Enviar
+                    </Button>
+
                 </form>
 
             </section>

@@ -4,7 +4,7 @@
 }
 
 .headerContent {
-  max-width: 1180px;
+  max-width: 1260px;
   height: 5rem;
   margin: 0 auto;
   padding: 0 2rem;
@@ -104,10 +104,6 @@
   .headerContent {
     flex-direction: column;
 
-    Image {
-      padding-bottom: 0.5rem;
-    }
-
     span {
       padding-bottom: 0.7rem;
     }
@@ -115,11 +111,16 @@
     .dataUser {
       width: 35%;
     }
+    
+  }
 
-    .userImg {
-      width: 30%;
-      height: 100%;
-    }
+  .imgLogo {
+    padding-bottom: 0.5rem;
+  }
+
+  .imgLogo {
+    width: 30%;
+    height: 100%;
   }
 
   @media (max-width: 757px) {

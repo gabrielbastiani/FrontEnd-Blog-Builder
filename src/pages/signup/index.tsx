@@ -179,14 +179,13 @@ export default function SignUp() {
               onChange={onChange}
             />
 
-            {!userValid &&
-              <Button
-                type="submit"
-                loading={loading}
-              >
-                Cadastrar
-              </Button>
-            }
+            <Button
+              type="submit"
+              loading={loading}
+            >
+              Cadastrar
+            </Button>
+
           </form>
 
           <Link href="/login">

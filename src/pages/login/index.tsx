@@ -7,15 +7,15 @@ import logoLoginImg from '../../../public/LogoBuilderBlack.png'
 import { Input } from '../../components/ui/Input/index'
 import { Button } from '../../components/ui/Button/index'
 import { AuthContext } from '../../contexts/AuthContext'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import Link from 'next/link';
 import ReCAPTCHA from "react-google-recaptcha";
 
 
 
-export default function Login(){
+export default function Login() {
 
-   const {signIn} = useContext(AuthContext)
+   const { signIn } = useContext(AuthContext)
 
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState(false);
@@ -24,10 +24,10 @@ export default function Login(){
    const captcha = useRef(null);
 
 
-   async function handleLogin(event: FormEvent){
+   async function handleLogin(event: FormEvent) {
       event.preventDefault();
 
-      if(captcha.current.getValue()){
+      if (captcha.current.getValue()) {
          console.log('Usuario válido!')
          setUserValid(true)
       } else {
@@ -37,7 +37,7 @@ export default function Login(){
          return;
       }
 
-      if(email === '' || password === ''){
+      if (email === '' || password === '') {
          toast.warning('Preencha os campos! (Email e Senha)')
          return;
       }
@@ -56,75 +56,74 @@ export default function Login(){
    }
 
    const onChange = () => {
-      if(captcha.current.getValue()){
-          console.log('Usuario não é um robo!')
+      if (captcha.current.getValue()) {
+         console.log('Usuario não é um robo!')
       }
    }
 
 
 
-   return(
+   return (
       <>
-      <Head>
-         <title>Blog Builder Seu Negócio Online - Login</title>
-      </Head>
-      <div className={styles.containerCenter}>
-         <Image src={logoLoginImg} width={440} height={150} alt="Logo Builder Seu Negocio Online" />
+         <Head>
+            <title>Blog Builder Seu Negócio Online - Login</title>
+         </Head>
+         <div className={styles.containerCenter}>
+            <Image src={logoLoginImg} width={440} height={150} alt="Logo Builder Seu Negocio Online" />
 
-         <div className={styles.login}>
-            <form onSubmit={handleLogin}>
-               <Input
-                  placeholder='Digite seu email'
-                  type='text'
-                  value={email}
-                  onChange={ (e) => setEmail(e.target.value) }
-               />
-
-               <Input
-                  placeholder='Digite sua senha'
-                  type='password'
-                  value={password}
-                  onChange={ (e) => setPassword(e.target.value) }
-               />
-
-               <div className={styles.recaptcha}>
-                  <ReCAPTCHA
-                     ref={captcha}
-                     sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
-                     onChange={onChange}
+            <div className={styles.login}>
+               <form onSubmit={handleLogin}>
+                  <Input
+                     placeholder='Digite seu email'
+                     type='text'
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}
                   />
-               </div>
 
-               {!userValid &&
-               <Button
-                  type="submit"
-                  loading={loading}
-               >
-                  Acessar
-               </Button>
-               }
-            </form>
+                  <Input
+                     placeholder='Digite sua senha'
+                     type='password'
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
+                  />
 
-            <Link href="/signup">
-               <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
-            </Link>
+                  <div className={styles.recaptcha}>
+                     <ReCAPTCHA
+                        ref={captcha}
+                        sitekey="6Lc8Hu8hAAAAAB4EHDuIsWxMk9Hfn5Wigm-RpdoB"
+                        onChange={onChange}
+                     />
+                  </div>
 
-            <Link href="/recoveryPassword">
-               <a className={styles.text}>Esqueceu sua senha?</a>
-            </Link>
+                  <Button
+                     type="submit"
+                     loading={loading}
+                  >
+                     Acessar
+                  </Button>
 
-            <Link href="/">
-               <a className={styles.text}>Ir para o Blog</a>
-            </Link>
-            
+               </form>
+
+               <Link href="/signup">
+                  <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+               </Link>
+
+               <Link href="/recoveryPassword">
+                  <a className={styles.text}>Esqueceu sua senha?</a>
+               </Link>
+
+               <Link href="/">
+                  <a className={styles.text}>Ir para o Blog</a>
+               </Link>
+
+            </div>
          </div>
-      </div>
       </>
    )
 }
 
 export const getServerSideProps = canSSRGuest(async (ctx) => {
    return {
-     props: {}
+      props: {}
    }
- })
+})

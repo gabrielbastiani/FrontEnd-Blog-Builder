@@ -7,7 +7,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['localhost'],
+    domains: ['apiblog.builderseunegocioonline.com.br'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'apiblog.builderseunegocioonline.com.br',
+        port: '',
+        pathname: '/files/**',
+      },
+    ],
   },
 }
 
