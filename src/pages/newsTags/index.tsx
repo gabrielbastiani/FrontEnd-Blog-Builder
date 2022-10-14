@@ -579,7 +579,7 @@ export default function NewsTags() {
     } catch (error) {
 
       console.log(error);
-      toast.error('Ops problemas ao cadastrar as TAGs!')
+      toast.error('Ops problemas ao cadastrar as TAGs, alguma TAG pode estar com o nome muito grande!')
 
     }
   }
