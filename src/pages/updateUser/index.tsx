@@ -64,11 +64,17 @@ export default function UpdateUser() {
     }
 
 
-    async function handleRegister(event: FormEvent) {
+    async function handleRegisterPhoto(event: FormEvent) {
         event.preventDefault();
 
         try {
             const data = new FormData()
+
+            if (imagePhoto === null) {
+                toast.error('Carregue uma imagem!')
+                console.log("'Carregue uma imagem!");
+                return;
+            }
 
             const user_id = router.query.user_id;
 
@@ -76,23 +82,55 @@ export default function UpdateUser() {
 
             data.append('user_id', user_id)
             data.append('file', imagePhoto)
-            data.append('name', name)
-            data.append('email', email)
 
             const apiClient = setupAPIClient()
 
-            await apiClient.put(`/users/update?user_id=${user_id}`, data)
+            await apiClient.put('/users/photo', data)
 
-            toast.success('Usúario atualizado com sucesso')
-
-            Router.push('/usersAll')
+            toast.success('Foto do usúario atualizada com sucesso')
 
         } catch (err) {
-            toast.error('Ops erro ao atualizar (é preciso inserir a foto do usúario novamente), se atualizou apenas a permissão do usúario, ignore essa mensagem!')
+            toast.error('Ops erro ao atualizar a foto!')
         }
 
         setLoading(false);
+
+        Router.reload();
+
     }
+
+    async function handleRegister(event: FormEvent) {
+        event.preventDefault();
+
+        try {
+            const data = new FormData()
+
+            if (name === '' || email === '') {
+                toast.error('Preencha todos os campos novamente!');
+                console.log("Preencha todos os campos novamente!");
+                return;
+            }
+
+            const user_id = router.query.user_id;
+
+            setLoading(true);
+
+            const apiClient = setupAPIClient()
+
+            await apiClient.put(`/users/update?user_id=${user_id}`, { name, email })
+
+            toast.success('Usuario atualizado com sucesso')
+
+        } catch (err) {
+            toast.error('Ops erro ao atualizar (verifique todos os campos.)')
+        }
+
+        setLoading(false);
+
+        Router.push('/usersAll')
+
+    }
+
 
     async function handleUserRoleAdmin() {
         try {
@@ -136,15 +174,15 @@ export default function UpdateUser() {
                     <h1>Alterar dados do usuario</h1>
 
                     <Image className={styles.userImg} src={photoUrl} width={550} height={450} alt="foto usuario" />
-                    <form className={styles.form} onSubmit={handleRegister}>
+
+                    <form className={styles.form} onSubmit={handleRegisterPhoto}>
+
                         <label className={styles.labelAvatar}>
 
                             <span>
                                 <FiUpload size={20} color="#ff6700" />
                             </span>
-
                             <input type="file" accept="image/png, image/jpeg" onChange={handleFile} alt="foto usuario" />
-
                             {photoUrl && (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -155,10 +193,22 @@ export default function UpdateUser() {
                                     height={150}
                                 />
                             )}
-
                         </label>
 
-                        <p>Carregue uma nova foto desse usúario</p>
+                        <p>Carregue uma nova foto sua</p>
+
+                        <div className={styles.buttonPhoto}>
+                            <Button
+                                type="submit"
+                                loading={loading}
+                            >
+                                Salvar nova foto
+                            </Button>
+                        </div>
+
+                    </form>
+
+                    <form className={styles.form} onSubmit={handleRegister}>
 
                         <Input
                             placeholder={`${name}`}
@@ -177,7 +227,7 @@ export default function UpdateUser() {
                         <div className={styles.inputRole}>
 
                             <span>Regra atual do usúario: <b>{role}</b></span>
-                                <br />
+                            <br />
                             <p>Clique abaixo para alterar a permissão desse usúario</p>
 
                             <Button

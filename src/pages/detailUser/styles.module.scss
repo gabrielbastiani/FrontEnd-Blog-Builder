@@ -60,6 +60,18 @@
    }
 }
 
+.buttonPhoto{
+   display: flex;
+   text-align: center;
+   justify-content: center;
+   margin-bottom: 55px;
+
+   Button{
+      max-width: 280px;
+      background-color: var(--orange);
+   }
+}
+
 .text {
    margin-top: 1rem;
    color: var(--black);

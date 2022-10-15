@@ -22,7 +22,7 @@ export default function DetailUser() {
 
   const { user } = useContext(AuthContext);
 
-
+  const [userId, setUserId] = useState('')
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
@@ -38,6 +38,7 @@ export default function DetailUser() {
     async function loadUsers() {
       const response = await api.get('/me');
       setCurrentAdmin(response.data.role);
+      setUserId(response.data.id)
 
     }
     loadUsers();
@@ -61,15 +62,15 @@ export default function DetailUser() {
 
   }
 
-  async function handleRegister(event: FormEvent) {
+  async function handleRegisterPhoto(event: FormEvent) {
     event.preventDefault();
 
     try {
       const data = new FormData()
 
-      if (name === '' || email === '' || photo === null) {
-        toast.warning('Preencha todos os campos! (Carregue uma foto - Digite o seu nome - Digite seu email - Digite uma senha')
-        console.log("Preencha todos os campos!");
+      if (photo === null) {
+        toast.error('Carregue uma imagem!')
+        console.log("'Carregue uma imagem!");
         return;
       }
 
@@ -77,12 +78,41 @@ export default function DetailUser() {
 
       data.append('user_id', user.id)
       data.append('file', photo)
-      data.append('name', name)
-      data.append('email', email)
 
       const apiClient = setupAPIClient()
 
-      await apiClient.put('/users/update', data)
+      await apiClient.put('/users/photo', data)
+
+      toast.success('Foto do usúario atualizada com sucesso')
+
+    } catch (err) {
+      toast.error('Ops erro ao atualizar a foto!')
+    }
+
+    setLoading(false);
+
+    Router.reload();
+
+  }
+
+
+  async function handleRegister(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const data = new FormData()
+
+      if (name === '' || email === '') {
+        toast.error('Preencha todos os campos novamente!');
+        console.log("Preencha todos os campos novamente!");
+        return;
+      }
+
+      setLoading(true);
+
+      const apiClient = setupAPIClient()
+
+      await apiClient.put(`/users/update?user_id=${userId}`, { name, email })
 
       toast.success('Usuario atualizado com sucesso')
 
@@ -120,8 +150,10 @@ export default function DetailUser() {
             <p>Você é um usúario <b>administrador!</b></p>
           )}
 
-          <Image className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} width={600} height={418} alt="foto usuario" />
-          <form className={styles.form} onSubmit={handleRegister}>
+          <Image className={styles.userImg} src={"http://localhost:3333/files/" + user?.photo} width={540} height={458} alt="foto usuario" />
+
+          <form className={styles.form} onSubmit={handleRegisterPhoto}>
+
             <label className={styles.labelAvatar}>
 
               <span>
@@ -139,10 +171,21 @@ export default function DetailUser() {
                 />
               )}
             </label>
-            
+
             <p>Carregue uma nova foto sua</p>
 
-            <p>(é obrigatorio carregar a imagem novamente para atualizar qualquer dado)</p>
+            <div className={styles.buttonPhoto}>
+              <Button
+                type="submit"
+                loading={loading}
+              >
+                Salvar nova foto
+              </Button>
+            </div>
+
+          </form>
+
+          <form className={styles.form} onSubmit={handleRegister}>
 
             <strong>clique no nome para escrever um novo nome*</strong>
 
