@@ -3,6 +3,7 @@ import { api } from '../../services/apiClient';
 import styles from './styles.module.scss'
 import Link from 'next/link'
 import { GiHamburgerMenu } from 'react-icons/gi'
+import Image from '../../../node_modules/next/image';
 
 
 export function HeaderBlog() {
@@ -31,7 +32,7 @@ export function HeaderBlog() {
       <header className={styles.headerContainer}>
          <div className={styles.headerContent}>
             <Link href="/">
-               <img src="LogoBuilderWhite.png" width={170} height={50} />
+               <Image src="/LogoBuilderWhite.png" width={170} height={50} alt="logomarca" />
             </Link>
             <nav className={styles.menuNav}>
                <ul>

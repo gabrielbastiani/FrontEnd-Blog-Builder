@@ -4,13 +4,13 @@
     color: var(--white);
     border-radius: 3%;
 
-    h2{
+    h2 {
         margin-top: 15px;
         text-align: center;
     }
 }
 
-.containerButton{
+.containerButton {
     display: flex;
     justify-content: center;
     margin-top: 26px;
@@ -19,5 +19,13 @@
         width: 40%;
         font-weight: bold;
         font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .containerButton {
+        Button {
+            width: 50%;
+        }
     }
 }

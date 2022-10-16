@@ -135,3 +135,9 @@
 .tox .tox-statusbar__branding svg {
   display: none;
 }
+
+@media (max-width: 860px){
+  .boxTags{
+    flex-direction: column;
+  }
+}

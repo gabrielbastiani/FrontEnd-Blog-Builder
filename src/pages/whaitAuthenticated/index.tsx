@@ -13,7 +13,7 @@ export default function WhaitAuthenticated(){
          <title>Blog Builder Seu Negócio Online</title>
       </Head>
       <div className={styles.containerCenter}>
-         <Image src={logoLoginImg} alt="Logo Builder Seu Negocio Online" />
+         <Image src={logoLoginImg} width={440} height={150} alt="Logo Builder Seu Negocio Online" />
 
          <div className={styles.login}>
             <h1>ACESEE SUA CAIXA DE E-MAIL</h1>

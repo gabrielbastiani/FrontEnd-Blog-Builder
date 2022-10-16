@@ -128,7 +128,7 @@ export default function ArticleUpdate({ categoryList }: CategoryProps) {
 
             setTitle(title)
             setDescription(description)
-            setBannerUrl(`http://localhost:3333/files/${banner}`)
+            setBannerUrl(`https://apiblog.builderseunegocioonline.com.br/files/${banner}`)
 
         }
 

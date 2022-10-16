@@ -140,3 +140,9 @@
     height: 22px;
   }
 }
+
+@media (max-width: 860px){
+  .boxTags{
+    flex-direction: column;
+  }
+}

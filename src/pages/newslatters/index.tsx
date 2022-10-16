@@ -200,7 +200,7 @@ export default function Newslatters() {
                   <FaFileExport size={22} />Gerar Lista de E-mails
                </button>
                <button className={styles.buttonRefresh} onClick={handleExportNewslatterEmail}>
-                  <BiMailSend size={27} />Enviar Lista para se E-mails
+                  <BiMailSend size={27} />Enviar Lista por E-mails
                </button>
             </section>
 

@@ -40,6 +40,7 @@
 
 .menuNavMobile {
   display: none;
+  z-index: 99;
 }
 
 .buttonSignOutMobile{
@@ -110,16 +111,16 @@
     }
 
     .dataUser {
-      width: 35%;
+      width: 85%;
     }
     
   }
 
-  .imgLogo {
+  .img {
     padding-bottom: 0.5rem;
   }
 
-  .imgLogo {
+  .img {
     width: 30%;
     height: 100%;
   }
@@ -141,6 +142,11 @@
       width: 40%;
       margin: 10px;
     }
+  }
+
+  .img{
+    width: 55%;
+    height: 55%;
   }
 
 }
