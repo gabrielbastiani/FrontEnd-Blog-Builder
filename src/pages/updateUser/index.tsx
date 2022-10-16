@@ -40,7 +40,7 @@ export default function UpdateUser() {
             setName(name)
             setEmail(email)
             setRole(role)
-            setPhotoUrl(`https://apiblog.builderseunegocioonline.com.br/files/${photo}`)
+            setPhotoUrl(`http://localhost:3333/files/${photo}`)
 
         }
 

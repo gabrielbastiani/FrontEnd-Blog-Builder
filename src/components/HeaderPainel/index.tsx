@@ -46,7 +46,7 @@ export function HeaderPainel() {
 
                <div className={styles.userImg}>
                   <Link href="/detailUser">
-                     <Image className={styles.img} src={"https://apiblog.builderseunegocioonline.com.br/files/" + user?.photo} width={40} height={50} alt="foto usuario" />
+                     <Image className={styles.img} src={"http://localhost:3333/files/" + user?.photo} width={40} height={50} alt="foto usuario" />
                   </Link>
                </div>
                

@@ -101,7 +101,7 @@ export function ArticlesTag5() {
                               </div>
                               <Link href={`/articlePage?article_id=${articl.id}`}>
                                  <div className={styles.bannerArticle}>
-                                    <Image src={"https://apiblog.builderseunegocioonline.com.br/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
+                                    <Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
                                  </div>
                               </Link>
                               <div className={styles.tags}>

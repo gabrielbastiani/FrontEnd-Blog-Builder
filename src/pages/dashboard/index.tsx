@@ -510,7 +510,7 @@ export default function Dashboard() {
                                     <div className={styles.boxArticle}>
                                        <div className={styles.titleArticle}>{articl?.title}</div>
                                        <div className={styles.listArticles}>
-                                          <div className={styles.bannerArticle}><Image src={"https://apiblog.builderseunegocioonline.com.br/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" /></div>
+                                          <div className={styles.bannerArticle}><Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" /></div>
                                           <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
                                           <div className={styles.datesAndPublish}>
                                              <span>Categoria: {articl?.categoryName}</span>
@@ -634,7 +634,7 @@ export default function Dashboard() {
                                     <div className={styles.boxArticle}>
                                        <div className={styles.titleArticle}>{articlAdmin?.title}</div>
                                        <div className={styles.listArticles}>
-                                          <div className={styles.bannerArticle}><Image src={"https://apiblog.builderseunegocioonline.com.br/files/" + articlAdmin?.banner} width={740} height={418} alt="banner do artigo" /></div>
+                                          <div className={styles.bannerArticle}><Image src={"http://localhost:3333/files/" + articlAdmin?.banner} width={740} height={418} alt="banner do artigo" /></div>
                                           <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articlAdmin?.description }}></div>
                                           <div className={styles.datesAndPublish}>
                                              <span>Categoria: {articlAdmin?.categoryName}</span>
