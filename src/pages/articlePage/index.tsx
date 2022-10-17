@@ -126,7 +126,7 @@ export default function ArticlePage() {
 
    const disqusShortname = "blog-builder-seu-negocio-online" //found in your Disqus.com dashboard
    const disqusConfig = {
-      url: `http://localhost:3000/articlePage?article_id=${article_id}`, //this.props.pageUrl
+      url: `https://blog.builderseunegocioonline.com.br/articlePage?article_id=${article_id}`, //this.props.pageUrl
       identifier: `${article_id}`, //this.props.uniqueId
       title: `${title}` //this.props.title
    }
