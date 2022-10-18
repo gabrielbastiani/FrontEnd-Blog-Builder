@@ -66,6 +66,7 @@
       span{
          justify-content: center;
          margin: 20px;
+         margin-inline: auto;
       }
    }
 
@@ -87,6 +88,7 @@
 @media (max-width: 770px){
    .sectionNewslatter {
       width: 540px;
+      padding: 40px;
    }
 
    .formBox{
@@ -94,11 +96,11 @@
       flex-direction: column;
 
       Input{
-         width: 100%;
+         width: 80%;
       }
 
       Button{
-         width: 50%;
+         width: 90%;
       }
    }
 }
@@ -112,5 +114,13 @@
 @media (max-width: 478px){
    .sectionNewslatter {
       width: 350px;
+   }
+
+   .formBox{
+ 
+      Input{
+         width: 100%;
+      }
+
    }
 }

@@ -38,7 +38,7 @@
   margin-bottom: 90px;
   padding: 28px;
 
-  hr{
+  hr {
     width: 50%;
     height: 4px;
     border: 0px;
@@ -48,7 +48,7 @@
 
 .bannerArticle {
 
-  Image{
+  Image {
     object-fit: contain;
   }
 }
@@ -57,22 +57,22 @@
   margin-bottom: 10px;
 }
 
-.informationsArticle{
+.informationsArticle {
   align-items: center;
   display: flex;
 
-  svg{
+  svg {
     margin: 8px;
   }
 
-  span{
+  span {
     font-size: 13px;
     display: flex;
     align-items: center;
     align-content: center;
   }
 
-  a{
+  a {
     text-decoration: none;
     color: black;
   }
@@ -81,20 +81,20 @@
 .descriptionArticle {
   height: 150px;
   white-space: pre-line;
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.articleMore{
+.articleMore {
   margin: 20px 0;
 
-  Button{
+  Button {
     padding: 10px;
     font-size: 20px;
   }
 }
 
-.arrowArticle{
+.arrowArticle {
   margin: 0 10px;
 }
 
@@ -146,101 +146,108 @@
   }
 }
 
-.tags{
+.tags {
   align-items: center;
   display: flex;
   padding-bottom: 20px;
 
-  svg{
+  svg {
     margin: 8px;
   }
 
-  span{
+  span {
     font-size: 13px;
     display: flex;
     align-items: center;
     align-content: center;
   }
 
-  a{
+  a {
     text-decoration: none;
     color: var(--black);
   }
 }
 
-@media (max-width: 1358px){
-  .articleBox{
+@media (max-width: 1358px) {
+  .articleBox {
     width: 740px;
   }
 
-  .bannerArticle{
+  .bannerArticle {
 
-    Image{
+    Image {
       width: 640px;
     }
   }
 }
 
-@media (max-width: 770px){
-  .articleBox{
+@media (max-width: 770px) {
+  .articleBox {
     width: 540px;
   }
 
-  .bannerArticle{
+  .bannerArticle {
 
-    Image{
+    Image {
       width: 440px;
     }
   }
 }
 
-@media (max-width: 585px){
-  .containerPagination{
+@media (max-width: 585px) {
+  .containerPagination {
     flex-direction: column;
   }
 
-  .articleBox{
+  .articleBox {
     width: 440px;
   }
 
-  .bannerArticle{
+  .bannerArticle {
 
-    Image{
+    Image {
       width: 280px;
       height: 200px;
     }
   }
 
-  .containerArticlesPages{
+  .containerArticlesPages {
 
-    span{
+    span {
       display: none;
     }
   }
-  
+
 }
 
-@media (max-width: 478px){
-  .titleArticle{
+@media (max-width: 498px) {
+  .informationsArticle {
+    flex-direction: column;
+  }
+}
 
-    h1{
+@media (max-width: 478px) {
+  .titleArticle {
+
+    h1 {
       font-size: 1.6rem;
     }
   }
-  .articleBox{
+
+  .articleBox {
     width: 350px;
   }
 
-  .bannerArticle{
+  .bannerArticle {
 
-    Image{
+    Image {
       width: 280px;
       height: 200px;
     }
   }
 
-  .tags{
-    span{
+  .tags {
+    span {
       font-size: 9px;
     }
   }

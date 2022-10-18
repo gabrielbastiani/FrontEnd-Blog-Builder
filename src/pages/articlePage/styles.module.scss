@@ -27,8 +27,6 @@
    align-items: flex-start;
 }
 
-
-
 .emptyListBox {
    display: flex;
    margin: 0 600px;
@@ -307,6 +305,12 @@
       width: 80px !important;
    }
 
+}
+
+@media (max-width: 498px){
+   .informationsArticle{
+      flex-direction: column;
+   }
 }
 
 @media (max-width: 478px) {

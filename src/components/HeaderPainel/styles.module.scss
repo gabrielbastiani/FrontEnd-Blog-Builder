@@ -60,6 +60,7 @@
 .menuNav {
   display: flex;
   align-items: center;
+  z-index: 99;
 
   a {
     text-decoration: none;
@@ -96,10 +97,11 @@
 
 }
 
-@media (max-width: 830px) {
+@media (max-width: 1181px) {
   .headerContainer {
-    height: 20rem;
     padding: 4%;
+    flex-direction: column;
+    height: 15rem;
   }
 
   .headerContent {
@@ -112,28 +114,14 @@
 
     .dataUser {
       width: 85%;
+      flex-direction: column;
     }
     
   }
 
-  .img {
-    padding-bottom: 0.5rem;
-  }
-
-  .img {
-    width: 30%;
-    height: 100%;
-  }
-
-  @media (max-width: 757px) {
-    .headerContainer {
-      height: 18rem;
-    }
-  }
-
   @media (max-width: 670px) {
     .headerContainer {
-      height: 18rem;
+      height: 29rem;
     }
   }
 
@@ -144,14 +132,15 @@
     }
   }
 
-  .img{
-    width: 55%;
-    height: 55%;
-  }
-
 }
 
-@media (max-width: 540px) {
+@media (max-width: 773px) {
+  .headerContainer {
+    height: 33rem;
+  }
+}
+
+@media (max-width: 780px) {
 
   .buttonSignOutMobile{
     display: block !important;
@@ -161,7 +150,7 @@
   }
 
   .headerContent {
-    height: 15rem;
+    height: 29rem;
   }
 
   .menuNav{

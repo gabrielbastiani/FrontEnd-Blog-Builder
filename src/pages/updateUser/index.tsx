@@ -1,7 +1,6 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react'
+import { useState, FormEvent, ChangeEvent, useEffect, useRef } from 'react'
 import Head from "next/head"
 import styles from './styles.module.scss'
-import Router from 'next/router'
 import Link from 'next/link';
 import { setupAPIClient } from '../../services/api'
 import { canSSRAuth } from '../../utils/canSSRAuth'
@@ -26,7 +25,9 @@ export default function UpdateUser() {
     const [imagePhoto, setImagePhoto] = useState(null);
     const [role, setRole] = useState('');
 
-    const [loading, setLoading] = useState(false);
+  function isEmail(emailName: string) {
+    return /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(emailName)
+  }
 
 
     useEffect(() => {
@@ -78,8 +79,6 @@ export default function UpdateUser() {
 
             const user_id = router.query.user_id;
 
-            setLoading(true);
-
             data.append('user_id', user_id)
             data.append('file', imagePhoto)
 
@@ -93,41 +92,61 @@ export default function UpdateUser() {
             toast.error('Ops erro ao atualizar a foto!')
         }
 
-        setLoading(false);
-
-        Router.reload();
-
     }
 
-    async function handleRegister(event: FormEvent) {
+    async function handleUpdateName(event: FormEvent) {
         event.preventDefault();
 
         try {
             const data = new FormData()
+            const user_id = router.query.user_id;
 
-            if (name === '' || email === '') {
-                toast.error('Preencha todos os campos novamente!');
-                console.log("Preencha todos os campos novamente!");
+            if (name === '') {
+                toast.error('Preencha o nome');
+                console.log("Preencha o nome");
                 return;
             }
 
-            const user_id = router.query.user_id;
-
-            setLoading(true);
-
             const apiClient = setupAPIClient()
+            await apiClient.put(`/users/update/name?user_id=${user_id}`, { name })
 
-            await apiClient.put(`/users/update?user_id=${user_id}`, { name, email })
-
-            toast.success('Usuario atualizado com sucesso')
+            toast.success('Nome do usúario atualizado com sucesso')
 
         } catch (err) {
-            toast.error('Ops erro ao atualizar (verifique todos os campos.)')
+            toast.error('Ops erro ao atualizar o nome do usúario')
         }
 
-        setLoading(false);
+    }
 
-        Router.push('/usersAll')
+
+    async function handleUpdateEmail(event: FormEvent) {
+        event.preventDefault();
+
+        try {
+            const data = new FormData();
+            const apiClient = setupAPIClient()
+            const user_id = router.query.user_id;
+
+            if (email === '') {
+                toast.error('Preencha o email');
+                console.log("Preencha o email");
+                return;
+            }
+
+            if (!isEmail(email)) {
+
+                toast.error('Por favor digite um email valido!');
+        
+                return;
+            }
+
+            await apiClient.put(`/users/update/email?user_id=${user_id}`, { email })
+
+            toast.success('Email do usúario atualizado com sucesso')
+
+        } catch (err) {
+            toast.error('Ops erro ao atualizar o email do usúario')
+        }
 
     }
 
@@ -137,7 +156,7 @@ export default function UpdateUser() {
             const apiClient = setupAPIClient();
             const user_id = router.query.user_id
             await apiClient.put(`/users/update/role/admin?user_id=${user_id}`)
-            toast.success('permissão para ADMIN atualizada com sucesso!')
+            toast.success('Permissão para ADMIN atualizada com sucesso!')
         } catch (err) {
             toast.error('Ops erro ao atualizar a permissão! ADMIN')
         }
@@ -148,11 +167,12 @@ export default function UpdateUser() {
             const apiClient = setupAPIClient();
             const user_id = router.query.user_id
             await apiClient.put(`/users/update/role/user?user_id=${user_id}`)
-            toast.success('permissão atualizada para USER com sucesso!')
+            toast.success('Permissão atualizada para USER com sucesso!')
         } catch (err) {
             toast.error('Ops erro ao atualizar a permissão! USER')
         }
     }
+
 
 
     return (
@@ -200,7 +220,6 @@ export default function UpdateUser() {
                         <div className={styles.buttonPhoto}>
                             <Button
                                 type="submit"
-                                loading={loading}
                             >
                                 Salvar nova foto
                             </Button>
@@ -208,7 +227,7 @@ export default function UpdateUser() {
 
                     </form>
 
-                    <form className={styles.form} onSubmit={handleRegister}>
+                    <form className={styles.form} onSubmit={handleUpdateName}>
 
                         <Input
                             placeholder={`${name}`}
@@ -217,12 +236,32 @@ export default function UpdateUser() {
                             onChange={(e) => setName(e.target.value)}
                         />
 
+                        <div className={styles.buttonPhoto}>
+                            <Button
+                                type="submit"
+                            >
+                                Salvar Nome
+                            </Button>
+                        </div>
+
+                    </form>
+
+                    <form className={styles.form} onSubmit={handleUpdateEmail}>
+
                         <Input
                             placeholder={`${email}`}
                             type="text"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+
+                        <div className={styles.buttonPhoto}>
+                            <Button
+                                type="submit"
+                            >
+                                Salvar E-mail
+                            </Button>
+                        </div>
 
                         <div className={styles.inputRole}>
 
@@ -241,17 +280,11 @@ export default function UpdateUser() {
                             <Button
                                 onClick={() => handleUserRoleUser()}
                             >
-                                Atualizar para Usúario comum
+                                Atualizar para Usúario
                             </Button>
 
                         </div>
 
-                        <Button
-                            type="submit"
-                            loading={loading}
-                        >
-                            Atualizar
-                        </Button>
                     </form>
 
                 </section>
@@ -259,12 +292,11 @@ export default function UpdateUser() {
 
             <br />
             <br />
-            <br />
-            <br />
 
             <FooterPainel />
         </>
     )
+
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {

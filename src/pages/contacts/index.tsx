@@ -200,7 +200,7 @@ export default function Contacts() {
                   <FaFileExport size={22} />Gerar Lista de Contatos
                </button>
                <button className={styles.buttonRefresh} onClick={handleExportContactsEmail}>
-                  <BiMailSend size={27} />Enviar Lista de Contatos para seu E-mail
+                  <BiMailSend size={27} />Enviar Lista de Contatos no E-mail
                </button>
             </section>
 
