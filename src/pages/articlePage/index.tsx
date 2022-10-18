@@ -10,7 +10,7 @@ import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
 import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs'
 import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
-import { BiEdit, BiLeftArrow, BiRightArrow } from 'react-icons/bi'
+import { BiEdit } from 'react-icons/bi'
 import Link from "../../../node_modules/next/link";
 import Disqus from "disqus-react"
 import { Newslatter } from "../../components/Newslatter/index";
@@ -115,7 +115,7 @@ export default function ArticlePage() {
 
          } catch (error) {
             console.error(error);
-            alert('Existe apenas um artigo publicado no blog no momento!');
+            alert('Clique para continuar!');
          }
       }
 
@@ -261,31 +261,25 @@ export default function ArticlePage() {
                            <Link href={`/articlePage?article_id=${postPrevious}`}>
                               {postPreviousTitle}
                            </Link>
-                           <BiLeftArrow color='var(--black)' size={25} />
-                           <BiLeftArrow color='var(--black)' size={25} />
                         </button>
 
                         <button className={styles.proximo}>
                            <Link href={`/articlePage?article_id=${postNext}`}>
                               {postNextTitle}
-                           </Link>
-                           <BiRightArrow color='var(--black)' size={25} />
-                           <BiRightArrow color='var(--black)' size={25} />
+                           </Link>     
                         </button>
 
-                     </div>
-                     
-                     <div className={styles.news}>
-                        <Newslatter />    
-                     </div>
+                     </div>    
                      
                      <Disqus.DiscussionEmbed
                         shortname={disqusShortname}
                         config={disqusConfig}
                      />
-
                   </div>
+                  <Newslatter />
                </article>
+               <br />
+               <br />
             </section>
             <FooterBlog />
          </main>

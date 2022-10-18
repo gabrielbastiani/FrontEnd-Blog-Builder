@@ -125,7 +125,32 @@ export function HeaderPainel() {
             <div className={styles.iconMobile}>
                <GiHamburgerMenu color='var(--white)' size={35} onClick={showOrHide} />
             </div>
+            
+            {currentAdmin != roleADMIN && (<div>
+            {showMenu ? <div className={styles.menuNavMobile}>
+               <nav>
+                  <Link href="/dashboard">
+                     <a>Painel</a>
+                  </Link>
 
+                  <Link href="/newCategory">
+                     <a>Categorias</a>
+                  </Link>
+
+                  <Link href="/newsTags">
+                     <a>Tags</a>
+                  </Link>
+
+                  <Link href="/newArticle">
+                     <a>Artigo</a>
+                  </Link>
+               </nav>
+
+            </div> : null}
+            </div>
+            )}
+
+            {currentAdmin === roleADMIN && (<div>
             {showMenu ? <div className={styles.menuNavMobile}>
                <nav>
                   <Link href="/dashboard">
@@ -162,6 +187,8 @@ export function HeaderPainel() {
                </nav>
 
             </div> : null}
+            </div>
+            )}
 
          </div>
       </header>
