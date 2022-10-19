@@ -34,7 +34,7 @@ export default function Home() {
             declineButtonText="Não aceito"
             cookieName="myAwesomeCookieName2"
             style={{ background: "var(--orange)" }}
-            buttonStyle={{ color: "var(--black)", fontSize: "15px" }}
+            buttonStyle={{ color: "var(--white)", fontSize: "15px", background: "var(--black)" }}
             expires={150}
             enableDeclineButton
             onDecline={() => {
