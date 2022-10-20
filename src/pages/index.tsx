@@ -7,6 +7,7 @@ import { RecentPosts } from '../components/RecentPosts/index'
 import styles from '../../styles/home.module.scss'
 import { Newslatter } from '../components/Newslatter/index'
 import CookieConsent from "react-cookie-consent";
+import { Ads } from '../components/Ads/index'
 
 
 export default function Home() {
@@ -22,10 +23,12 @@ export default function Home() {
           <nav>
             <SearchBar />
             <RecentPosts />
+            <Ads />
           </nav>
           <article>
             <Newslatter />
             <ArticleHome />
+            <Ads />
           </article>
         </section>
         <CookieConsent

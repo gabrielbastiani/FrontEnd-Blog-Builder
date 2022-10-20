@@ -1,0 +1,39 @@
+.boxAdsMobile{
+    display: none;
+}
+
+.boxAdsAll{
+    display: none;
+}
+
+@media (max-width: 2500px){
+    .boxAdsAll{
+        display: flex;
+        justify-content: center;
+        margin: 30px;
+    }
+
+    .boxAds{
+        display: none;
+    }
+}
+
+@media (max-width: 1073px){
+    .boxAdsAll{
+        display: none;
+    }
+    
+    .boxAds{
+        display: none;
+    }
+
+    .boxAdsMobile{
+        display: flex;
+        justify-content: center;
+        margin: 30px;
+    }
+
+    .bannerMobile{
+        display: flex;
+    }
+}

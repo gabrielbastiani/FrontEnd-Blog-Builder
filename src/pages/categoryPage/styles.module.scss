@@ -273,6 +273,9 @@
 }
 
 @media (max-width: 478px) {
+  .sectionContent>nav {
+    padding: 0 15px;
+  }
   .titleArticle {
 
     h1 {

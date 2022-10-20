@@ -14,6 +14,7 @@ import Link from "../../../node_modules/next/link";
 import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
 import Image from "../../../node_modules/next/image";
+import { Ads } from "../../components/Ads/index";
 
 
 export default function CategoryPage() {
@@ -52,7 +53,7 @@ export default function CategoryPage() {
          } catch (error) {
 
             console.error(error);
-            alert('Error call api list article');
+            alert('Clique para continuar');
 
          }
       }
@@ -76,6 +77,7 @@ export default function CategoryPage() {
                <nav className={styles.articleSidbar}>
                   <SearchBar />
                   <RecentPosts />
+                  <Ads />
                </nav>
 
                <div className={styles.emptyListBox}>
@@ -203,6 +205,8 @@ export default function CategoryPage() {
                   </div>
 
                </article>
+
+               <Ads />
 
             </section>
 
