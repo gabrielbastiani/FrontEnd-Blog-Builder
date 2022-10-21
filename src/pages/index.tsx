@@ -6,8 +6,8 @@ import { SearchBar } from '../components/SearchBar/index'
 import { RecentPosts } from '../components/RecentPosts/index'
 import styles from '../../styles/home.module.scss'
 import { Newslatter } from '../components/Newslatter/index'
-import CookieConsent from "react-cookie-consent";
 import { Ads } from '../components/Ads/index'
+import { AdsFooter } from '../components/AdsFooter/index'
 
 
 export default function Home() {
@@ -23,29 +23,16 @@ export default function Home() {
           <nav>
             <SearchBar />
             <RecentPosts />
+            <br />
             <Ads />
           </nav>
           <article>
             <Newslatter />
             <ArticleHome />
-            <Ads />
+            <AdsFooter />
           </article>
         </section>
-        <CookieConsent
-            location="bottom"
-            buttonText="Aceito"
-            declineButtonText="Não aceito"
-            cookieName="myAwesomeCookieName2"
-            style={{ background: "var(--orange)" }}
-            buttonStyle={{ color: "var(--white)", fontSize: "15px", background: "var(--black)" }}
-            expires={150}
-            enableDeclineButton
-            onDecline={() => {
-              /* alert("nay!"); */
-            }}
-          >
-            Este site usa cookies para melhorar a experiência do usuário.{" "}
-        </CookieConsent>
+        
       </main>
       <FooterBlog />
     </>

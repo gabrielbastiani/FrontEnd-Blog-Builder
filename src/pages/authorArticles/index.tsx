@@ -15,6 +15,7 @@ import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
 import Image from "../../../node_modules/next/image";
 import { Ads } from "../../components/Ads/index";
+import { AdsFooter } from "../../components/AdsFooter/index";
 
 
 export default function AuthorArticles() {
@@ -77,6 +78,7 @@ export default function AuthorArticles() {
                <nav className={styles.articleSidbar}>
                   <SearchBar />
                   <RecentPosts />
+                  <br />
                   <Ads />
                </nav>
 
@@ -204,9 +206,9 @@ export default function AuthorArticles() {
                      </div>
                   </div>
 
-               </article>
+                  <AdsFooter />
 
-               <Ads />
+               </article>
 
             </section>
 

@@ -16,6 +16,7 @@ import Disqus from "disqus-react"
 import { Newslatter } from "../../components/Newslatter/index";
 import Image from "../../../node_modules/next/image";
 import { Ads } from "../../components/Ads/index";
+import { AdsFooter } from "../../components/AdsFooter/index";
 
 
 
@@ -149,6 +150,7 @@ export default function ArticlePage() {
                <nav className={styles.articleSidbar}>
                   <SearchBar />
                   <RecentPosts />
+                  <br />
                   <Ads />
                </nav>
 
@@ -279,6 +281,9 @@ export default function ArticlePage() {
                      />
                   </div>
                   <Newslatter />
+                  <br />
+                  <br />
+                  <AdsFooter />
                </article>
                <br />
                <br />

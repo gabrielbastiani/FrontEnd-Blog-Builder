@@ -2,26 +2,10 @@ import '../../styles/globals.scss'
 import {AppProps} from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import { useEffect } from 'react'
-import Script from 'next/script'
-import { useRouter } from 'next/router'
-import * as gtag from '../../lib/gtag'
-
+import CookieConsent from "react-cookie-consent";
 import {AuthProvider} from '../contexts/AuthContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter()
-  useEffect(() => {
-    const handleRouteChange = (url) => {
-      gtag.pageview(url)
-    }
-    router.events.on('routeChangeComplete', handleRouteChange)
-    router.events.on('hashChangeComplete', handleRouteChange)
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-      router.events.off('hashChangeComplete', handleRouteChange)
-    }
-  }, [router.events])
   
   return (
     <>
@@ -29,28 +13,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <ToastContainer autoClose={3000} />
     </AuthProvider>
-
-        {/* Global Site Tag (gtag.js) - Google Analytics */}
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-      />
-      <Script
-        id="gtag-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', '${gtag.GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-        }}
-      />
-      <Component {...pageProps} />
+      <CookieConsent
+            location="bottom"
+            buttonText="Aceito"
+            declineButtonText="Não aceito"
+            cookieName="myAwesomeCookieName2"
+            style={{ background: "var(--orange)" }}
+            buttonStyle={{ color: "var(--white)", fontSize: "15px", background: "var(--black)" }}
+            expires={150}
+            enableDeclineButton
+            onDecline={() => {
+              /* alert("nay!"); */
+            }}
+          >
+            Este site usa cookies para melhorar a experiência do usuário.{" "}
+        </CookieConsent>
     </>
   )
 }

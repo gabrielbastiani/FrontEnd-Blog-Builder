@@ -6,6 +6,7 @@ import { RecentPosts } from '../../components/RecentPosts/index'
 import { SearchBar } from '../../components/SearchBar/index'
 import styles from '../../../styles/home.module.scss'
 import { Ads } from '../../components/Ads/index'
+import { AdsFooter } from '../../components/AdsFooter/index'
 
 
 export default function TagArticlesPageOne() {
@@ -18,6 +19,7 @@ export default function TagArticlesPageOne() {
           <nav>
             <SearchBar />
             <RecentPosts />
+            <br />
             <Ads />
           </nav>
           <article>
@@ -25,7 +27,8 @@ export default function TagArticlesPageOne() {
             <ArticlesTag4 />
           </article>
         </section>
-        <Ads />
+        <AdsFooter />
+        <br />
       </main>
       <FooterBlog />
     </>
