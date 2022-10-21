@@ -14,7 +14,6 @@ import { HeaderPainel } from '../../components/HeaderPainel/index'
 import { FooterPainel } from '../../components/FooterPainel/index'
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs'
 import Link from '../../../node_modules/next/link'
-import { api } from '../../services/apiClient';
 
 
 type ItemProps = {
@@ -396,7 +395,7 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
                         apiKey='3uadxc7du623dpn0gcvz8d1520ngvsigncyxnuj5f580qyz4'
                         value={description}
                         onInit={(evt, editor) => {
-                            setText(editor.getContent({ format: 'html' }));
+                            setText(editor.getContent({ format: 'text' }));
                         }}
                         className={styles.input}
                         init={{
@@ -404,15 +403,39 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
                             mode: 'textarea',
                             height: 900,
                             menubar: true,
+                            images_upload_credentials: true,
                             plugins: [
-                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                'advlist', 'autolink', 'lists', 'link', 'image', 'image code', 'charmap',
                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                                 'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
                             ],
-                            toolbar: 'undo redo | blocks | ' +
+                            toolbar: 'undo redo | link image | code' +
                                 'bold italic forecolor | alignleft aligncenter ' +
                                 'alignright alignjustify | bullist numlist outdent indent | ' +
                                 'removeformat | help',
+                            image_title: true,
+                            automatic_uploads: true,
+                            file_picker_types: 'image',
+                            file_picker_callback: function (cb, value, meta) {
+                                var input = document.createElement('input');
+                                input.setAttribute('type', 'file');
+                                input.setAttribute('accept', 'image/*');
+                                input.onchange = function () {
+                                    var file = this.files[0];
+                                    var reader = new FileReader();
+                                    reader.onload = function () {
+                                        var id = 'blobid' + (new Date()).getTime();
+                                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                        var base64 = reader.result.split(',')[1];
+                                        var blobInfo = blobCache.create(id, file, base64);
+                                        blobCache.add(blobInfo);
+                                        cb(blobInfo.blobUri(), { title: file.name });
+                                    };
+                                    reader.readAsDataURL(file);
+                                };
+
+                                input.click();
+                            },
                             content_style: '.left { text-align: left; } ' +
                                 'img.left, audio.left, video.left { float: left; } ' +
                                 'table.left { margin-left: 0px; margin-right: auto; } ' +
@@ -460,7 +483,7 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
                         }}
                         onEditorChange={(description, editor) => {
                             setDescription(description);
-                            setText(editor.getContent({ format: 'html' }));
+                            setText(editor.getContent({ format: 'text' }));
                         }}
                     />
 
