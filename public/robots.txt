@@ -1,0 +1,6 @@
+Sitemap: http://localhost:3000/server-sitemap.xml
+
+User-agent: *
+Allow: /*
+
+Disallow: /api/*

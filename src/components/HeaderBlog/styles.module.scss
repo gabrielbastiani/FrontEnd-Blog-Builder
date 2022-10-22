@@ -85,6 +85,51 @@
     display: none;
   }
 
+  .optionMenu{
+    list-style-type: none;
+    position: absolute;
+    left: 0;
+    margin: 30px 320px;
+    background-color: black;
+    width: 230px;
+    padding: 10px;
+
+    a{
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .optionMenu1{
+    list-style-type: none;
+    position: absolute;
+    left: 0;
+    margin: 60px 320px;
+    background-color: black;
+    width: 230px;
+    padding: 10px;
+
+    a{
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .optionMenu2{
+    list-style-type: none;
+    position: absolute;
+    left: 0;
+    margin: 90px 320px;
+    background-color: black;
+    width: 230px;
+    padding: 10px;
+
+    a{
+      color: white;
+      text-decoration: none;
+    }
+  }
+
   .iconMobile{
     display: block !important;
     position: absolute;
@@ -97,6 +142,13 @@
     z-index: 99;
   }
 
+  .titleCategorys{
+    text-align: center;
+    padding: 20px;
+    background-color: var(--orange);
+    font-weight: 900;
+  }
+
   .menuNavMobile ul ul li a {
     display: block !important;
   }
@@ -105,7 +157,7 @@
     list-style-type: none;
     position: absolute;
     left: 0;
-    margin: 18px 160px;
+    margin: 60px 160px;
   }
   
   .menuNavMobile ul li a {
@@ -126,19 +178,56 @@
 }
 
 @media (max-width: 568px) {
+  .optionMenu{
+    margin: 30px 240px;
+  }
+
+  .optionMenu1{
+    margin: 65px 240px;
+  }
+
+  .optionMenu2{
+    margin: 100px 240px;
+  }
+
   .menuNavMobile ul {
-    margin: 18px 120px;
+    margin: 68px 120px;
   }
 }
 
 @media (max-width: 475px) {
   .menuNavMobile ul {
-    margin: 18px 90px;
+    margin: 67px 90px;
   }
+
+  .optionMenu{
+    margin: 30px 180px;
+  }
+
+  .optionMenu1{
+    margin: 65px 180px;
+  }
+
+  .optionMenu2{
+    margin: 100px 180px;
+  }
+
 }
 
 @media (max-width: 415px) {
   .menuNavMobile ul {
-    margin: 18px 50px;
+    margin: 68px 50px;
+  }
+
+  .optionMenu{
+    margin: 30px 100px;
+  }
+
+  .optionMenu1{
+    margin: 65px 100px;
+  }
+
+  .optionMenu2{
+    margin: 100px 100px;
   }
 }

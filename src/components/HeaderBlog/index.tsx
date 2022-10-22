@@ -62,11 +62,14 @@ export function HeaderBlog() {
 
 
             {showMenu ? <nav className={styles.menuNavMobile}>
+               <a className={styles.optionMenu}><Link href="/">Inicio</Link></a>
+               <a className={styles.optionMenu1}><Link href="https://builderseunegocioonline.com.br" target="_blank">Nossos Serviços</Link></a>
+               <a className={styles.optionMenu2}><Link href="/sobre">Sobre</Link></a>
                <ul>
-                  <li><Link href="/"><a>Inicio</a></Link></li>
                   <li><a>Categorias</a>
                      {categorys.length !== 0 && (
                         <ul>
+                           <li className={styles.titleCategorys}>CATEGORIAS ABAIXO</li>
                            {categorys.map((category) => {
                               return (
                                  <>
@@ -79,8 +82,6 @@ export function HeaderBlog() {
                         </ul>
                      )}
                   </li>
-                  <li><Link href="https://builderseunegocioonline.com.br" target="_blank"><a>Nossos Serviços</a></Link></li>
-                  <li><Link href="/sobre"><a>Sobre</a></Link></li>
                </ul>
             </nav> : null}
          </div>
