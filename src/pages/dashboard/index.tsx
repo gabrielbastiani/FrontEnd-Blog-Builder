@@ -589,11 +589,11 @@ export default function Dashboard() {
                {currentAdmin === roleADMIN && (<section>
 
                   <div className={styles.containerPagination}>
-                     <div className={styles.totalArticles} key={totalAdmin}>
+                     <div className={styles.totalArticles}>
                         <span>Total de artigos: {totalAdmin}</span>
                      </div>
 
-                     <div className={styles.containerArticlesPages} key={currentPageAdmin}>
+                     <div className={styles.containerArticlesPages}>
                         {currentPageAdmin > 1 && (
                            <div className={styles.previus}>
                               <button onClick={() => setCurrentPageAdmin(currentPageAdmin - 1)}>
@@ -606,7 +606,7 @@ export default function Dashboard() {
                            <span
                               className={styles.page}
                               key={pageAdmin}
-                              onClick={() => setCurrentPage(pageAdmin)}
+                              onClick={() => setCurrentPageAdmin(pageAdmin)}
                            >
                               {pageAdmin}
                            </span>
