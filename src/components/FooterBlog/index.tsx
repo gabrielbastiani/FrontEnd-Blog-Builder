@@ -101,7 +101,7 @@ export function FooterBlog() {
                      return (
                         <>
                            <ul key={artic.id}>
-                           <Link href={`/articlePage?article_id=${artic.id}`}>
+                           <Link href={`/articlePage/${artic.title}`}>
                               <li>{artic?.title}</li>
                            </Link>
                               <span className={styles.dateArticles}>{moment(artic?.created_at).format('DD/MM/YYYY')}</span>

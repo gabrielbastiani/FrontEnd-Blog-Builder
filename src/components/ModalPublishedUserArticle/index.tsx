@@ -47,7 +47,7 @@ export function ModalPublishedUserArticle({ isOpen, onRequestClose, onRefreshLis
             const apiClient = setupAPIClient()
             const data = new FormData()
             const article_id = article[0].id
-            const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
+            const responseArticle = await apiClient.get(`/article/exact/id?article_id=${article_id}`)
             const { publishDate } = responseArticle.data
 
             setPublishDate(publishDate)

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/apiClient";
 import styles from './styles.module.scss'
 import { useRouter } from 'next/router'
-import Head from "../../../node_modules/next/head";
+import Head from "next/head";
 import moment from 'moment';
 import { HeaderBlog } from "../../components/HeaderBlog/index";
 import { FooterBlog } from "../../components/FooterBlog/index";
@@ -11,10 +11,10 @@ import { RecentPosts } from "../../components/RecentPosts/index";
 import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs'
 import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
-import Link from "../../../node_modules/next/link";
+import Link from "next/link";
 import Disqus from "disqus-react"
 import { Newslatter } from "../../components/Newslatter/index";
-import Image from "../../../node_modules/next/image";
+import Image from "next/image";
 import { Ads } from "../../components/Ads/index";
 import { AdsFooter } from "../../components/AdsFooter/index";
 
@@ -48,13 +48,15 @@ export default function ArticlePage() {
    const [postNext, setPostNext] = useState([]);
    const [postNextTitle, setPostNextTitle] = useState('');
 
+   console.log(postNextTitle)
+
 
    useEffect(() => {
       async function articlesLoad() {
          try {
-            const article_id = router.query.article_id
-            const articleDate = await api.get(`/article/exact?article_id=${article_id}`);
-            const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5, nameComment, content } = articleDate.data
+            const titleArticle = router.query.title
+            const articleDate = await api.get(`/article/exact?title=${titleArticle}`);
+            const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5 } = articleDate.data;
 
             setTitle(title)
             setDescription(description)
@@ -70,12 +72,12 @@ export default function ArticlePage() {
 
          } catch (error) {
             console.error(error);
-            alert('Error call api list articles pagination');
+            alert('Clique para continuar');
          }
       }
 
       articlesLoad()
-   }, [router.query.article_id])
+   }, [router.query.titleArticle])
 
 
    useEffect(() => {
@@ -106,13 +108,13 @@ export default function ArticlePage() {
    useEffect(() => {
       async function loadArticlePage() {
          try {
-            const article_id = router.query.article_id;
-            const dataPage = await api.get(`/article/read?article_id=${article_id}`);
+            const articleTitle = router.query.title;
+            const dataPage = await api.get(`/article/read?title=${articleTitle}`);
 
-            setPost(dataPage?.data.post.id);
-            setPostPrevious(dataPage?.data.postPrevious.id);
+            setPost(dataPage?.data.post.title);
+            setPostPrevious(dataPage?.data.postPrevious.title);
             setPostPreviousTitle(dataPage?.data.postPrevious.title)
-            setPostNext(dataPage?.data.postNext.id);
+            setPostNext(dataPage?.data.postNext.title);
             setPostNextTitle(dataPage?.data.postNext.title)
 
          } catch (error) {
@@ -128,7 +130,7 @@ export default function ArticlePage() {
 
    const disqusShortname = "blog-builder-seu-negocio-online" //found in your Disqus.com dashboard
    const disqusConfig = {
-      url: `https://blog.builderseunegocioonline.com.br/articlePage?article_id=${article_id}`, //this.props.pageUrl
+      url: `https://blog.builderseunegocioonline.com.br/${title}`, //this.props.pageUrl
       identifier: `${article_id}`, //this.props.uniqueId
       title: `${title}` //this.props.title
    }
@@ -159,7 +161,9 @@ export default function ArticlePage() {
 
                   <div className={styles.articleBox}>
                      <div className={styles.titleArticle}>
+                     <Link href={`/articlePage/${title}`}>
                         <h1>{title}</h1>
+                     </Link>
                      </div>
                      <div className={styles.informationsArticle}>
                         <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(created_at).format('DD/MM/YYYY')}</span>
@@ -175,7 +179,7 @@ export default function ArticlePage() {
                         </span>
                      </div>
 
-                     <Link href={`/articlePage?article_id=${article_id}`}>
+                     <Link href={`/articlePage/${title}`}>
                         <div className={styles.bannerArticle}>
                            <Image src={"http://localhost:3333/files/" + banner} width={740} height={418} alt="banner do artigo" />
                         </div>
@@ -262,13 +266,13 @@ export default function ArticlePage() {
 
                      <div className={styles.pagination}>
                         <button className={styles.antes}>
-                           <Link href={`/articlePage?article_id=${postPrevious}`}>
+                           <Link href={`/articlePage/${postPrevious}`}>
                               {postPreviousTitle}
                            </Link>
                         </button>
 
                         <button className={styles.proximo}>
-                           <Link href={`/articlePage?article_id=${postNext}`}>
+                           <Link href={`/articlePage/${postNext}`}>
                               {postNextTitle}
                            </Link>     
                         </button>

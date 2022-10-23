@@ -38,7 +38,6 @@ export function ModalPublishedArticle({ isOpen, onRequestClose, onRefreshListAdm
 
     const [publishDate, setPublishDate] = useState('');
 
-
     const place = moment(publishDate).format('DD/MM/YYYY HH:mm');
 
 
@@ -47,7 +46,7 @@ export function ModalPublishedArticle({ isOpen, onRequestClose, onRefreshListAdm
             const apiClient = setupAPIClient()
             const data = new FormData()
             const article_id = article[0].id
-            const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
+            const responseArticle = await apiClient.get(`/article/exact/id?article_id=${article_id}`)
             const { publishDate } = responseArticle.data
 
             setPublishDate(publishDate)
@@ -162,7 +161,7 @@ export function ModalPublishedArticle({ isOpen, onRequestClose, onRefreshListAdm
                         <br />
 
                         <div className={styles.clock}>
-                            <span>Data e Hora Programada: {place}</span>:
+                            <span>Data e Hora Programada: {place}</span>
                         </div>
 
                     </div>

@@ -94,7 +94,7 @@ export default function Dashboard() {
    const [modalItemDespuplishedUser, setModalItemDespuplishedUser] = useState<DespuplishedArticleUserProps[]>();
    const [modalVisibleDespuplishedUser, setModalVisibleDespuplishedUser] = useState(false);
 
-
+   console.log(modalItemDespuplished)
 
    useEffect(() => {
       async function loadAllArticlesAdmin() {

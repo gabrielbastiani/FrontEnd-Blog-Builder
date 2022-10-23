@@ -30,9 +30,10 @@ export function ModalDeleteUserArticle({ isOpen, onRequestClose, onRefreshList, 
 
 
     async function handleArticleDelete() {
+
         try {
             const apiClient = setupAPIClient();
-            const article_id = article[0].id
+            const article_id = article[0].id;
             await apiClient.delete(`/article/remove?article_id=${article_id}`)
 
             toast.success('Artigo deletado com sucesso.')

@@ -73,7 +73,7 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
             const apiClient = setupAPIClient()
             const data = new FormData()
             const article_id = router.query.article_id
-            const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
+            const responseArticle = await apiClient.get(`/article/exact/id?article_id=${article_id}`)
             const { categoryName, tagName1, tagName2, tagName3, tagName4, tagName5 } = responseArticle.data;
 
             let categoryFilterCurrent = categories.filter(result => result.categoryName.match(categoryName));
@@ -100,7 +100,7 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
             const apiClient = setupAPIClient()
             const data = new FormData()
             const article_id = router.query.article_id
-            const responseArticle = await apiClient.get(`/article/exact?article_id=${article_id}`)
+            const responseArticle = await apiClient.get(`/article/exact/id?article_id=${article_id}`)
             const { title, description, banner } = responseArticle.data;
 
             setTitle(title)
