@@ -18,14 +18,30 @@ import Image from "next/image";
 import { Ads } from "../../components/Ads/index";
 import { AdsFooter } from "../../components/AdsFooter/index";
 import { setupAPIClient } from "../../services/api";
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 
 
-export default function ArticlePage() {
+interface Article {
+   id: string;
+   title: string;
+   description: string;
+   banner: string;
+   categoryName: string;
+   name: string;
+   tagName1: string;
+   tagName2: string;
+   tagName3: string;
+   tagName4: string;
+   tagName5: string;
+   created_at: string;
+}
+
+export default function ArticlePage({ title, description, banner, categoryName, name, tagName1, tagName2, tagName3, tagName4, tagName5, created_at }: Article) {
 
    const router = useRouter();
 
-   const [title, setTitle] = useState('');
+   /* const [title, setTitle] = useState('');
    const [description, setDescription] = useState('');
    const [banner, setBanner] = useState('');
    const [categoryName, setCategoryName] = useState('');
@@ -133,7 +149,7 @@ export default function ArticlePage() {
       url: `https://blog.builderseunegocioonline.com.br?title=${title}`, //this.props.pageUrl
       identifier: `${article_id}`, //this.props.uniqueId
       title: `${title}` //this.props.title
-   }
+   } */
 
 
 
@@ -177,11 +193,9 @@ export default function ArticlePage() {
                         </span>
                      </div>
 
-                     <Link href={`/articlePage/${title}`}>
-                        <div className={styles.bannerArticle}>
-                           <Image src={"http://localhost:3333/files/" + banner} width={740} height={418} alt="banner do artigo" />
-                        </div>
-                     </Link>
+                     <div className={styles.bannerArticle}>
+                        <Image src={"http://localhost:3333/files/" + banner} width={740} height={418} alt="banner do artigo" />
+                     </div>
 
                      <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: description }}></div>
 
@@ -224,7 +238,7 @@ export default function ArticlePage() {
 
                      <div className={styles.containerArticlesPages}>
 
-                        <div className={styles.containerArticles}>
+                        {/* <div className={styles.containerArticles}>
 
                            {articles.length === 0 && (
                               <span className={styles.emptyList}>
@@ -259,10 +273,10 @@ export default function ArticlePage() {
                               </div>
                            )}
 
-                        </div>
+                        </div> */}
                      </div>
 
-                     <div className={styles.pagination}>
+                     {/* <div className={styles.pagination}>
                         <button className={styles.antes}>
                            <Link href={`/articlePageArrow?title=${postPrevious}`}>
                               {postPreviousTitle}
@@ -275,12 +289,12 @@ export default function ArticlePage() {
                            </Link>
                         </button>
 
-                     </div>
+                     </div> */}
 
-                     <Disqus.DiscussionEmbed
+                     {/* <Disqus.DiscussionEmbed
                         shortname={disqusShortname}
                         config={disqusConfig}
-                     />
+                     /> */}
                   </div>
                   <Newslatter />
                   <br />
@@ -294,4 +308,17 @@ export default function ArticlePage() {
          </main>
       </>
    )
+};
+
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+   const title = context.query.title as string;
+
+   const response = await api.get<Article>(`/article/exact?title=${title}`);
+
+   const article = response.data;
+
+   return {
+      props: article,
+   }
+
 };
