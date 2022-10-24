@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useContext, useEffect } from 'react'
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react'
 import Head from "next/head"
 import styles from './styles.module.scss'
 import Router from 'next/router'

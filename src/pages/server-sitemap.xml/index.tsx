@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // Vou criar um fields, onde busco o slug da minha resposta
   // E com o slug vou preenchendo dinamicamente cada post que tenho
   const fields = articles.map(({ title }) => ({
-    loc: `http://localhost:3000/articlePage/${title}`,
+    loc: `http://localhost:3000/articlePage?title=${title}`,
     lastmod: new Date().toISOString(),
     // changefreq
     // priority

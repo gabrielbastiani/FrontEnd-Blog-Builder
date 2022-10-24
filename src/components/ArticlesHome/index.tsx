@@ -35,7 +35,7 @@ export function ArticleHome() {
             }
          } catch (error) {
             console.error(error);
-            alert('Error call api list article');
+            alert('Clique para continuar');
          }
       }
 
@@ -62,7 +62,7 @@ export function ArticleHome() {
                         <>
                            <div key={articl.id} className={styles.articleBox}>
                               <div className={styles.titleArticle}>
-                              <Link href={`/articlePage/${articl.title}`}>
+                              <Link href={`/articlePage?title=${articl.title}`}>
                                  <h1>{articl.title}</h1>
                               </Link>
                               </div>
@@ -79,7 +79,7 @@ export function ArticleHome() {
                                     </Link>
                                  </span>
                               </div>
-                              <Link href={`/articlePage/${articl.title}`}>
+                              <Link href={`/articlePage?title=${articl.title}`}>
                                  <div className={styles.bannerArticle}>
                                     <Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
                                  </div>
@@ -120,7 +120,7 @@ export function ArticleHome() {
 
                               <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
 
-                              <Link href={`/articlePage/${articl.title}`}>
+                              <Link href={`/articlePage?title=${articl.title}`}>
                                  <div className={styles.articleMore}>
                                     <Button>Ler mais...</Button>
                                     <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />

@@ -17,10 +17,11 @@ import { Newslatter } from "../../components/Newslatter/index";
 import Image from "next/image";
 import { Ads } from "../../components/Ads/index";
 import { AdsFooter } from "../../components/AdsFooter/index";
+import { setupAPIClient } from "../../services/api";
 
 
 
-export default function ArticlePage() {
+export default function ArticlePageArrow() {
 
    const router = useRouter();
 
@@ -48,14 +49,13 @@ export default function ArticlePage() {
    const [postNext, setPostNext] = useState([]);
    const [postNextTitle, setPostNextTitle] = useState('');
 
-   console.log(postNextTitle)
-
+   const titleArticle = router.query.title;
 
    useEffect(() => {
       async function articlesLoad() {
+         const apiClient = setupAPIClient()
          try {
-            const titleArticle = router.query.title
-            const articleDate = await api.get(`/article/exact?title=${titleArticle}`);
+            const articleDate = await apiClient.get(`/article/exact?title=${titleArticle}`);
             const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5 } = articleDate.data;
 
             setTitle(title)
@@ -97,7 +97,7 @@ export default function ArticlePage() {
 
          } catch (error) {
             console.error(error);
-            alert('Error call api list');
+            alert('Clique para continuar');
          }
       }
 
@@ -108,10 +108,10 @@ export default function ArticlePage() {
    useEffect(() => {
       async function loadArticlePage() {
          try {
-            const articleTitle = router.query.title;
-            const dataPage = await api.get(`/article/read?title=${articleTitle}`);
+            const titleArticle = router.query.title;
+            const dataPage = await api.get(`/article/read?title=${titleArticle}`);
 
-            setPost(dataPage?.data.post.title);
+            setPost(dataPage?.data.title);
             setPostPrevious(dataPage?.data.postPrevious.title);
             setPostPreviousTitle(dataPage?.data.postPrevious.title)
             setPostNext(dataPage?.data.postNext.title);
@@ -130,7 +130,7 @@ export default function ArticlePage() {
 
    const disqusShortname = "blog-builder-seu-negocio-online" //found in your Disqus.com dashboard
    const disqusConfig = {
-      url: `https://blog.builderseunegocioonline.com.br/${title}`, //this.props.pageUrl
+      url: `https://blog.builderseunegocioonline.com.br?title=${title}`, //this.props.pageUrl
       identifier: `${article_id}`, //this.props.uniqueId
       title: `${title}` //this.props.title
    }
@@ -161,9 +161,7 @@ export default function ArticlePage() {
 
                   <div className={styles.articleBox}>
                      <div className={styles.titleArticle}>
-                     <Link href={`/articlePage/${title}`}>
                         <h1>{title}</h1>
-                     </Link>
                      </div>
                      <div className={styles.informationsArticle}>
                         <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(created_at).format('DD/MM/YYYY')}</span>
@@ -244,7 +242,7 @@ export default function ArticlePage() {
                               return (
                                  <>
                                     <div className={styles.articleBoxFooter}>
-                                       <Link href={`/articlePage?article_id=${posts.id}`}>
+                                       <Link href={`/articlePage?title=${posts.title}`}>
                                           <div className={styles.article}>
                                              <h4>{posts?.title}</h4>
                                              <Image src={"http://localhost:3333/files/" + posts?.banner} width={740} height={418} alt="banner do artigo" />
@@ -266,19 +264,19 @@ export default function ArticlePage() {
 
                      <div className={styles.pagination}>
                         <button className={styles.antes}>
-                           <Link href={`/articlePage/${postPrevious}`}>
+                           <Link href={`/articlePage?title=${postPrevious}`}>
                               {postPreviousTitle}
                            </Link>
                         </button>
 
                         <button className={styles.proximo}>
-                           <Link href={`/articlePage/${postNext}`}>
+                           <Link href={`/articlePage?title=${postNext}`}>
                               {postNextTitle}
-                           </Link>     
+                           </Link>
                         </button>
 
-                     </div>    
-                     
+                     </div>
+
                      <Disqus.DiscussionEmbed
                         shortname={disqusShortname}
                         config={disqusConfig}
@@ -296,4 +294,4 @@ export default function ArticlePage() {
          </main>
       </>
    )
-}
+};
