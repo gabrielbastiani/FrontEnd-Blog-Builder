@@ -48,7 +48,7 @@ export function ArticlesTag5() {
          } catch (error) {
 
             console.error(error);
-            alert('Error call api list article');
+            alert('Clique para continuar');
 
          }
       }
@@ -84,7 +84,9 @@ export function ArticlesTag5() {
                         <>
                            <div key={articl.id} className={styles.articleBox}>
                               <div className={styles.titleArticle}>
-                                 <h1>{articl.title}</h1>
+                                 <Link href={`/articlePage/${articl.title}`}>
+                                    <h1>{articl.title}</h1>
+                                 </Link>
                               </div>
                               <div className={styles.informationsArticle}>
                                  <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(articl?.created_at).format('DD/MM/YYYY')}</span>
@@ -99,7 +101,7 @@ export function ArticlesTag5() {
                                     </Link>
                                  </span>
                               </div>
-                              <Link href={`/articlePage?article_id=${articl.id}`}>
+                              <Link href={`/articlePage/${articl.title}`}>
                                  <div className={styles.bannerArticle}>
                                     <Image src={"http://localhost:3333/files/" + articl?.banner} width={740} height={418} alt="banner do artigo" />
                                  </div>
@@ -140,7 +142,7 @@ export function ArticlesTag5() {
 
                               <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: articl?.description }}></div>
 
-                              <Link href={`/articlePage?article_id=${articl.id}`}>
+                              <Link href={`/articlePage/${articl.title}`}>
                                  <div className={styles.articleMore}>
                                     <Button>Ler mais...</Button>
                                     <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />

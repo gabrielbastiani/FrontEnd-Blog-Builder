@@ -100,7 +100,9 @@ export default function AuthorArticles() {
                            <>
                               <div className={styles.articleBox}>
                                  <div className={styles.titleArticle}>
-                                    <h1>{article.title}</h1>
+                                    <Link href={`/articlePage/${article.title}`}>
+                                       <h1>{article.title}</h1>
+                                    </Link>
                                  </div>
                                  <div className={styles.informationsArticle}>
                                     <span><BsCalendarCheck color='var(--orange)' size={20} /> {moment(article?.created_at).format('DD/MM/YYYY')}</span>
@@ -116,7 +118,7 @@ export default function AuthorArticles() {
                                     </span>
                                  </div>
 
-                                 <Link href={`/articlePage?article_id=${article.id}`}>
+                                 <Link href={`/articlePage/${article.title}`}>
                                     <div className={styles.bannerArticle}>
                                        <Image src={"http://localhost:3333/files/" + article?.banner} width={740} height={418} alt="banner do artigo" />
                                     </div>
@@ -157,7 +159,7 @@ export default function AuthorArticles() {
 
                                  <div className={styles.descriptionArticle} dangerouslySetInnerHTML={{ __html: article?.description }}></div>
 
-                                 <Link href={`/articlePage?article_id=${article.id}`}>
+                                 <Link href={`/articlePage/${article.title}`}>
                                     <div className={styles.articleMore}>
                                        <Button>Ler mais...</Button>
                                        <AiOutlineArrowRight className={styles.arrowArticle} color='var(--orange)' size={30} />
