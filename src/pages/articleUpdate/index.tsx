@@ -673,7 +673,6 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     const responseTag4 = await apiClient.get('/tag4');
     const responseTag5 = await apiClient.get('/tag5');
 
-    console.log(responseTag1)
 
     return {
         props: {
