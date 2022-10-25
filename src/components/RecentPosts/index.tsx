@@ -53,7 +53,7 @@ export function RecentPosts() {
                   return (
                      <>
                         <ul key={artic.id}>
-                           <Link href={`/articlePageRecent?title=${artic.title}`}>
+                           <Link href={`/articlePage/${artic.title}`}>
                               <li>{artic?.title}</li>
                            </Link>
                            <span className={styles.dateArticles}>{moment(artic?.created_at).format('DD/MM/YYYY')}</span>

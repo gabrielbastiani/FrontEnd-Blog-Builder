@@ -367,7 +367,7 @@ export default function ArticleUpdate({ categoryList, tags1List, tags2List, tags
 
                 <form className={styles.form} onSubmit={handleUpdateTitle}>
 
-                    <h3>Atualize o titulo do artigo</h3>
+                    <h3>Atualize o titulo do artigo (OBS: Não insira caracteres especiais como: ?, !, %, $, &, *, #, @, (, ))</h3>
 
                     <br />
 

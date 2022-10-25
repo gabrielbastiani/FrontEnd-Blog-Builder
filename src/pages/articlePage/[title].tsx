@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/apiClient";
-import styles from './styles.module.scss'
-import { useRouter } from 'next/router'
+import styles from './styles.module.scss';
 import Head from "next/head";
 import moment from 'moment';
 import { HeaderBlog } from "../../components/HeaderBlog/index";
 import { FooterBlog } from "../../components/FooterBlog/index";
 import { SearchBar } from "../../components/SearchBar/index";
 import { RecentPosts } from "../../components/RecentPosts/index";
-import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs'
-import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai'
-import { BiEdit } from 'react-icons/bi'
+import { BsCalendarCheck, BsFillArrowLeftSquareFill, BsFillArrowRightSquareFill } from 'react-icons/bs';
+import { AiOutlineFolderOpen, AiOutlineTags } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
 import Link from "next/link";
-import Disqus from "disqus-react"
+import Disqus from "disqus-react";
 import { Newslatter } from "../../components/Newslatter/index";
 import Image from "next/image";
 import { Ads } from "../../components/Ads/index";
 import { AdsFooter } from "../../components/AdsFooter/index";
-import { setupAPIClient } from "../../services/api";
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
+import router from "../../../node_modules/next/router";
 
 
 interface Article {
@@ -37,21 +35,7 @@ interface Article {
    created_at: string;
 }
 
-export default function ArticlePage({ title, description, banner, categoryName, name, tagName1, tagName2, tagName3, tagName4, tagName5, created_at }: Article) {
-
-   const router = useRouter();
-
-   /* const [title, setTitle] = useState('');
-   const [description, setDescription] = useState('');
-   const [banner, setBanner] = useState('');
-   const [categoryName, setCategoryName] = useState('');
-   const [name, setName] = useState('');
-   const [tagName1, setTagName1] = useState('');
-   const [tagName2, setTagName2] = useState('');
-   const [tagName3, setTagName3] = useState('');
-   const [tagName4, setTagName4] = useState('');
-   const [tagName5, setTagName5] = useState('');
-   const [created_at, setCreated_at] = useState('');
+export default function ArticlePage({ id, title, description, banner, categoryName, name, tagName1, tagName2, tagName3, tagName4, tagName5, created_at }: Article) {
 
    const [articles, setArticles] = useState([]);
    const [total, setTotal] = useState(0);
@@ -64,36 +48,6 @@ export default function ArticlePage({ title, description, banner, categoryName, 
    const [postPreviousTitle, setPostPreviousTitle] = useState('');
    const [postNext, setPostNext] = useState([]);
    const [postNextTitle, setPostNextTitle] = useState('');
-
-   const titleArticle = router.query.title;
-
-   useEffect(() => {
-      async function articlesLoad() {
-         const apiClient = setupAPIClient()
-         try {
-            const articleDate = await apiClient.get(`/article/exact?title=${titleArticle}`);
-            const { created_at, title, description, banner, name, categoryName, tagName1, tagName2, tagName3, tagName4, tagName5 } = articleDate.data;
-
-            setTitle(title)
-            setDescription(description)
-            setBanner(banner)
-            setCategoryName(categoryName)
-            setName(name)
-            setTagName1(tagName1)
-            setTagName2(tagName2)
-            setTagName3(tagName3)
-            setTagName4(tagName4)
-            setTagName5(tagName5)
-            setCreated_at(created_at)
-
-         } catch (error) {
-            console.error(error);
-            alert('Clique para continuar');
-         }
-      }
-
-      articlesLoad()
-   }, [router.query.titleArticle])
 
 
    useEffect(() => {
@@ -124,8 +78,7 @@ export default function ArticlePage({ title, description, banner, categoryName, 
    useEffect(() => {
       async function loadArticlePage() {
          try {
-            const titleArticle = router.query.title;
-            const dataPage = await api.get(`/article/read?title=${titleArticle}`);
+            const dataPage = await api.get(`/article/read?title=${title}`);
 
             setPost(dataPage?.data.title);
             setPostPrevious(dataPage?.data.postPrevious.title);
@@ -140,16 +93,32 @@ export default function ArticlePage({ title, description, banner, categoryName, 
       }
 
       loadArticlePage();
-   }, [router.query.article_id]);
+   }, []);
 
-   const article_id = router.query.article_id
+   async function handleArticle() {
+      location.reload();
+   }
+
+   const handleArticlePrevius = (e) => {
+      router.push(`/articlePage/${postPrevious}`);
+      setTimeout(() => {
+         handleArticle()
+      }, 1000)
+   }
+
+   const handleArticleNext = (e) => {
+      router.push(`/articlePage/${postNext}`);
+      setTimeout(() => {
+         handleArticle()
+      }, 1000)
+   }
 
    const disqusShortname = "blog-builder-seu-negocio-online" //found in your Disqus.com dashboard
    const disqusConfig = {
-      url: `https://blog.builderseunegocioonline.com.br?title=${title}`, //this.props.pageUrl
-      identifier: `${article_id}`, //this.props.uniqueId
+      url: `https://blog.builderseunegocioonline.com.br/${title}`, //this.props.pageUrl
+      identifier: `${id}`, //this.props.uniqueId
       title: `${title}` //this.props.title
-   } */
+   }
 
 
 
@@ -238,7 +207,7 @@ export default function ArticlePage({ title, description, banner, categoryName, 
 
                      <div className={styles.containerArticlesPages}>
 
-                        {/* <div className={styles.containerArticles}>
+                        <div className={styles.containerArticles}>
 
                            {articles.length === 0 && (
                               <span className={styles.emptyList}>
@@ -256,7 +225,7 @@ export default function ArticlePage({ title, description, banner, categoryName, 
                               return (
                                  <>
                                     <div className={styles.articleBoxFooter}>
-                                       <Link href={`/articlePageRecent?title=${posts.title}`}>
+                                       <Link href={`/articlePage/${posts.title}`}>
                                           <div className={styles.article}>
                                              <h4>{posts?.title}</h4>
                                              <Image src={"http://localhost:3333/files/" + posts?.banner} width={740} height={418} alt="banner do artigo" />
@@ -273,28 +242,23 @@ export default function ArticlePage({ title, description, banner, categoryName, 
                               </div>
                            )}
 
-                        </div> */}
+                        </div>
                      </div>
 
-                     {/* <div className={styles.pagination}>
-                        <button className={styles.antes}>
-                           <Link href={`/articlePageArrow?title=${postPrevious}`}>
-                              {postPreviousTitle}
-                           </Link>
+                     <div className={styles.pagination}>
+                        <button className={styles.proximo} onClick={() => handleArticleNext()}>
+                           {postNextTitle}
                         </button>
-
-                        <button className={styles.proximo}>
-                           <Link href={`/articlePageArrow?title=${postNext}`}>
-                              {postNextTitle}
-                           </Link>
+                        
+                        <button className={styles.antes} onClick={() => handleArticlePrevius()}>
+                           {postPreviousTitle}
                         </button>
+                     </div>
 
-                     </div> */}
-
-                     {/* <Disqus.DiscussionEmbed
+                     <Disqus.DiscussionEmbed
                         shortname={disqusShortname}
                         config={disqusConfig}
-                     /> */}
+                     />
                   </div>
                   <Newslatter />
                   <br />

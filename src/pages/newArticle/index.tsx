@@ -252,7 +252,7 @@ export default function Article({ categoryList }: CategoryProps) {
                      </div>
                   </Link>
 
-                  <h3>De um titulo ao artigo</h3>
+                  <h3>De um titulo ao artigo(OBS: Não insira caracteres especiais como: ?, !, %, $, &, *, #, @, (, ))</h3>
 
                   <br />
 
